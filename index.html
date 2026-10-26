@@ -23,16 +23,16 @@
 :root{
   --bg:#f6f1e7; --bg2:#ece5d6; --ink:#16212b; --muted:#566370; --line:#d8cfbb;
   --accent:#0f7a66; --accent-ink:#fff; --card:#fffdf8; --panel:#e9e2d2;
-  --shadow:0 1px 0 rgba(0,0,0,.04),0 14px 32px -20px rgba(22,33,43,.4);
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 14px 32px -20px rgba(22,33,43,.4); --pond-theme:light;
 }
 :root[data-theme="dark"]{
   --bg:#0f161c; --bg2:#151e26; --ink:#eef1ee; --muted:#9aa8b3; --line:#27323c;
-  --accent:#3fd1b0; --accent-ink:#06231c; --card:#141d25; --panel:#1b2630; --shadow:none;
+  --accent:#3fd1b0; --accent-ink:#06231c; --card:#141d25; --panel:#1b2630; --shadow:none; --pond-theme:dark;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0f161c; --bg2:#151e26; --ink:#eef1ee; --muted:#9aa8b3; --line:#27323c;
-    --accent:#3fd1b0; --accent-ink:#06231c; --card:#141d25; --panel:#1b2630; --shadow:none;
+    --accent:#3fd1b0; --accent-ink:#06231c; --card:#141d25; --panel:#1b2630; --shadow:none; --pond-theme:dark;
   }
 }
 *{box-sizing:border-box}
@@ -55,6 +55,15 @@ nav a:hover{color:var(--ink)}
 @media(max-width:820px){.brand{display:none}nav{gap:14px;font-size:13px;width:100%}}
 
 .hero{padding-top:80px;padding-bottom:52px}
+/* hero pond: koi (or sharks) swim on a canvas behind the hero; clicking open water throws bait */
+.pond{position:relative;overflow:hidden;cursor:crosshair}
+.pond canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pond .hero{position:relative;padding-bottom:84px}
+.pond h1,.pond p,.pond .cta{cursor:auto}
+.pond .btn.ghost{background:var(--bg)}
+.pond-hud{position:absolute;right:16px;bottom:14px;left:16px;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px 12px;font:12px/1.5 ui-monospace,"Cascadia Mono",Consolas,monospace;color:var(--muted);pointer-events:none}
+.pond-hud b{color:var(--ink);font-weight:600}
+.pond-hud button{pointer-events:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;font:inherit;cursor:pointer}
 .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 18px}
 h1{font-size:clamp(38px,6.4vw,68px);line-height:1.04;margin:0 0 22px;letter-spacing:-.02em;max-width:15ch}
 h1 em{font-style:normal;background:linear-gradient(transparent 70%,color-mix(in srgb,var(--accent) 32%,transparent) 70%)}
@@ -184,17 +193,21 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
 </header>
 
 <main id="top">
+  <div class="pond" id="pond">
+  <canvas aria-hidden="true"></canvas>
   <div class="wrap hero">
-    <p class="eyebrow sans">Cybersecurity content, compliance and SEO | EN / ES</p>
-    <h1>I make hard technical topics <em>easy to act on</em>.</h1>
-    <p class="lede">Bilingual content specialist. I write the guides, playbooks and articles that help security teams, schools and businesses understand risk and meet their compliance requirements.</p>
-    <div class="cta sans">
+    <p class="eyebrow sans" data-pond-avoid>Cybersecurity content, compliance and SEO | EN / ES</p>
+    <h1 data-pond-avoid>I make hard technical topics <em>easy to act on</em>.</h1>
+    <p class="lede" data-pond-avoid>Bilingual content specialist. I write the guides, playbooks and articles that help security teams, schools and businesses understand risk and meet their compliance requirements.</p>
+    <div class="cta sans" data-pond-avoid>
       <a class="btn primary" href="mailto:esjotace@gmail.com">Email me</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/" rel="noopener">LinkedIn</a>
       <a class="btn ghost" href="Juan-Hernandez-Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
       <a class="btn ghost" href="#recent">See my work</a>
     </div>
-    <p class="where sans">Based in Caracas, Venezuela. Open to remote work and to relocating to Europe.</p>
+    <p class="where sans" data-pond-avoid>Based in Caracas, Venezuela. Open to remote work and to relocating to Europe.</p>
+  </div>
+  <div class="pond-hud sans"><span id="pond-hud"></span> <button id="pond-mode" type="button">Switch to sharks</button></div>
   </div>
 
   <div class="wrap">
@@ -846,6 +859,632 @@ const posts = [...$('posts').querySelectorAll('.card')], showPosts = makePager($
 const filterPosts = v => showPosts(p => v === 'All' || p.dataset.lang === v);
 makeChips($('post-langs'), [['All languages','All'],['English','EN'],['Español','ES']], filterPosts);
 filterPosts('All');
+
+/* Phishing pond, v3. One character grid holds everything.
+   Koi: a spine of joints that each bend only a little; they swim in bursts of tail beats and glide between,
+   turn wider the longer they are, drift between deep (dim) and surface, keep personal space, steer around
+   the hero text (and fade under it), get curious about the cursor and bolt from fast swipes. The body wave
+   is added only when drawing, so the path stays smooth. Each cell is sampled several times for soft edges,
+   shaded as a rounded back lit from the top left, and etched with a glyph pinned to the body.
+   Bait: a click throws a scam phrase as a handful of words and crumbs that land a beat apart, each with
+   a splash that makes nearby koi rush over; they drift, bob, and sink after a while. A koi that eats a
+   piece "takes the bait". Water: expanding rings drawn along their curve, plus fading tail wakes.
+   Pauses off-screen and in hidden tabs; a still frame with reduced motion. */
+try { // the pond is decorative: if anything in it fails, the rest of the page keeps working
+(() => {
+  const pond = document.getElementById('pond'), cv = pond.querySelector('canvas'), ctx = cv.getContext('2d'), hud = document.getElementById('pond-hud');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const MONO = 'ui-monospace,"Cascadia Mono","SFMono-Regular",Menlo,Consolas,monospace';
+  const TAU = Math.PI * 2, NODES = 16, STEP = 1 / 60;
+  const PHRASES = ['URGENT', 'verify your account', 'gift card', 'you won!', 'act now', 'confirm your password',
+    'wire transfer', 'click here', 'account suspended', 'refund pending', 'final notice', 'unusual sign-in',
+    'update payment', 'free iPhone', 'invoice attached', 'security alert', 'share your code', 'limited time',
+    'package on hold', 'crypto bonus', 'reset your login', 'tax rebate'];
+  const CRUMBS = ['$', '!', '%', '@', '?'];
+  // shark mode: initial-access vectors from the 2026 breach reports, plus a few more
+  const ATTACKS = ['Exploited vulnerabilities', 'Phishing', 'Credential abuse', 'Pretexting', 'Third-party compromise',
+    'Infostealer leaks', 'RMM tool abuse', 'Shadow AI leaks', 'Phone phishing', 'Fake CAPTCHA', 'ClickFix lures',
+    'SSL VPN abuse', 'Public-facing apps', 'Password spraying', 'Missing MFA', 'Session hijacking', 'Supply chain attack',
+    'Voice phishing', 'SMS phishing', 'QR code phishing', 'Business email compromise', 'Stolen session tokens',
+    'MFA fatigue', 'SIM swapping', 'Credential stuffing', 'Zero-day exploits', 'Unpatched edge devices',
+    'Exposed databases', 'Cloud misconfiguration', 'Leaked API keys', 'Stolen OAuth tokens', 'Malicious packages',
+    'Compromised updates', 'Insider misuse', 'Initial access brokers', 'Drive-by downloads', 'Malvertising',
+    'Rogue browser extensions', 'Prompt injection', 'Hijacked AI models', 'Poisoned AI agents', 'Default passwords',
+    'Open RDP ports', 'Compromised vendors', 'Deepfake impersonation'];
+  const BYTES = ['>_', '#', '0x', '$', '*'];
+  let mode = 'koi';
+  try { if (localStorage.getItem('pondMode') === 'sharks') mode = 'sharks'; } catch (e) {}
+
+  /* ---------- small helpers ---------- */
+  const rand = (a, b) => a + Math.random() * (b - a), clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+  const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  const angDiff = (a, b) => { let d = (b - a) % TAU; if (d > Math.PI) d -= TAU; if (d < -Math.PI) d += TAU; return d; };
+  function hash(x, y, z){ // integer hash to [0,1), stable per input
+    let h = Math.imul(x | 0, 0x27d4eb2d) ^ Math.imul(y | 0, 0x165667b1) ^ Math.imul(z | 0, 0x9e3779b1);
+    h = Math.imul(h ^ (h >>> 15), 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  }
+  function noise(x, y, seed){
+    const xi = Math.floor(x), yi = Math.floor(y), u = smooth(0, 1, x - xi), v = smooth(0, 1, y - yi);
+    const a = hash(xi, yi, seed), b = hash(xi + 1, yi, seed), c = hash(xi, yi + 1, seed), d = hash(xi + 1, yi + 1, seed);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  }
+  const mix = (a, b, k) => [(a[0] + (b[0] - a[0]) * k) | 0, (a[1] + (b[1] - a[1]) * k) | 0, (a[2] + (b[2] - a[2]) * k) | 0];
+  const shade = (c, k) => [Math.min(255, c[0] * k) | 0, Math.min(255, c[1] * k) | 0, Math.min(255, c[2] * k) | 0];
+  const pack = c => (c[0] << 16) | (c[1] << 8) | c[2];
+  function ramp(stops, t){ const x = clamp(t, 0, 1) * (stops.length - 1), i = Math.min(stops.length - 2, Math.floor(x)); return mix(stops[i], stops[i + 1], x - i); }
+  function lineGlyph(dx, dy){ const d = Math.hypot(dx, dy) || 1; if (Math.abs(dy) < .38 * d) return '-'; if (Math.abs(dx) < .38 * d) return '|'; return dx * dy > 0 ? '\\' : '/'; }
+  const hexRgb = h => { h = h.trim().replace('#', ''); if (h.length === 3) h = [...h].map(c => c + c).join(''); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+
+  /* ---------- palettes: dark = glowing tiles; light = pale washes with dark glyphs ---------- */
+  const PALETTES = {
+    dark: { whale: [126, 152, 180], spot: [236, 240, 244], tiger: [150, 140, 120], stripe: [58, 54, 50], leopard: [172, 154, 126], saddle: [74, 62, 52], pale: [214, 218, 220],
+      white: [232, 226, 216], black: [84, 86, 100], gold: [226, 176, 78], fin: [206, 200, 192], eye: [12, 14, 18],
+      water: [214, 224, 228], shadow: [0, 0, 0], shadowA: .5, word: [63, 209, 176], hit: [240, 138, 126], alpha: .78, floor: .42,
+      tile: [.66, .96], ink: .42, red: [[108, 24, 24], [160, 36, 30], [208, 62, 34], [236, 102, 42], [246, 144, 64], [252, 184, 112]] },
+    light: { whale: [56, 76, 98], spot: [255, 255, 255], tiger: [112, 100, 82], stripe: [40, 34, 30], leopard: [138, 118, 92], saddle: [52, 42, 34], pale: [150, 154, 156],
+      white: [120, 114, 106], black: [40, 38, 46], gold: [196, 142, 36], fin: [140, 134, 126], eye: [22, 22, 26],
+      water: [52, 62, 70], shadow: [64, 60, 56], shadowA: .2, word: [15, 122, 102], hit: [176, 58, 46], alpha: .88, floor: .56,
+      tile: [.76, .54], ink: .45, red: [[134, 26, 24], [178, 40, 26], [216, 64, 30], [234, 102, 42], [242, 140, 68], [246, 176, 118]] }
+  };
+  let pal = PALETTES.light, bg = [246, 241, 231];
+  function readTheme(){
+    const s = getComputedStyle(document.documentElement);
+    pal = PALETTES[s.getPropertyValue('--pond-theme').trim()] || PALETTES.light;
+    bg = hexRgb(s.getPropertyValue('--bg') || '#f6f1e7');
+  }
+
+  /* ---------- body plans, in body space: s along the spine (0 snout .. 1 tail tip), a = distance from it ----------
+     half(s) is the outline seen from above; fins are [root s, sweep angle, reach, width]; eye/dorsal/gills are
+     s ranges (plus how far across the body). Sharks get long swept pectorals, gill slits and a narrow forked tail. */
+  const BODY = 1, FIN = 2, EYE = 3, DORSAL = 4, BARBEL = 5, GILL = 6;
+  const SPECIES = {
+    koi: { bodyEnd: .72, half: s => s < .1 ? .105 * Math.pow(Math.sin(s / .1 * Math.PI / 2), .6) : s < .28 ? .105 + .02 * smooth(.1, .28, s) : .03 + .095 * (1 - smooth(.28, .72, s)),
+      tail: { start: .66, base: .028, spread: .16, notch: .15 }, fins: [[.2, .9, .07, .038], [.48, .78, .035, .017]], barbels: true,
+      eye: [.05, .095, .5, .85], dorsal: [.3, .58, .13], gills: null, swim: { burst: true, cruise: 1, agility: 1, wave: .036 } },
+    // whale shark: very wide flat head, broad body, white spots on a dark back, slow and wide-turning
+    whale: { bodyEnd: .76, half: s => s < .07 ? .13 * Math.pow(Math.sin(s / .07 * Math.PI / 2), .35) : s < .32 ? .13 + .008 * smooth(.07, .32, s) : .026 + .112 * (1 - smooth(.32, .76, s)),
+      tail: { start: .72, base: .02, spread: .075, notch: .12 }, fins: [[.3, 1.1, .15, .036], [.6, .85, .04, .016]], barbels: false,
+      eye: [.045, .075, .82, .98], dorsal: [.36, .5, .16], gills: [.13, .22], swim: { burst: false, cruise: .55, agility: .55, wave: .022 } },
+    // tiger shark: sturdy, blunt snout, dark bars across the back
+    tiger: { bodyEnd: .78, half: s => s < .14 ? .092 * Math.pow(Math.sin(s / .14 * Math.PI / 2), .7) : s < .3 ? .092 + .01 * smooth(.14, .3, s) : .02 + .082 * (1 - smooth(.3, .78, s)),
+      tail: { start: .74, base: .016, spread: .07, notch: .13 }, fins: [[.27, 1.05, .13, .032], [.56, .85, .035, .014]], barbels: false,
+      eye: [.06, .09, .78, .98], dorsal: [.34, .46, .18], gills: [.16, .24], swim: { burst: false, cruise: 1.05, agility: .8, wave: .03 } },
+    // leopard shark: slim, pointed snout, saddle bars and spots, quick
+    leopard: { bodyEnd: .8, half: s => s < .18 ? .066 * Math.pow(Math.sin(s / .18 * Math.PI / 2), .95) : s < .32 ? .066 + .006 * smooth(.18, .32, s) : .014 + .058 * (1 - smooth(.32, .8, s)),
+      tail: { start: .76, base: .012, spread: .06, notch: .14 }, fins: [[.28, 1, .1, .026], [.56, .85, .03, .012]], barbels: false,
+      eye: [.07, .1, .75, .98], dorsal: [.36, .46, .2], gills: [.17, .25], swim: { burst: false, cruise: 1.25, agility: 1.1, wave: .04 } }
+  };
+  let sp = SPECIES.koi; // body plan of the creature being drawn right now
+  const hit = { flag: 0, across: 1 };
+  function inFin(s, a, rootS, ang, reach, width){
+    const du = s - rootS, da = a - sp.half(rootS) * .85, c = Math.cos(ang), n = Math.sin(ang);
+    const along = du * c + da * n - reach, perp = -du * n + da * c;
+    if ((along / reach) ** 2 + (perp / width) ** 2 > 1) return false;
+    hit.flag = FIN; return true;
+  }
+  function classify(s, a, past, flare, ahead, lat){
+    hit.flag = 0; hit.across = 1;
+    if (ahead > 0) { // koi whiskers angling out from the corners of the mouth
+      if (sp.barbels && ahead < .055 && Math.abs(lat - (.04 + ahead * .75)) < .015) { hit.flag = BARBEL; return true; }
+      return false;
+    }
+    const w = sp.half(s);
+    if (s <= sp.bodyEnd && a <= w) {
+      const across = a / w, e = sp.eye, d = sp.dorsal, g = sp.gills; hit.across = across;
+      hit.flag = s > e[0] && s < e[1] && across > e[2] && across < e[3] ? EYE
+        : g && s > g[0] && s < g[1] && across > .62 && (s - g[0]) / (g[1] - g[0]) * 5 % 1 < .35 ? GILL
+        : s > d[0] && s < d[1] && across < d[2] ? DORSAL : BODY;
+      return true;
+    }
+    const t = sp.tail;
+    if (s > t.start && past <= 0) { // forked tail: butterfly fan on koi, narrow fork on sharks
+      const tw = (t.base + t.spread * Math.pow(smooth(t.start + .02, 1, s), .85)) * flare;
+      if (a <= tw && s <= 1 - t.notch + t.notch * (a / tw)) { hit.flag = FIN; return true; }
+    }
+    const [p, q] = sp.fins;
+    return inFin(s, a, p[0], p[1] + .5 * (flare - 1), p[2] * flare, p[3]) || inFin(s, a, q[0], q[1], q[2], q[3]);
+  }
+
+  /* ---------- markings, fixed per koi ---------- */
+  const VARIETIES = [['kohaku', 3], ['sanke', 2], ['tancho', 1], ['showa', 1], ['ogon', 1]];
+  function pickVariety(){ let r = Math.random() * 8; for (const [v, w] of VARIETIES) { r -= w; if (r <= 0) return v; } return 'kohaku'; }
+  function markings(k){
+    const r = j => hash(k.id, j, 53), red = [], black = [], white = [];
+    if (k.variety === 'tancho') return { red: [{ s: .11, v: 0, rs: .05, rv: .055 }], black, white };
+    if (k.variety === 'ogon') return { red, black, white };
+    if (k.variety !== 'showa' && r(0) < .7) red.push({ s: .1, v: (r(1) - .5) * .03, rs: .05 + r(2) * .03, rv: .1 });
+    const n = 2 + Math.floor(r(3) * 2), span = .42 / n;
+    for (let j = 0; j < n; j++) red.push({ s: .25 + span * (j + .5) + (r(10 + j) - .5) * span * .3, v: (r(20 + j) - .5) * .05, rs: span * (.34 + r(30 + j) * .14), rv: .09 + r(40 + j) * .05 });
+    if (k.variety === 'sanke') for (let j = 0, m = 4 + Math.floor(r(50) * 3); j < m; j++) black.push({ s: .24 + r(60 + j) * .44, v: (r(70 + j) - .5) * .16, rs: .022, rv: .026 });
+    if (k.variety === 'showa') for (let j = 0; j < 3; j++) white.push({ s: .18 + r(80 + j) * .5, v: (r(90 + j) - .5) * .12, rs: .05 + r(95 + j) * .03, rv: .06 });
+    return { red, black, white };
+  }
+  const inPatch = (m, s, v, wob) => ((s - m.s) / m.rs) ** 2 + ((v - m.v) / m.rv) ** 2 < 1 + wob;
+  function skin(k, s, v, across){
+    if (k.species !== 'koi') return sharkSkin(k, s, v / k.L, across);
+    const vn = v / k.L, base = k.variety === 'showa' ? 'black' : k.variety === 'ogon' ? 'gold' : 'white';
+    if ((across > .9 || s > .72) && base === 'white') return 'white';
+    const wob = (noise(s * 14 + k.id, vn * 30, k.id + 3) - .5) * .6;
+    for (const m of k.marks.black) if (inPatch(m, s, vn, wob)) return 'black';
+    for (const m of k.marks.white) if (inPatch(m, s, vn, wob)) return 'white';
+    for (const m of k.marks.red) if (inPatch(m, s, vn, wob)) return 'red';
+    return base;
+  }
+
+  // shark patterns are procedural, pinned to body space so they ride along with the skin
+  function sharkSkin(k, s, vn, across){
+    const n = noise(s * 16 + k.id, vn * 30, k.id + 7);
+    if (across > .87) return 'pale'; // lighter flanks frame the back
+    if (k.species === 'whale') { // offset rows of pale spots
+      const gs = s * 22, gv = vn * 26 + (Math.floor(gs) % 2) * .5, fx = gs % 1 - .5, fy = ((gv % 1) + 1) % 1 - .5;
+      return s > .06 && fx * fx + fy * fy < .11 + (n - .5) * .05 ? 'spot' : 'whale';
+    }
+    if (k.species === 'tiger') { // bars across the back, fading toward the tail
+      const fade = 1 - smooth(.55, .8, s);
+      return s > .2 && across < .8 && (s * 20 + Math.abs(vn) * 9 + n * .35) % 1 < .3 * fade ? 'stripe' : 'tiger';
+    }
+    if (s > .2 && s < .8 && across < .6 && (s * 11 + n * .2) % 1 < .2) return 'saddle'; // leopard: saddles and spots
+    return across > .45 && hash(Math.round(s * 40), Math.round(vn * 60), k.id) < .12 ? 'saddle' : 'leopard';
+  }
+
+  /* ---------- world ---------- */
+  let W = 0, H = 0, cw = 10, ch = 13, cols = 0, rows = 0, time = 0, lastFeed = -9, bag = [];
+  let koi = [], food = [], rings = [], bites = [], boxes = [];
+  const pointer = { x: 0, y: 0, speed: 0, active: false, t: 0 };
+  const stats = { dropped: 0, bit: 0, last: '' };
+  const nextPhrase = () => { if (!bag.length) bag = (mode === 'sharks' ? ATTACKS : PHRASES).slice().sort(() => Math.random() - .5); return bag.pop(); };
+
+  // who lives in the pond: koi (plus young ones on wide screens), or a whale shark (when it fits) with tiger and leopard sharks
+  function cast(base){
+    const out = [];
+    if (mode === 'sharks') {
+      if (W >= 700) out.push({ species: 'whale', L: Math.min(base * 1.45, W * .55, 520) });
+      for (let i = 0, n = W * H > 500000 ? 2 : 1; i < n; i++) out.push({ species: 'tiger', L: base * rand(.8, 1) });
+      for (let i = 0, n = W * H > 300000 ? 2 : 1; i < n; i++) out.push({ species: 'leopard', L: base * rand(.6, .75) });
+      return out;
+    }
+    const n = clamp(Math.round(W * H / 210000), 3, 6);
+    for (let i = 0; i < n; i++) out.push({ species: 'koi', L: base * rand(.62, 1) });
+    if (W >= 1024) for (let i = 0; i < 2; i++) out.push({ species: 'koi', L: base * rand(.34, .46), small: true });
+    return out;
+  }
+  function seed(){
+    koi = [];
+    cast(clamp(Math.min(W, H) * .46, 140, 340)).forEach((c, i) => {
+      const small = !!c.small, L = c.L, h = rand(0, TAU), x = rand(W * .1, W * .9), y = rand(H * .1, H * .9);
+      const nodes = new Float32Array(NODES * 2), seg = L / (NODES - 1);
+      for (let j = 0; j < NODES; j++) { nodes[j * 2] = x - Math.cos(h) * seg * j; nodes[j * 2 + 1] = y - Math.sin(h) * seg * j; }
+      const k = { id: i + 1, species: c.species, sp: SPECIES[c.species], variety: pickVariety(), L, nodes, heading: h, speed: 18, phase: rand(0, TAU), turn: 0, wander: 0,
+        curiosity: rand(.35, 1), depth: rand(.5, small ? .72 : 1), depthMax: small ? .72 : 1, depthTarget: .7, nextDive: rand(5, 16),
+        nextRing: rand(4, 14), nextWake: 0, beat: 0, burstUntil: 0, nextBurst: rand(0, 3), finPhase: rand(0, TAU),
+        startle: 0, fleeX: 0, fleeY: 0, rush: 0, target: null, gulp: 0, hitUntil: 0 };
+      k.marks = markings(k);
+      koi.push(k);
+    });
+  }
+
+  function repel(x, y, margin, out){
+    out.x = out.y = 0;
+    for (const b of boxes) {
+      let ox = x - clamp(x, b.l, b.r), oy = y - clamp(y, b.t, b.b), d = Math.hypot(ox, oy);
+      if (d > margin) continue;
+      if (d < 1e-3) { // inside: head for the nearest edge
+        const e = [b.l - x, x - b.r, b.t - y, y - b.b], m = e.indexOf(Math.max(...e));
+        ox = m === 0 ? -1 : m === 1 ? 1 : 0; oy = m === 2 ? -1 : m === 3 ? 1 : 0; d = 0;
+      }
+      const l = Math.hypot(ox, oy) || 1; out.x += ox / l * (1 - d / margin); out.y += oy / l * (1 - d / margin);
+    }
+    return out;
+  }
+  const push = { x: 0, y: 0 };
+
+  function pickFood(k, x, y, range){
+    if (k.target && !food.includes(k.target)) k.target = null;
+    let best = null, bd = range * range;
+    for (const p of food) { if (!p.landed) continue; const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; best = p; } }
+    if (!k.target) return (k.target = best);
+    const cur = Math.hypot(k.target.x - x, k.target.y - y);
+    if (cur > range * 1.3 || (best && Math.sqrt(bd) < cur * .5)) k.target = best;
+    return k.target;
+  }
+
+  function stepKoi(k, dt){
+    const L = k.L, N = k.nodes, hx = N[0], hy = N[1];
+    let dx = Math.cos(k.heading), dy = Math.sin(k.heading);
+    k.wander = clamp(k.wander + (Math.random() - .5) * dt * 2.2, -.9, .9);
+    dx += Math.cos(k.heading + k.wander) * .6; dy += Math.sin(k.heading + k.wander) * .6;
+
+    const target = pickFood(k, hx, hy, Math.max(L * 1.6 + 200, k.rush > 0 ? 620 : 0));
+    const pd = Math.hypot(pointer.x - hx, pointer.y - hy);
+    if (!target && time - lastFeed > 2 && pointer.active && pointer.speed > 1100 && pd < L * .9) { k.startle = 1; k.fleeX = pointer.x; k.fleeY = pointer.y; }
+    k.startle = Math.max(0, k.startle - dt * .6);
+    const fleeing = k.startle > .3 && !target;
+    let chasing = false, curious = false, closing = 0;
+    if (fleeing) { const ox = hx - k.fleeX, oy = hy - k.fleeY, d = Math.hypot(ox, oy) || 1; dx += ox / d * 4 * k.startle; dy += oy / d * 4 * k.startle; }
+    else if (target) { const tx = target.x - hx, ty = target.y - hy, d = Math.hypot(tx, ty) || 1; dx += tx / d * 3; dy += ty / d * 3; chasing = true; closing = clamp(1 - d / (L * 1.2), 0, 1); }
+    else if (pointer.active && pd < 300) { // swim up to the cursor, then circle under it
+      const tx = (pointer.x - hx) / (pd || 1), ty = (pointer.y - hy) / (pd || 1), w = k.curiosity * (1 - pd / 300) * 2.2, near = clamp(pd / (L * .6), 0, 1);
+      dx += (tx * near - ty * (1 - near)) * w; dy += (ty * near + tx * (1 - near)) * w; curious = true;
+    }
+    for (const o of koi) {
+      if (o === k || Math.abs(o.nodes[0] - hx) > L * 2 || Math.abs(o.nodes[1] - hy) > L * 2) continue;
+      for (let j = 0; j < NODES; j += 3) { // personal space, smaller when crowding in to feed
+        const ox = hx - o.nodes[j * 2], oy = hy - o.nodes[j * 2 + 1], d = Math.hypot(ox, oy), r = (L + o.L) * (target ? .12 : .28);
+        if (d < r && d > 1e-3) { const w = (1 - d / r) * 2.4; dx += ox / d * w; dy += oy / d * w; }
+      }
+      if (!chasing && Math.hypot(o.nodes[0] - hx, o.nodes[1] - hy) < L * 1.6) { dx += Math.cos(o.heading) * .18; dy += Math.sin(o.heading) * .18; }
+    }
+    repel(hx, hy, L * .4, push); const pw = chasing || curious ? .5 : 1.8; dx += push.x * pw; dy += push.y * pw;
+    const over = Math.max(-hx, hx - W, -hy, hy - H);
+    if (over > -L * .25) { const w = clamp((over + L * .25) / (L * .5), 0, 1) * 3.5, tx = W / 2 - hx, ty = H / 2 - hy, d = Math.hypot(tx, ty) || 1; dx += tx / d * w; dy += ty / d * w; }
+
+    // long bodies can't pivot on the spot
+    const sw = k.sp.swim;
+    const agility = sw.agility * (1 + k.rush * .6) * Math.min(fleeing ? 3 : chasing ? 1.9 + closing : curious ? 1.2 : .7, k.speed / L * 4);
+    const turned = clamp(angDiff(k.heading, Math.atan2(dy, dx)), -agility * dt, agility * dt);
+    k.heading += turned; k.turn += (turned / dt - k.turn) * Math.min(1, dt * 3);
+
+    // koi: burst and glide (a few tail beats, then coast); sharks: a steady sweep of the tail.
+    // Chasing or fleeing, both beat without pause.
+    if (time > k.nextBurst && time > k.burstUntil) { k.burstUntil = time + rand(.7, 1.6); k.nextBurst = k.burstUntil + rand(1.2, 4); }
+    const bursting = fleeing || chasing || !sw.burst || time < k.burstUntil;
+    k.beat += ((bursting ? (sw.burst || chasing || fleeing ? 1 : .65) : 0) - k.beat) * Math.min(1, dt * 3);
+    if (k.beat > .6 && k.depth > .65 && time > k.nextWake) { rings.push({ x: N[(NODES - 3) * 2], y: N[(NODES - 3) * 2 + 1], born: time, strength: .2 + .2 * k.depth }); k.nextWake = time + rand(.8, 1.6) / k.beat; }
+    k.rush = Math.max(0, k.rush - dt * .7);
+    const cruise = (12 + L * (sw.burst ? .05 : .035)) * sw.cruise;
+    const goal = (1 + k.rush * .8) * (fleeing ? cruise * 3.2 : chasing ? cruise * (1.9 + closing) : bursting ? cruise * (curious ? 1.6 : 1.35) : cruise * .45);
+    k.speed += (goal - k.speed) * Math.min(1, dt * (bursting ? 1.6 + k.rush * 3 : .35));
+    k.phase += dt * (.6 + k.beat * (2.2 + k.speed / 11));
+    k.finPhase += dt * 2.4;
+    k.gulp += ((chasing && closing > .55 ? 1 : 0) - k.gulp) * Math.min(1, dt * 6);
+    if (time > k.nextDive) { k.depthTarget = rand(.5, k.depthMax); k.nextDive = time + rand(8, 20); }
+    k.depth += ((chasing ? 1 : k.depthTarget) - k.depth) * Math.min(1, dt * (chasing ? .8 : .15));
+
+    N[0] += Math.cos(k.heading) * k.speed * dt; N[1] += Math.sin(k.heading) * k.speed * dt;
+    const seg = L / (NODES - 1); let prev = k.heading + Math.PI;
+    for (let j = 1; j < NODES; j++) { // each joint bends only a little, so the body never kinks
+      const px = N[(j - 1) * 2], py = N[(j - 1) * 2 + 1];
+      const a = prev + clamp(angDiff(prev, Math.atan2(N[j * 2 + 1] - py, N[j * 2] - px)), -.19, .19);
+      N[j * 2] = px + Math.cos(a) * seg; N[j * 2 + 1] = py + Math.sin(a) * seg; prev = a;
+    }
+
+    // bite: the mouth reaches a floating piece
+    const mr = L * .07 + 6;
+    for (let i = 0; i < food.length; i++) {
+      const p = food[i]; if (!p.landed) continue;
+      const ex = Math.max(0, Math.abs(N[0] - p.x) - p.w / 2), ey = N[1] - p.y;
+      if (ex * ex + ey * ey < mr * mr) {
+        food.splice(i, 1); rings.push({ x: N[0], y: N[1], born: time, strength: .55 }); bites.push({ x: N[0], y: N[1], born: time });
+        k.hitUntil = time + 1.8; k.nextRing = time + rand(6, 16); stats.bit++; if (p.word) stats.last = p.text; updateHud(); break;
+      }
+    }
+    if (time > k.nextRing) { rings.push({ x: N[0], y: N[1], born: time, strength: .28 }); k.nextRing = time + rand(8, 20); }
+  }
+
+  // a click throws the phrase as a handful: its words plus a crumb or two, landing a beat apart
+  function feed(x, y){
+    lastFeed = time; stats.dropped++;
+    rings.push({ x, y, born: time, strength: .3 });
+    const pieces = nextPhrase().split(' ').map(t => ({ t, word: true }));
+    const crumbs = mode === 'sharks' ? BYTES : CRUMBS;
+    for (let j = 0, n = 1 + Math.floor(Math.random() * 2); j < n; j++) pieces.push({ t: crumbs[Math.floor(Math.random() * crumbs.length)], word: false });
+    const words = pieces.filter(p => p.word).length;
+    pieces.forEach((pc, j) => {
+      if (food.length >= 30) return;
+      // words land roughly in reading order, a couple of rows apart; crumbs scatter around them
+      const a = rand(0, TAU), r = Math.sqrt(Math.random()) * (pc.word ? 26 : 46), drift = rand(2, 6);
+      const p = { text: pc.t, word: pc.word, x: x + Math.cos(a) * r * 1.5, y: y + Math.sin(a) * r * .5 + (pc.word ? (j - (words - 1) / 2) * ch * 2 : 0),
+        born: time, landAt: rand(.12, .3) + j * .1, landed: false, vx: Math.cos(a) * drift, vy: Math.sin(a) * drift, w: textWidth(pc.t) };
+      for (let tries = 0; tries < 6 && food.some(o => Math.abs(o.y - p.y) < ch * 1.2 && Math.abs(o.x - p.x) < (o.w + p.w) / 2 + cw); tries++) p.y += ch * 1.4 * (tries % 2 ? -tries : tries);
+      food.push(p);
+    });
+    updateHud();
+  }
+  const foodFont = () => `600 ${Math.max(11, Math.round(ch * .9))}px ${MONO}`;
+  function textWidth(t){ ctx.save(); ctx.font = foodFont(); const w = ctx.measureText(t).width; ctx.restore(); return w; }
+  function updateHud(){
+    const sharks = mode === 'sharks';
+    hud.innerHTML = stats.dropped
+      ? `${sharks ? 'vectors thrown' : 'thrown'} <b>${stats.dropped}</b> · ${sharks ? 'picked off' : 'took the bait'} <b>${stats.bit}</b>` + (stats.last ? ` · last${sharks ? '' : ' bite'}: “${stats.last}”` : '')
+      : sharks ? 'click open water to throw an attack vector' : 'click open water to throw a line';
+  }
+
+  const FOOD_LIFE = 16, FOOD_SINK = 10, BITE_LIFE = .45, RING_SPEED = 50;
+  const ringLife = r => 2.2 + r.strength * 1.6;
+  function step(dt){
+    time += dt; pointer.speed *= Math.exp(-dt * 8);
+    for (const k of koi) stepKoi(k, dt);
+    food = food.filter(p => time - p.born < FOOD_LIFE);
+    for (const p of food) {
+      if (!p.landed) {
+        if (time - p.born < p.landAt) continue;
+        p.landed = true; rings.push({ x: p.x, y: p.y, born: time, strength: p.word ? .16 : .08 });
+        for (const k of koi) if (Math.hypot(k.nodes[0] - p.x, k.nodes[1] - p.y) < 620) k.rush = 1; // the splash is what draws them
+        continue;
+      }
+      const damp = Math.exp(-dt * .2); p.vx *= damp; p.vy *= damp; p.x += p.vx * dt; p.y += p.vy * dt;
+    }
+    rings = rings.filter(r => time - r.born < ringLife(r));
+    bites = bites.filter(b => time - b.born < BITE_LIFE);
+  }
+
+  /* ---------- renderer: per-cell buffers, then one pass of drawing ---------- */
+  let glyph, gcol, galpha, tcol, talpha, dim, shadowAt, foodAt, energy, energyTmp;
+  const spine = new Float32Array(NODES * 2), arc = new Float32Array(NODES);
+  let arcTotal = 1, flareL = 1, flareR = 1, sS = 0, sV = 0, sDist = 0, sTx = 1, sTy = 0, sSeg = 0;
+  const styles = new Map(), style = n => { let s = styles.get(n); if (!s) { s = `rgb(${n >>> 16},${n >>> 8 & 255},${n & 255})`; styles.set(n, s); } return s; };
+  const GLYPHS = '.:+xX%#@'; // lit to shadowed
+  const SUB = [.25, .25, .75, .25, .25, .75, .75, .75];
+
+  function sample(px, py, L, from = 0, to = NODES - 2){
+    let best = Infinity, bs = 0, sign = 1, past = 0, ahead = 0, lat = 0;
+    for (let n = from; n <= to; n++) {
+      const ax = spine[n * 2], ay = spine[n * 2 + 1], sx = spine[n * 2 + 2] - ax, sy = spine[n * 2 + 3] - ay, l2 = sx * sx + sy * sy || 1;
+      const raw = ((px - ax) * sx + (py - ay) * sy) / l2, u = clamp(raw, 0, 1), d2 = (px - ax - sx * u) ** 2 + (py - ay - sy * u) ** 2;
+      if (d2 < best) {
+        const l = Math.sqrt(l2), cr = sx * (py - ay) - sy * (px - ax);
+        best = d2; bs = (arc[n] + u * l) / arcTotal; sign = cr >= 0 ? 1 : -1;
+        past = n === NODES - 2 ? Math.max(0, raw - 1) * l : 0; ahead = n === 0 ? Math.max(0, -raw) * l : 0; lat = Math.abs(cr) / l;
+        sTx = sx / l; sTy = sy / l; sSeg = n;
+      }
+    }
+    const a = Math.sqrt(best); sDist = a; sS = bs; sV = a * sign;
+    return classify(bs, a / L, past / L, sign > 0 ? flareL : flareR, ahead / L, lat / L);
+  }
+
+  function rasterize(k){
+    sp = k.sp;
+    const L = k.L, N = k.nodes, swim = .25 + 1.05 * k.beat, shark = k.species !== 'koi';
+    for (let n = 0; n < NODES; n++) { // travelling body wave, growing toward the tail, only while beating
+      const s = n / (NODES - 1), a = Math.max(0, n - 1), b = Math.min(NODES - 1, n + 1);
+      let tx = N[a * 2] - N[b * 2], ty = N[a * 2 + 1] - N[b * 2 + 1]; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+      const off = L * sp.swim.wave * (.06 + .94 * Math.pow(s, 2.1)) * swim * Math.sin(k.phase - s * 4.4);
+      spine[n * 2] = N[n * 2] - ty * off; spine[n * 2 + 1] = N[n * 2 + 1] + tx * off;
+    }
+    arc[0] = 0;
+    for (let n = 1; n < NODES; n++) arc[n] = arc[n - 1] + Math.hypot(spine[n * 2] - spine[n * 2 - 2], spine[n * 2 + 1] - spine[n * 2 - 1]);
+    arcTotal = arc[NODES - 1] || 1;
+    // side fins tuck in on a burst, paddle while gliding, and the inner one spreads on a turn
+    const spread = 1 - .25 * k.beat, scull = .16 * (1 - k.beat) * Math.sin(k.finPhase), bank = clamp(k.turn * .55, -.35, .35);
+    flareL = spread + scull - bank; flareR = spread - scull + bank;
+
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (let n = 0; n < NODES; n++) { x0 = Math.min(x0, spine[n * 2]); x1 = Math.max(x1, spine[n * 2]); y0 = Math.min(y0, spine[n * 2 + 1]); y1 = Math.max(y1, spine[n * 2 + 1]); }
+    const reach = L * .27, c0 = Math.max(0, Math.floor((x0 - reach) / cw)), c1 = Math.min(cols - 1, Math.floor((x1 + reach) / cw));
+    const r0 = Math.max(0, Math.floor((y0 - reach) / ch)), r1 = Math.min(rows - 1, Math.floor((y1 + reach) / ch));
+    if (c0 > c1 || r0 > r1) return;
+    const diag = Math.hypot(cw, ch), sdc = Math.round(L * .07 * k.depth / cw) + 1, sdr = Math.round(L * .05 * k.depth / ch) + 1;
+    const a0 = pal.alpha * (pal.floor + (1 - pal.floor) * k.depth), hitting = time < k.hitUntil;
+    const lean = (hash(k.id, 5, 17) - .5) * .3;
+
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+      const x = c * cw, y = r * ch;
+      const centre = sample(x + cw / 2, y + ch / 2, L);
+      if (!centre && sDist > L * (sS > .4 && sS < .62 ? .15 : .25) + diag) { c += Math.max(0, Math.floor((sDist - L * .25 - diag) / cw)); continue; }
+      const from = Math.max(0, sSeg - 2), to = Math.min(NODES - 2, sSeg + 2);
+      let flag = hit.flag, across = hit.across, s = sS, v = sV, tx = sTx, ty = sTy, hits = centre ? 1 : 0;
+      const deep = centre && flag !== FIN && flag !== BARBEL && s > .04 && s < sp.bodyEnd - .02 && sp.half(s) * L - sDist > diag * .35;
+      if (deep) hits = 5;
+      for (let q = 0; !deep && q < SUB.length; q += 2) {
+        if (!sample(x + SUB[q] * cw, y + SUB[q + 1] * ch, L, from, to)) continue;
+        if (hits === 0) { flag = hit.flag; across = hit.across; s = sS; v = sV; tx = sTx; ty = sTy; }
+        hits++;
+      }
+      if (!hits) continue;
+      const cov = hits / 5, side = v >= 0 ? 1 : -1, i = r * cols + c;
+      const key = (hash(Math.round(s * 90), Math.round(v / (cw * .8)), k.id) * 4294967295) >>> 0; // pinned to the body
+      let g = ' ', rgb = pal.fin, al = a0, tile = null, ta = 0;
+      if (flag === BARBEL) { g = lineGlyph(-tx - side * ty * .7, -ty + side * tx * .7); rgb = shade(mix(bg, pal.fin, .9), pal.ink + .3); }
+      else if (flag === EYE && centre && cov >= .6) { tile = mix(bg, pal.eye, .85); ta = a0; g = 'o'; rgb = mix(bg, pal.white, .9); }
+      else if (flag === FIN && shark) { // shark fins are solid, in the body colour: they carry the silhouette
+        tile = mix(bg, pal[k.species], pal.tile[1] * .95); ta = a0 * .8 * cov;
+        if (key % 3 === 0) { g = '.'; rgb = shade(tile, pal.ink); al *= .8 * cov; }
+      }
+      else if (flag === FIN) { tile = mix(bg, pal.fin, .55); ta = a0 * .45 * cov; if (key % 2 === 0) { g = '.'; al *= .6 * cov; } }
+      else {
+        const sk = skin(k, s, v, across), facing = side * (.6 * ty - .8 * tx) * across;
+        const lum = clamp(.22 + .5 * Math.sqrt(1 - across * across) + .18 * facing, 0, 1);
+        if (sk === 'red') {
+          const grain = (noise(s * 9 + k.id, v / L * 18, k.id + 21) - .5) * .25, sheen = Math.max(0, Math.sin(s * 11 - time * 1.8 + k.id) - .7) / .3;
+          tile = ramp(pal.red, .15 + .8 * lum + lean + grain + sheen * .35);
+        } else {
+          const sheen = sk === 'gold' ? Math.max(0, Math.sin(s * 9 - time * 1.5 + k.id) - .6) / .4 * .25 : 0;
+          const marking = sk === 'spot' || sk === 'stripe' || sk === 'saddle'; // shark markings stay crisp so the pattern reads
+          tile = mix(bg, pal[sk], marking ? .94 : clamp(pal.tile[0] + (pal.tile[1] - pal.tile[0]) * lum + sheen, 0, 1));
+        }
+        if (flag === DORSAL && hits === 5) { tile = shade(tile, .82); }
+        if (hits === 5) {
+          const sc = c + sdc, sr = r + sdr; if (sc < cols && sr < rows) shadowAt[sr * cols + sc] = 1;
+          ta = a0;
+          if (flag === GILL) { g = side > 0 ? ')' : '('; rgb = shade(tile, pal.ink * .8); al = Math.min(1, al * 1.3); }
+          else if (s < (shark ? .03 : .035) && across < (shark ? .85 : .6) && k.gulp > .5) { g = shark ? '=' : 'o'; rgb = pal.eye; } // koi pout, sharks gape
+          else {
+            g = GLYPHS[clamp(Math.round((1 - lum) * 5) + (key >>> 4) % 3, 0, GLYPHS.length - 1)];
+            rgb = shade(tile, pal.ink);
+            if (sk === 'white') al *= .6;
+            if (hash(key, Math.floor(time * 1.4 + key % 997 / 97), 7) < .03) tile = mix(tile, bg, .45); // a scale catches the light
+          }
+        } else { ta = a0 * cov * .55; if (key % 3 === 0) { g = '.'; rgb = shade(tile, pal.ink); } }
+      }
+      if (hitting && tile) tile = mix(tile, pal.hit, .55);
+      if (g === ' ' && ta === 0) continue;
+      tcol[i] = tile ? pack(tile) : 0; talpha[i] = ta; glyph[i] = g.charCodeAt(0); gcol[i] = pack(rgb); galpha[i] = al;
+    }
+  }
+
+  function cellAt(x, y){ const c = Math.floor(x / cw), r = Math.floor(y / ch); return c < 0 || r < 0 || c >= cols || r >= rows ? -1 : r * cols + c; }
+  function put(i, g, rgb, a){ ctx.globalAlpha = a; ctx.fillStyle = style(pack(rgb)); ctx.fillText(g, (i % cols) * cw + cw / 2, ((i / cols) | 0) * ch + ch / 2 + 1); }
+
+  function render(dt){
+    glyph.fill(0); talpha.fill(0); shadowAt.fill(0);
+    for (const k of koi.slice().sort((a, b) => a.depth - b.depth)) rasterize(k);
+    // tail wakes and the cursor stir a fading trail
+    for (const k of koi) for (let n = NODES - 4; n < NODES; n++) { const i = cellAt(k.nodes[n * 2], k.nodes[n * 2 + 1]); if (i >= 0) energy[i] = Math.min(1.5, energy[i] + .035 + k.speed * .0012); }
+    if (pointer.active) { const i = cellAt(pointer.x, pointer.y); if (i >= 0) energy[i] = Math.min(1.5, energy[i] + .12); }
+    const decay = Math.exp(-dt * 1.1);
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const i = r * cols + c, e = energy[i];
+      energyTmp[i] = (e * 4 + (c > 0 ? energy[i - 1] : e) + (c < cols - 1 ? energy[i + 1] : e) + (r > 0 ? energy[i - cols] : e) + (r < rows - 1 ? energy[i + cols] : e)) * .125 * decay;
+    }
+    [energy, energyTmp] = [energyTmp, energy];
+
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.font = `600 ${Math.round(ch * .72)}px ${MONO}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+
+    // cells the bait covers stay clear of water marks, so words never get scribbled over
+    foodAt.fill(0);
+    for (const p of food) {
+      const r = Math.floor((p.landed ? p.y : p.y - (1 - (time - p.born) / p.landAt) * ch * 1.6) / ch); if (r < 0 || r >= rows) continue;
+      for (let c = Math.max(0, Math.floor((p.x - p.w / 2) / cw) - 1); c <= Math.min(cols - 1, Math.floor((p.x + p.w / 2) / cw) + 1); c++) foodAt[r * cols + c] = 1;
+    }
+    for (let i = 0; i < shadowAt.length; i++) if (shadowAt[i] && !glyph[i] && !foodAt[i]) put(i, ':', pal.shadow, pal.shadowA * dim[i]);
+    for (let i = 0; i < energy.length; i++) { const e = energy[i]; if (e >= .22 && !glyph[i] && !shadowAt[i] && !foodAt[i]) put(i, e > .5 ? '-' : '.', pal.water, Math.min(1, (e - .22) * 1.4) * .35); }
+    for (const rp of rings) { // two rings per splash, drawn along their curve
+      const age = time - rp.born, fade = Math.pow(1 - age / ringLife(rp), 1.5) * rp.strength;
+      for (let ring = 0; ring < 2; ring++) {
+        const rad = Math.max(0, age - ring * .45) * RING_SPEED * (.7 + .5 * rp.strength); if (rad < 2) continue;
+        const band = cw * .6, al = fade * (ring ? .3 : .55);
+        const ca = Math.max(0, Math.floor((rp.x - rad - cw) / cw)), cb = Math.min(cols - 1, Math.floor((rp.x + rad + cw) / cw));
+        const ra = Math.max(0, Math.floor((rp.y - rad - ch) / ch)), rb = Math.min(rows - 1, Math.floor((rp.y + rad + ch) / ch));
+        for (let r = ra; r <= rb; r++) for (let c = ca; c <= cb; c++) {
+          const i = r * cols + c; if (glyph[i] || foodAt[i]) continue;
+          const dx = c * cw + cw / 2 - rp.x, dy = r * ch + ch / 2 - rp.y;
+          if (Math.abs(Math.hypot(dx, dy) - rad) > band) continue;
+          put(i, ring ? '.' : lineGlyph(-dy, dx), pal.water, al);
+        }
+      }
+    }
+    // bait: falling pieces close in from above; landed ones float on a grid row, bob, then fade as they sink.
+    // Words are drawn as normal text so they stay readable; a koi passing over one dims it.
+    ctx.font = foodFont();
+    for (const p of food) {
+      const age = time - p.born;
+      let r, a, rgb = pal.word;
+      if (!p.landed) { const f = age / p.landAt; r = Math.floor((p.y - (1 - f) * ch * 1.6) / ch); a = pal.alpha * (.3 + .5 * f); }
+      else { const sink = smooth(FOOD_SINK, FOOD_LIFE, age); r = Math.floor(p.y / ch); a = pal.alpha * (.85 + .15 * Math.sin(age * 3 + p.x)) * (1 - .85 * sink); if (sink > .3) rgb = mix(pal.word, pal.water, sink); }
+      if (r < 0 || r >= rows) continue;
+      const mid = cellAt(p.x, (r + .5) * ch); if (mid >= 0 && glyph[mid]) a *= .25;
+      ctx.globalAlpha = a; ctx.fillStyle = style(pack(rgb));
+      // each letter bobs and tilts a little out of step with its neighbours, like a swell passing under the word;
+      // the wobble is stronger right after landing and settles over about a second
+      const settle = p.landed ? 1 + 2.2 * Math.exp(-(age - p.landAt) * 2.5) : 0, y0 = (r + .5) * ch + 1;
+      let x = p.x - p.w / 2;
+      for (let j = 0; j < p.text.length; j++) {
+        const lw = ctx.measureText(p.text[j]).width, wave = age * 2.3 + j * .75 + p.x * .01;
+        ctx.save();
+        ctx.translate(x + lw / 2, y0 + Math.sin(wave) * 1.3 * settle);
+        ctx.rotate(Math.sin(wave + 1.2) * .07 * settle);
+        ctx.fillText(p.text[j], 0, 0);
+        ctx.restore();
+        x += lw;
+      }
+    }
+    ctx.font = `600 ${Math.round(ch * .72)}px ${MONO}`;
+    // koi cells
+    for (let i = 0; i < glyph.length; i++) {
+      const code = glyph[i]; if (!code) continue;
+      const x = (i % cols) * cw, y = ((i / cols) | 0) * ch;
+      if (talpha[i] > 0) { ctx.globalAlpha = talpha[i] * dim[i]; ctx.fillStyle = style(tcol[i]); ctx.fillRect(x + 1, y + 1, cw - 1, ch - 1); }
+      if (code !== 32) { ctx.globalAlpha = galpha[i] * dim[i]; ctx.fillStyle = style(gcol[i]); ctx.fillText(String.fromCharCode(code), x + cw / 2, y + ch / 2 + 1); }
+    }
+    // a bite flashes * then + then a dot; the koi that bit shows a !
+    for (const b of bites) { const i = cellAt(b.x, b.y); if (i < 0) continue; const t = (time - b.born) / BITE_LIFE; put(i, t < .35 ? '*' : t < .7 ? '+' : '.', pal.hit, Math.min(1, pal.alpha * 1.6) * (1 - t * t)); }
+    for (const k of koi) if (time < k.hitUntil) { const i = cellAt(k.nodes[0], k.nodes[1] - k.L * .16 - ch); if (i >= 0) put(i, '!', pal.hit, Math.min(1, (k.hitUntil - time) * 1.5)); }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ---------- layout: grid, content boxes ---------- */
+  function measure(){
+    const o = pond.getBoundingClientRect(), raw = [...pond.querySelectorAll('[data-pond-avoid]')].map(e => { const b = e.getBoundingClientRect(); return { l: b.left - o.left, t: b.top - o.top, r: b.right - o.left, b: b.bottom - o.top }; });
+    boxes = [];
+    for (const b of raw.sort((p, q) => p.t - q.t)) { // merge close boxes so koi aren't squeezed between them
+      const m = boxes.find(m => b.t - m.b < 120 && b.l - m.r < 120 && m.l - b.r < 120);
+      if (m) { m.l = Math.min(m.l, b.l); m.r = Math.max(m.r, b.r); m.b = Math.max(m.b, b.b); } else boxes.push({ ...b });
+    }
+    dim.fill(1); const pad = cw * 4;
+    for (const b of boxes) {
+      for (let r = Math.max(0, Math.floor((b.t - pad) / ch)); r <= Math.min(rows - 1, Math.floor((b.b + pad) / ch)); r++)
+        for (let c = Math.max(0, Math.floor((b.l - pad) / cw)); c <= Math.min(cols - 1, Math.floor((b.r + pad) / cw)); c++) {
+          const x = c * cw + cw / 2, y = r * ch + ch / 2, d = Math.hypot(Math.max(b.l - x, 0, x - b.r), Math.max(b.t - y, 0, y - b.b)), i = r * cols + c;
+          dim[i] = Math.min(dim[i], .16 + .84 * smooth(0, pad, d)); // koi fade beneath the text
+        }
+    }
+  }
+  function resize(){
+    const r = pond.getBoundingClientRect(); if (r.width < 1 || r.height < 1) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2), first = W === 0;
+    W = r.width; H = r.height;
+    cw = clamp(Math.round(W / 125), 8, 12); ch = cw + 3; cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    const n = cols * rows;
+    glyph = new Uint16Array(n); gcol = new Uint32Array(n); galpha = new Float32Array(n); tcol = new Uint32Array(n); talpha = new Float32Array(n);
+    dim = new Float32Array(n).fill(1); shadowAt = new Uint8Array(n); foodAt = new Uint8Array(n); energy = new Float32Array(n); energyTmp = new Float32Array(n);
+    for (const p of food) p.w = textWidth(p.text);
+    if (first) seed();
+    measure(); readTheme();
+    if (reduce.matches) still();
+  }
+  function still(){ if (time < 4) for (let i = 0; i < 240; i++) step(STEP); measure(); render(STEP); }
+
+  /* ---------- loop and input ---------- */
+  let raf = 0, last = 0, acc = 0, frames = 0, visible = true;
+  function frame(now){
+    const dt = Math.min(.1, (now - last) / 1000); last = now; acc += dt;
+    let n = 0; while (acc >= STEP && n < 4) { step(STEP); acc -= STEP; n++; } if (n === 4) acc = 0;
+    if (++frames % 30 === 0) { measure(); readTheme(); }
+    render(dt);
+    raf = requestAnimationFrame(frame);
+  }
+  function schedule(){
+    cancelAnimationFrame(raf); raf = 0;
+    if (!visible || document.hidden) return;
+    if (reduce.matches) { still(); return; }
+    last = performance.now(); raf = requestAnimationFrame(frame);
+  }
+  new IntersectionObserver(e => { visible = e[0].isIntersecting; schedule(); }).observe(pond);
+  document.addEventListener('visibilitychange', schedule);
+  reduce.addEventListener('change', schedule);
+  new ResizeObserver(resize).observe(pond);
+  new MutationObserver(() => { readTheme(); if (reduce.matches) still(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  addEventListener('pointermove', e => {
+    const r = pond.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, el = Math.max(1, e.timeStamp - pointer.t) / 1000;
+    pointer.speed += (Math.min(Math.hypot(x - pointer.x, y - pointer.y) / el, 5000) - pointer.speed) * .5;
+    pointer.t = e.timeStamp; pointer.x = x; pointer.y = y;
+    pointer.active = x >= 0 && y >= 0 && x <= r.width && y <= r.height && e.pointerType !== 'touch';
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => { pointer.active = false; pointer.speed = 0; });
+  // true when (x, y) is on a line of text (including the gap between lines), not on the empty part of a wide text block
+  function onText(el, x, y){
+    const range = document.createRange(); range.selectNodeContents(el);
+    const lh = parseFloat(getComputedStyle(el).lineHeight) || 0;
+    return [...range.getClientRects()].some(b => { const pad = Math.max(2, (lh - b.height) / 2 + 1); return x >= b.left - 4 && x <= b.right + 4 && y >= b.top - pad && y <= b.bottom + pad; });
+  }
+  pond.addEventListener('click', e => {
+    if (reduce.matches || getSelection().toString()) return;
+    if (e.composedPath().some(n => n instanceof Element && n.matches('a,button,input,label,[data-pond-ignore]'))) return;
+    const textEl = e.target.closest && e.target.closest('h1,p'); if (textEl && onText(textEl, e.clientX, e.clientY)) return;
+    const r = pond.getBoundingClientRect();
+    feed(e.clientX - r.left, e.clientY - r.top);
+  });
+
+  // koi + scam phrases, or sharks + attack vectors; switching starts a fresh pond
+  const modeBtn = document.getElementById('pond-mode');
+  const syncModeBtn = () => { modeBtn.textContent = mode === 'sharks' ? 'Switch to koi' : 'Switch to sharks'; };
+  modeBtn.onclick = () => {
+    mode = mode === 'sharks' ? 'koi' : 'sharks';
+    try { localStorage.setItem('pondMode', mode); } catch (e) {}
+    food = []; rings = []; bites = []; bag = []; stats.dropped = stats.bit = 0; stats.last = '';
+    seed(); updateHud(); syncModeBtn();
+    if (reduce.matches) { time = 0; still(); }
+  };
+  syncModeBtn();
+
+  resize(); updateHud(); schedule();
+})();
+} catch (e) {}
 
 /* lightbox */
 const lb = $('lb'), lbImg = lb.querySelector('img'), lbClose = lb.querySelector('button');
