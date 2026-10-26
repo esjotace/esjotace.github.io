@@ -84,6 +84,9 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .card h3{margin:0;font-size:21px;line-height:1.25}
 .card p{margin:0;color:var(--muted);font-size:16px}
 .card .res{color:var(--ink);font-size:15.5px;border-left:3px solid var(--accent);padding-left:12px}
+.card-art{display:block;width:calc(100% + 44px);max-width:none;height:auto;margin:-22px -22px 6px;aspect-ratio:16/10;object-fit:cover;border-radius:13px 13px 0 0;overflow:hidden;background:#0c0618}
+.card-art svg{display:block;width:100%;height:100%}
+.card .aside{margin-top:auto;padding-top:4px;font-size:14px;font-style:italic;color:var(--muted)}
 .proj-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:auto;padding-top:6px}
 .proj-actions .btn{padding:9px 16px;font-size:14px;cursor:pointer;font-family:inherit}
 .proj-actions .btn[hidden]{display:none}
@@ -603,47 +606,91 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="projects">
       <h2>Things I build</h2>
       <p class="sub">I build software for fun and to learn. It helps me follow what engineers are telling me when I write about their work.</p>
-      <!-- Each project is one <article class="card">. To add a link, put
-           <a class="more sans" href="URL" target="_blank" rel="noopener">Play it →</a>
-           as the last line inside the card. -->
+      <!-- Each project is one <article class="card">. Optional art goes first (.card-art, an <img> or an inline SVG),
+           and live projects end with the .proj-actions buttons; projects in development end with a .aside note. -->
       <div class="grid">
         <article class="card">
-          <div class="org sans">Project</div>
+          <img class="card-art" src="assets/projects/trip3o.jpg" width="960" height="600" loading="lazy" alt="Trip·3·o cover art: the neon TRIP·3·O logo over a 3×3 grid of glossy colored tiles marked with shapes">
+          <div class="org sans">Project · In development</div>
           <h3>Trip·3·o</h3>
           <p>An arcade color-mixing puzzle game of about 18,600 lines of React, built with Vite, PIXI.js (WebGL) and the Web Audio API, and deployed as a PWA. Its companion character uses procedural dialogue that simulates an AI.</p>
           <p class="res">Moved the renderer from CSS to WebGL, with a WebGL2 → WebGL1 → Canvas 2D fallback, and optimized it for mid-range phones (no per-frame allocations, cell diff rendering, LRU texture cache): from 24 to 53–58 FPS.</p>
+          <p class="aside sans">Trip·3·o is being developed as a commercial release, so there's no public build yet. I'm happy to walk through it or share a private demo on request.</p>
         </article>
         <article class="card">
-          <div class="org sans">Project</div>
+          <div class="org sans">Project · In development</div>
           <h3>Et Al</h3>
           <p>A shared household budgeting app built with React, Supabase and Vercel, with several split modes and receipt OCR. Co-authored: my wife built it, and I helped with development and feature ideas.</p>
           <p class="res">Uses APIs from exchange houses and banks to update USD, bolívar (Bs), USDT and other rates live.</p>
+          <p class="aside sans">We're developing Et Al as a commercial product, so there's no public version yet. A private demo is available on request.</p>
         </article>
         <article class="card">
+          <div class="card-art" aria-hidden="true">
+            <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="ex-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#141d31"/><stop offset="1" stop-color="#0c1322"/></linearGradient></defs>
+              <rect width="320" height="200" fill="url(#ex-bg)"/>
+              <text x="22" y="30" fill="#9ba9bf" font-family="ui-monospace,Consolas,monospace" font-size="10" letter-spacing="1.5">SY0-701 · QUESTION 42 OF 90</text>
+              <g transform="translate(22 44)">
+                <g fill="#1f2e52" stroke="#7ea4ff" stroke-width="1"><rect x="0" y="0" width="18" height="18" rx="4"/><rect x="72" y="24" width="18" height="18" rx="4"/><rect x="144" y="0" width="18" height="18" rx="4"/><rect x="48" y="48" width="18" height="18" rx="4"/><rect x="192" y="48" width="18" height="18" rx="4"/></g>
+                <g fill="#1f3a1b" stroke="#82cc6e" stroke-width="1"><rect x="24" y="0" width="18" height="18" rx="4"/><rect x="48" y="0" width="18" height="18" rx="4"/><rect x="96" y="0" width="18" height="18" rx="4"/><rect x="168" y="0" width="18" height="18" rx="4"/><rect x="0" y="24" width="18" height="18" rx="4"/><rect x="24" y="24" width="18" height="18" rx="4"/><rect x="120" y="24" width="18" height="18" rx="4"/><rect x="144" y="24" width="18" height="18" rx="4"/><rect x="0" y="48" width="18" height="18" rx="4"/><rect x="96" y="48" width="18" height="18" rx="4"/><rect x="144" y="48" width="18" height="18" rx="4"/><rect x="168" y="48" width="18" height="18" rx="4"/></g>
+                <g fill="#41211d" stroke="#f08a7e" stroke-width="1"><rect x="120" y="0" width="18" height="18" rx="4"/><rect x="48" y="24" width="18" height="18" rx="4"/><rect x="192" y="24" width="18" height="18" rx="4"/><rect x="24" y="48" width="18" height="18" rx="4"/></g>
+                <g fill="none" stroke="#27334b" stroke-width="1"><rect x="192" y="0" width="18" height="18" rx="4"/><rect x="168" y="24" width="18" height="18" rx="4"/><rect x="120" y="48" width="18" height="18" rx="4"/><rect x="0" y="72" width="18" height="18" rx="4"/><rect x="24" y="72" width="18" height="18" rx="4"/><rect x="48" y="72" width="18" height="18" rx="4"/><rect x="96" y="72" width="18" height="18" rx="4"/><rect x="120" y="72" width="18" height="18" rx="4"/><rect x="144" y="72" width="18" height="18" rx="4"/><rect x="168" y="72" width="18" height="18" rx="4"/><rect x="192" y="72" width="18" height="18" rx="4"/></g>
+                <rect x="70" y="70" width="22" height="22" rx="5" fill="none" stroke="#e8edf6" stroke-width="2"/>
+                <circle cx="111" cy="27" r="3" fill="#e8b058"/><circle cx="207" cy="75" r="3" fill="#e8b058"/>
+              </g>
+              <path d="M272 52 l20 8 v18 c0 16 -9 26 -20 31 c-11 -5 -20 -15 -20 -31 v-18 z" fill="#1f2e52" stroke="#7ea4ff" stroke-width="2"/>
+              <path d="M263 79 l6 6 l12 -13" fill="none" stroke="#82cc6e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="22" y="164" width="276" height="6" rx="3" fill="#27334b"/><rect x="22" y="164" width="129" height="6" rx="3" fill="#7ea4ff"/>
+            </svg>
+          </div>
           <div class="org sans">Project · Live</div>
           <h3>Security+ SY0-701 Practice Exam</h3>
           <p>A practice exam in a single HTML file: 231 original questions, including 6 performance-based tasks, each with an explanation, why the other options are wrong, and sources. Independent study tool, not affiliated with CompTIA.</p>
           <p class="res">Study mode with instant feedback, a timed Exam mode, a 90-question set weighted like the real exam's five domains, and a review of missed questions. Progress is saved in the browser.</p>
-          <!-- Open / Full screen show the exam in the panel below the grid; they appear only when JS runs. -->
+          <!-- Open / Full screen show the page in the shared panel below the grid (data-url, data-title); they appear only when JS runs. -->
           <div class="proj-actions sans">
-            <button class="btn primary" id="sp-open" aria-controls="sp-embed" aria-expanded="false" hidden>Open</button>
-            <button class="btn ghost" id="sp-full" hidden>Full screen</button>
+            <button class="btn primary embed-open" data-url="security-plus/index.html" data-title="Security+ SY0-701 Practice Exam" aria-controls="embed" aria-expanded="false" hidden>Open</button>
+            <button class="btn ghost embed-full" data-url="security-plus/index.html" data-title="Security+ SY0-701 Practice Exam" hidden>Full screen</button>
             <a class="more" href="security-plus/index.html" target="_blank" rel="noopener">Open in a new tab →</a>
           </div>
         </article>
         <article class="card">
-          <div class="org sans">Project</div>
+          <div class="card-art" aria-hidden="true">
+            <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="pmb-bg" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#1d1838"/><stop offset=".65" stop-color="#100e1c"/></radialGradient>
+                <filter id="pmb-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <rect width="320" height="200" fill="url(#pmb-bg)"/>
+              <g stroke="#fff" stroke-opacity=".05"><path d="M0 62H320M0 72H320M0 82H320M0 92H320M0 102H320M0 152H320M0 162H320M0 172H320"/></g>
+              <g fill="none" stroke-width="3" stroke-linecap="round" filter="url(#pmb-glow)">
+                <path d="M38 72H104" stroke="#d6e04a"/><path d="M104 72L71 130" stroke="#4fdc6a"/><path d="M71 130L38 72" stroke="#f0457e"/>
+                <g transform="rotate(14 162 100)"><path d="M131 69H193" stroke="#e8b65c"/><path d="M193 69V131" stroke="#f0457e"/><path d="M193 131H131" stroke="#4fdc6a"/><path d="M131 131V69" stroke="#9a5fb8"/></g>
+                <path d="M258 62L296 90" stroke="#4fdc6a"/><path d="M296 90L281 134" stroke="#e8b65c"/><path d="M281 134H235" stroke="#f0457e"/><path d="M235 134L220 90" stroke="#4fc3b0"/><path d="M220 90L258 62" stroke="#d6e04a"/>
+              </g>
+              <g fill="#e8b65c" font-family="ui-monospace,Consolas,monospace" font-size="9" font-weight="600" text-anchor="middle"><text x="71" y="150">BASS</text><text x="162" y="155">KALIMBA</text><text x="258" y="152">DRUMS</text></g>
+              <circle cx="72" cy="95" r="5" fill="#ff6f83"/><circle cx="168" cy="92" r="5" fill="#62e2b4"/><circle cx="150" cy="112" r="5" fill="#ff6f83"/><circle cx="262" cy="110" r="5" fill="#efe9f8"/>
+              <path d="M178 92q10 -3 16 -12" fill="none" stroke="#62e2b4" stroke-opacity=".4" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="org sans">Project · Live</div>
           <h3>Polygon Music Box</h3>
           <p>A browser musical sandbox with polygon instruments, Karplus-Strong string physics and a procedural labyrinth mode.</p>
+          <p class="res">Two ways to play: a Playground where up to four shapes ring together in one key, and a Labyrinth whose walls ring higher the closer you get to the exit. Headphones help.</p>
+          <div class="proj-actions sans">
+            <button class="btn primary embed-open" data-url="polygon-music-box/index.html" data-title="Polygon Music Box" aria-controls="embed" aria-expanded="false" hidden>Open</button>
+            <button class="btn ghost embed-full" data-url="polygon-music-box/index.html" data-title="Polygon Music Box" hidden>Full screen</button>
+            <a class="more" href="polygon-music-box/index.html" target="_blank" rel="noopener">Open in a new tab →</a>
+          </div>
         </article>
       </div>
-      <div class="embed" id="sp-embed" hidden>
+      <div class="embed" id="embed" hidden>
         <div class="embed-bar sans">
-          <b>Security+ SY0-701 Practice Exam</b>
-          <button class="btn ghost" id="sp-full2">Full screen</button>
-          <button class="btn ghost" id="sp-close">Close</button>
+          <b id="embed-title"></b>
+          <button class="btn ghost" id="embed-full">Full screen</button>
+          <button class="btn ghost" id="embed-close">Close</button>
         </div>
-        <iframe id="sp-frame" title="Security+ SY0-701 practice exam"></iframe>
+        <iframe id="embed-frame" title=""></iframe>
       </div>
     </section>
   </div>
@@ -825,26 +872,48 @@ slideNav.querySelectorAll('button').forEach(b => b.onclick = () => showSlide(cur
 slideNav.hidden = false;
 showSlide(0);
 
-/* Security+ exam: Open shows it in the panel under Projects, Full screen enlarges the panel,
-   Close hides it. Where element full screen isn't supported (iPhone), Full screen opens the exam's own page. */
-const spEmbed = $('sp-embed'), spFrame = $('sp-frame'), spOpen = $('sp-open'), spFull = $('sp-full'), spFull2 = $('sp-full2');
-function spShow(){
-  if (!spFrame.getAttribute('src')) spFrame.src = 'security-plus/index.html'; // explicit file name so it also works when opened from disk
-  spEmbed.hidden = false; spOpen.setAttribute('aria-expanded', 'true');
+/* Live projects: Open shows the page in the shared panel under Projects (one at a time), Full screen
+   enlarges the panel, Close removes it. On phones, Open goes to the page itself, and where element
+   full screen isn't supported (iPhone) so does Full screen. URLs name index.html so they also work from disk. */
+const embed = $('embed'), embedFull = $('embed-full'), phone = matchMedia('(max-width: 760px)');
+const openBtns = [...document.querySelectorAll('.embed-open')];
+let embedFrame = $('embed-frame'), embedOpener = null;
+/* Swap in a brand-new iframe instead of navigating the old one: removing a frame shuts its page down at once
+   (sound, animation, timers), while navigating lets it keep running briefly, which left a last "pong" after Close. */
+function freshFrame(url){
+  const f = document.createElement('iframe');
+  f.id = 'embed-frame'; f.title = embedFrame.title;
+  if (url) f.src = url;
+  embedFrame.replaceWith(f); embedFrame = f;
 }
-function spToggleFull(){
-  if (document.fullscreenElement) { document.exitFullscreen(); return; }
-  if (!spEmbed.requestFullscreen) { location.href = 'security-plus/index.html'; return; }
-  spShow(); spEmbed.requestFullscreen().catch(() => {});
+function showEmbed(url, title){
+  if (embedFrame.getAttribute('src') !== url) freshFrame(url);
+  embedFrame.title = title; $('embed-title').textContent = title;
+  embed.hidden = false;
+  embedOpener = openBtns.find(b => b.dataset.url === url);
+  openBtns.forEach(b => b.setAttribute('aria-expanded', b === embedOpener));
 }
-spOpen.onclick = () => { spShow(); spEmbed.scrollIntoView(); spFrame.focus(); };
-spFull.onclick = spFull2.onclick = spToggleFull;
-$('sp-close').onclick = () => {
+openBtns.forEach(b => b.onclick = () => {
+  if (phone.matches) { location.href = b.dataset.url; return; }
+  showEmbed(b.dataset.url, b.dataset.title); embed.scrollIntoView(); embedFrame.focus();
+});
+document.querySelectorAll('.embed-full').forEach(b => b.onclick = () => {
+  if (!embed.requestFullscreen) { location.href = b.dataset.url; return; }
+  showEmbed(b.dataset.url, b.dataset.title); embed.requestFullscreen().catch(() => {});
+});
+embedFull.onclick = () => {
   if (document.fullscreenElement) document.exitFullscreen();
-  spEmbed.hidden = true; spOpen.setAttribute('aria-expanded', 'false'); spOpen.focus();
+  else if (embed.requestFullscreen) embed.requestFullscreen().catch(() => {});
+  else location.href = embedFrame.getAttribute('src');
 };
-document.addEventListener('fullscreenchange', () => { spFull2.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen'; });
-spOpen.hidden = spFull.hidden = false;
+$('embed-close').onclick = () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  embed.hidden = true; freshFrame();
+  openBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
+  if (embedOpener) embedOpener.focus();
+};
+document.addEventListener('fullscreenchange', () => { embedFull.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen'; });
+document.querySelectorAll('.embed-open, .embed-full').forEach(b => b.hidden = false);
 
 /* theme */
 const root = document.documentElement, themeBtn = $('theme'), darkQuery = matchMedia('(prefers-color-scheme: dark)');

@@ -22,40 +22,40 @@
 </script>
 <style>
 /* Layout: one centered column. Start screen -> question card with a numbered grid below it -> scored review. */
-/* Colours and fonts follow the portfolio (esjotace.github.io): same palette, system fonts, no external requests.
-   "ok" is a plainer green than the portfolio's teal accent so a selected answer and a correct one never look alike. */
+/* Fonts, radius and the light/dark rule follow the portfolio (esjotace.github.io); the palette is its own
+   cool slate and blue, so the exam reads as a separate app next to the portfolio's beige and teal. No external requests. */
 :root {
-  --bg: #f6f1e7;
-  --surface: #fffdf8;
-  --fg: #16212b;
-  --muted: #566370;
-  --line: #d8cfbb;
-  --accent: #0f7a66;
+  --bg: #eef2f7;
+  --surface: #ffffff;
+  --fg: #142033;
+  --muted: #4f5d72;
+  --line: #d3dbe6;
+  --accent: #2f5bd3;
   --accent-fg: #fff;
-  --accent-soft: #dcebe3;
+  --accent-soft: #e2e9fb;
   --ok: #2e7d32;
   --ok-soft: #e2f0dc;
   --bad: #b03a2e;
   --bad-soft: #f7e0dd;
   --flag: #9a5b00;
   --flag-soft: #f8ebd2;
-  --shadow: 0 1px 0 rgba(0,0,0,.04), 0 14px 32px -20px rgba(22,33,43,.4);
+  --shadow: 0 1px 0 rgba(0,0,0,.04), 0 14px 32px -20px rgba(20,32,51,.35);
   --font-display: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f161c; --surface: #141d25; --fg: #eef1ee; --muted: #9aa8b3; --line: #27323c;
-    --accent: #3fd1b0; --accent-fg: #06231c; --accent-soft: #1c3d3e;
+    --bg: #0c1322; --surface: #141d31; --fg: #e8edf6; --muted: #9ba9bf; --line: #27334b;
+    --accent: #7ea4ff; --accent-fg: #0a1430; --accent-soft: #1f2e52;
     --ok: #82cc6e; --ok-soft: #1f3a1b; --bad: #f08a7e; --bad-soft: #41211d;
     --flag: #e8b058; --flag-soft: #3f2f12; --shadow: none;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0f161c; --surface: #141d25; --fg: #eef1ee; --muted: #9aa8b3; --line: #27323c;
-  --accent: #3fd1b0; --accent-fg: #06231c; --accent-soft: #1c3d3e;
+  --bg: #0c1322; --surface: #141d31; --fg: #e8edf6; --muted: #9ba9bf; --line: #27334b;
+  --accent: #7ea4ff; --accent-fg: #0a1430; --accent-soft: #1f2e52;
   --ok: #82cc6e; --ok-soft: #1f3a1b; --bad: #f08a7e; --bad-soft: #41211d;
   --flag: #e8b058; --flag-soft: #3f2f12; --shadow: none;
   color-scheme: dark;
@@ -215,13 +215,11 @@ dialog p { margin: 0 0 12px; }
 
 .srcs{margin:10px 0 0;font-size:13px;color:var(--muted);line-height:1.5}.srcs a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 
-/* portfolio look: card radius and shadow, ink primary button, back link */
+/* portfolio shapes: card radius and shadow, button radius, back link (primary buttons keep the blue accent) */
 body { margin: 0; -webkit-font-smoothing: antialiased; }
 .card { border-radius: 14px; box-shadow: var(--shadow); }
 .choice, .opt, .prow, .ord li, .confirm { border-radius: 12px; }
 .btn { border-radius: 10px; }
-.btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.btn.primary:hover { filter: none; opacity: .88; }
 .back { display: block; max-width: 860px; margin-inline: auto; padding: 16px 16px 0; font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; }
 .back:hover { color: var(--fg); }
 .framed .back { display: none; }
