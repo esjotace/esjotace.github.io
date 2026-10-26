@@ -39,7 +39,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,"Iowan Old Style","Palatino Linotype",serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-img{max-width:100%}
+img{max-width:100%;height:auto}
 .sans{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 .wrap{max-width:1080px;margin:0 auto;padding-left:24px;padding-right:24px}
 @media(max-width:480px){.wrap{padding-left:16px;padding-right:16px}}
@@ -93,6 +93,7 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .proof-body > p strong{color:var(--ink)}
 .slide{margin:0 0 16px}
 .slide[hidden]{display:none}
+.slide .zoom{display:block;width:100%;padding:0;border:0;background:none;border-radius:8px;cursor:zoom-in}
 .slide img{display:block;width:100%;height:auto;aspect-ratio:1400/750;object-fit:contain;object-position:top;background:#202124;border-radius:8px;cursor:zoom-in}
 .slide figcaption{margin-top:8px;font-size:14px;color:var(--muted)}
 .slide-nav{display:flex;align-items:center;gap:12px}
@@ -135,7 +136,8 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
 .quote{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
 .quote blockquote{margin:0;font-size:17px;line-height:1.55}
 .quote blockquote::before{content:"“";display:block;font-size:44px;line-height:.6;color:var(--accent);margin-bottom:6px}
-.quote figcaption{margin-top:auto;font-size:14px;color:var(--muted)}
+.quote figcaption{margin-top:auto;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:12px}
+.quote .avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;border:2px solid var(--line)}
 .quote figcaption b{display:block;color:var(--ink);font-size:15px}
 .quote details{font-size:14px;color:var(--muted)}
 .quote summary{cursor:pointer;color:var(--accent);font-weight:600}
@@ -156,7 +158,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <a class="brand" href="#top">Juan Carlos Hernandez Marin</a>
     <nav aria-label="Sections">
       <a href="#results">Results</a><a href="#recommendations">References</a><a href="#library">Library</a><a href="#playbooks">Playbooks</a><a href="#design">Infographics</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
-      <button class="toggle" id="theme" aria-label="Switch light or dark theme">Theme</button>
+      <button class="toggle" id="theme" aria-label="Dark theme" aria-pressed="false">Theme</button>
     </nav>
   </div>
 </header>
@@ -228,11 +230,11 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           <p><strong>Case study: making Prey the go-to source on Chile's cybersecurity and data protection laws.</strong> I led Prey's Spanish content on Law 21.663 (cybersecurity framework) and Law 21.719 (personal data protection), written for three kinds of search: Google results (SEO), answer boxes (AEO) and AI assistants (GEO). The goal was for Prey to be the source people found when they asked what these laws mean for them. Today Google's AI Overviews cite Prey for "ley 21663 que es" and "ley 21719 que es", and ChatGPT has cited the same content. Results vary by query and day.</p>
           <div class="slides">
             <figure class="slide">
-              <img src="assets/ai-overview.jpg" alt="Google AI Overview answering 'ley 21663 que es', citing Prey Project as a source" data-lb>
+              <button class="zoom" data-src="assets/ai-overview.jpg" aria-label="Enlarge screenshot: ley 21663 que es"><img src="assets/ai-overview.jpg" width="1400" height="750" loading="lazy" alt="Google AI Overview answering 'ley 21663 que es', citing Prey Project as a source"></button>
               <figcaption class="sans">Google search: "ley 21663 que es" (cybersecurity framework law)</figcaption>
             </figure>
             <figure class="slide">
-              <img src="assets/ai-overview-21719.jpg" alt="Google AI Overview answering 'ley 21719 que es', citing Prey Project as a source" data-lb>
+              <button class="zoom" data-src="assets/ai-overview-21719.jpg" aria-label="Enlarge screenshot: ley 21719 que es"><img src="assets/ai-overview-21719.jpg" width="1377" height="622" loading="lazy" alt="Google AI Overview answering 'ley 21719 que es', citing Prey Project as a source"></button>
               <figcaption class="sans">Google search: "ley 21719 que es" (data protection law)</figcaption>
             </figure>
           </div>
@@ -259,21 +261,21 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
             <p style="margin:0 0 12px">A highlight was a set of CMMC policy templates he created. Instead of just restating the framework requirements, he went above and beyond, learning the framework well enough to include practical security tips on how organizations could actually comply.</p>
             <p style="margin:0 0 12px">Juan can independently research and master complex technical topics and turn that knowledge into actionable guidance. I’d recommend him to any team that needs content that’s both technically sound and genuinely valuable.</p>
           </blockquote>
-          <figcaption class="sans"><b>Elliott Harnagel</b>Product &amp; Compliance Experience Strategist, Strike Graph</figcaption>
+          <figcaption class="sans"><img class="avatar" src="assets/people/elliott-harnagel.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Elliott Harnagel</b>Product &amp; Compliance Experience Strategist, Strike Graph</span></figcaption>
         </figure>
         <figure class="quote">
           <blockquote>
             <p style="margin:0 0 12px">I had the pleasure of working with Juan Carlos, an exceptional professional in cybersecurity and technical content creation. His ability to communicate complex topics clearly and engagingly sets him apart. He also shows great commitment, proactivity and attention to detail in every project. I strongly recommend Juan to any team looking for a cybersecurity specialist with solid communication and content strategy skills.</p>
           </blockquote>
           <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Tuve el placer de trabajar con Juan Carlos, un profesional excepcional en el área de ciberseguridad y creación de contenido técnico. Su capacidad para comunicar temas complejos de forma clara y atractiva lo distingue. Además, demuestra gran compromiso, proactividad y atención al detalle en cada proyecto. Recomiendo ampliamente a Juan para cualquier equipo que busque un especialista en ciberseguridad con sólidas habilidades de comunicación y estrategia de contenido.</p></details>
-          <figcaption class="sans"><b>Luis Ramos</b>IT Specialist, Argentina's health department</figcaption>
+          <figcaption class="sans"><img class="avatar" src="assets/people/luis-ramos.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Luis Ramos</b>IT Specialist, Argentina's health department</span></figcaption>
         </figure>
         <figure class="quote">
           <blockquote>
             <p style="margin:0 0 12px">Juan is a cybersecurity professional. When I built a personal project, he advised me on vulnerabilities to cover, good practices for making my project public, and a full assessment of the platform at the end. Responsible, meticulous in his work and with a sharp eye for detail.</p>
           </blockquote>
           <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Juan es un profesional en materia de ciberseguridad. A la hora de hacer un proyecto personal, me asesoró en posibles vulnerabilidades por cubrir, buenas prácticas a la hora de hacer público mi proyecto y un assessment completo de la plataforma al término. Responsable, pulcro en su trabajo y con mucho ojo al detalle.</p></details>
-          <figcaption class="sans"><b>Fernando Andrés Escobar González</b>Frontend Developer, LATAM Airlines</figcaption>
+          <figcaption class="sans"><img class="avatar" src="assets/people/fernando-escobar.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Fernando Andrés Escobar González</b>Frontend Developer, LATAM Airlines</span></figcaption>
         </figure>
       </div>
       <p class="sans" style="margin-top:18px"><a class="more" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/details/recommendations/" target="_blank" rel="noopener">Read them on LinkedIn →</a></p>
@@ -290,7 +292,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
       <!-- Each guide is one <article class="doc">. data-topics (separated by |) and data-lang drive the filters. -->
       <div class="lib sans" id="lib">
         <article class="doc" data-topics="Security" data-lang="EN">
-          <button class="cover" data-src="assets/covers/control-alt-defend-data-breach-guide.jpg" aria-label="Enlarge cover: Control + Alt + Defend: A Data Breach Protection Guide"><img src="assets/covers/control-alt-defend-data-breach-guide.jpg" alt="Cover of Control + Alt + Defend: A Data Breach Protection Guide"></button>
+          <button class="cover" data-src="assets/covers/control-alt-defend-data-breach-guide.jpg" aria-label="Enlarge cover: Control + Alt + Defend: A Data Breach Protection Guide"><img src="assets/covers/control-alt-defend-data-breach-guide.jpg" width="520" height="673" loading="lazy" alt="Cover of Control + Alt + Defend: A Data Breach Protection Guide"></button>
           <div class="body">
             <div class="meta">Ebook · 35 pages · English</div>
             <h3>Control + Alt + Defend: A Data Breach Protection Guide</h3>
@@ -299,7 +301,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Security" data-lang="EN">
-          <button class="cover" data-src="assets/covers/no-fear-guide-to-the-dark-web.jpg" aria-label="Enlarge cover: A No-Fear Guide to the Dark Web Secrets"><img src="assets/covers/no-fear-guide-to-the-dark-web.jpg" alt="Cover of A No-Fear Guide to the Dark Web Secrets"></button>
+          <button class="cover" data-src="assets/covers/no-fear-guide-to-the-dark-web.jpg" aria-label="Enlarge cover: A No-Fear Guide to the Dark Web Secrets"><img src="assets/covers/no-fear-guide-to-the-dark-web.jpg" width="520" height="673" loading="lazy" alt="Cover of A No-Fear Guide to the Dark Web Secrets"></button>
           <div class="body">
             <div class="meta">Ebook · 25 pages · English</div>
             <h3>A No-Fear Guide to the Dark Web Secrets</h3>
@@ -308,7 +310,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Security|Compliance" data-lang="EN">
-          <button class="cover" data-src="assets/covers/lost-corporate-laptop-response-checklist.jpg" aria-label="Enlarge cover: Lost Corporate Laptop Response Checklist"><img src="assets/covers/lost-corporate-laptop-response-checklist.jpg" alt="Cover of Lost Corporate Laptop Response Checklist"></button>
+          <button class="cover" data-src="assets/covers/lost-corporate-laptop-response-checklist.jpg" aria-label="Enlarge cover: Lost Corporate Laptop Response Checklist"><img src="assets/covers/lost-corporate-laptop-response-checklist.jpg" width="520" height="673" loading="lazy" alt="Cover of Lost Corporate Laptop Response Checklist"></button>
           <div class="body">
             <div class="meta">Checklist · 19 pages · English</div>
             <h3>Lost Corporate Laptop Response Checklist</h3>
@@ -317,7 +319,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Security" data-lang="EN">
-          <button class="cover" data-src="assets/covers/end-of-year-security-readiness-checklist.jpg" aria-label="Enlarge cover: End-of-Year Security &amp; Readiness Checklist"><img src="assets/covers/end-of-year-security-readiness-checklist.jpg" alt="Cover of End-of-Year Security &amp; Readiness Checklist"></button>
+          <button class="cover" data-src="assets/covers/end-of-year-security-readiness-checklist.jpg" aria-label="Enlarge cover: End-of-Year Security &amp; Readiness Checklist"><img src="assets/covers/end-of-year-security-readiness-checklist.jpg" width="520" height="673" loading="lazy" alt="Cover of End-of-Year Security &amp; Readiness Checklist"></button>
           <div class="body">
             <div class="meta">Checklist · 14 pages · English</div>
             <h3>End-of-Year Security &amp; Readiness Checklist</h3>
@@ -326,7 +328,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Compliance" data-lang="ES">
-          <button class="cover" data-src="assets/covers/guia-ley-21719-proteccion-de-datos.jpg" aria-label="Enlarge cover: Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)"><img src="assets/covers/guia-ley-21719-proteccion-de-datos.jpg" alt="Cover of Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)"></button>
+          <button class="cover" data-src="assets/covers/guia-ley-21719-proteccion-de-datos.jpg" aria-label="Enlarge cover: Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)"><img src="assets/covers/guia-ley-21719-proteccion-de-datos.jpg" width="520" height="673" loading="lazy" alt="Cover of Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)"></button>
           <div class="body">
             <div class="meta">Guide · 36 pages · Español</div>
             <h3>Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)</h3>
@@ -335,7 +337,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Compliance|Education" data-lang="EN">
-          <button class="cover" data-src="assets/covers/fcc-cybersecurity-pilot-program-checklist.jpg" aria-label="Enlarge cover: FCC Cybersecurity Pilot Program: Application Readiness Checklist"><img src="assets/covers/fcc-cybersecurity-pilot-program-checklist.jpg" alt="Cover of FCC Cybersecurity Pilot Program: Application Readiness Checklist"></button>
+          <button class="cover" data-src="assets/covers/fcc-cybersecurity-pilot-program-checklist.jpg" aria-label="Enlarge cover: FCC Cybersecurity Pilot Program: Application Readiness Checklist"><img src="assets/covers/fcc-cybersecurity-pilot-program-checklist.jpg" width="520" height="673" loading="lazy" alt="Cover of FCC Cybersecurity Pilot Program: Application Readiness Checklist"></button>
           <div class="body">
             <div class="meta">Checklist · 9 pages · English</div>
             <h3>FCC Cybersecurity Pilot Program: Application Readiness Checklist</h3>
@@ -344,7 +346,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Compliance|Education" data-lang="EN">
-          <button class="cover" data-src="assets/covers/k12-cybersecurity-strategy.jpg" aria-label="Enlarge cover: Protect the Keys to the Castle: A Cybersecurity Strategy for K-12"><img src="assets/covers/k12-cybersecurity-strategy.jpg" alt="Cover of Protect the Keys to the Castle: A Cybersecurity Strategy for K-12"></button>
+          <button class="cover" data-src="assets/covers/k12-cybersecurity-strategy.jpg" aria-label="Enlarge cover: Protect the Keys to the Castle: A Cybersecurity Strategy for K-12"><img src="assets/covers/k12-cybersecurity-strategy.jpg" width="520" height="402" loading="lazy" alt="Cover of Protect the Keys to the Castle: A Cybersecurity Strategy for K-12"></button>
           <div class="body">
             <div class="meta">Ebook · 44 pages · English</div>
             <h3>Protect the Keys to the Castle: A Cybersecurity Strategy for K-12</h3>
@@ -353,7 +355,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Education|Compliance" data-lang="EN">
-          <button class="cover" data-src="assets/covers/cybersecurity-edu-blueprint-checklist.jpg" aria-label="Enlarge cover: Cybersecurity EDU Blueprint Checklist"><img src="assets/covers/cybersecurity-edu-blueprint-checklist.jpg" alt="Cover of Cybersecurity EDU Blueprint Checklist"></button>
+          <button class="cover" data-src="assets/covers/cybersecurity-edu-blueprint-checklist.jpg" aria-label="Enlarge cover: Cybersecurity EDU Blueprint Checklist"><img src="assets/covers/cybersecurity-edu-blueprint-checklist.jpg" width="520" height="312" loading="lazy" alt="Cover of Cybersecurity EDU Blueprint Checklist"></button>
           <div class="body">
             <div class="meta">Checklist · 4 pages · English</div>
             <h3>Cybersecurity EDU Blueprint Checklist</h3>
@@ -362,7 +364,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Education|Security" data-lang="EN">
-          <button class="cover" data-src="assets/covers/k12-cybersecurity-challenges.jpg" aria-label="Enlarge cover: K-12 Cybersecurity Challenges: Battling Cyber Threats"><img src="assets/covers/k12-cybersecurity-challenges.jpg" alt="Cover of K-12 Cybersecurity Challenges: Battling Cyber Threats"></button>
+          <button class="cover" data-src="assets/covers/k12-cybersecurity-challenges.jpg" aria-label="Enlarge cover: K-12 Cybersecurity Challenges: Battling Cyber Threats"><img src="assets/covers/k12-cybersecurity-challenges.jpg" width="520" height="402" loading="lazy" alt="Cover of K-12 Cybersecurity Challenges: Battling Cyber Threats"></button>
           <div class="body">
             <div class="meta">Ebook · 33 pages · English</div>
             <h3>K-12 Cybersecurity Challenges: Battling Cyber Threats</h3>
@@ -371,7 +373,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Education" data-lang="EN">
-          <button class="cover" data-src="assets/covers/simplify-1-1-student-device-management.jpg" aria-label="Enlarge cover: Simplify 1:1 Student Device Management"><img src="assets/covers/simplify-1-1-student-device-management.jpg" alt="Cover of Simplify 1:1 Student Device Management"></button>
+          <button class="cover" data-src="assets/covers/simplify-1-1-student-device-management.jpg" aria-label="Enlarge cover: Simplify 1:1 Student Device Management"><img src="assets/covers/simplify-1-1-student-device-management.jpg" width="520" height="673" loading="lazy" alt="Cover of Simplify 1:1 Student Device Management"></button>
           <div class="body">
             <div class="meta">Guide · 10 pages · English</div>
             <h3>Simplify 1:1 Student Device Management</h3>
@@ -380,7 +382,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Education" data-lang="EN">
-          <button class="cover" data-src="assets/covers/start-school-year-1-1-device-program.jpg" aria-label="Enlarge cover: How to Stop Your Next 1:1 Program from Becoming Device Chaos"><img src="assets/covers/start-school-year-1-1-device-program.jpg" alt="Cover of How to Stop Your Next 1:1 Program from Becoming Device Chaos"></button>
+          <button class="cover" data-src="assets/covers/start-school-year-1-1-device-program.jpg" aria-label="Enlarge cover: How to Stop Your Next 1:1 Program from Becoming Device Chaos"><img src="assets/covers/start-school-year-1-1-device-program.jpg" width="520" height="673" loading="lazy" alt="Cover of How to Stop Your Next 1:1 Program from Becoming Device Chaos"></button>
           <div class="body">
             <div class="meta">Guide · 12 pages · English</div>
             <h3>How to Stop Your Next 1:1 Program from Becoming Device Chaos</h3>
@@ -389,7 +391,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Buyer's guides" data-lang="EN">
-          <button class="cover" data-src="assets/covers/device-management-buyers-guide.jpg" aria-label="Enlarge cover: Device Management Buyer's Guide"><img src="assets/covers/device-management-buyers-guide.jpg" alt="Cover of Device Management Buyer's Guide"></button>
+          <button class="cover" data-src="assets/covers/device-management-buyers-guide.jpg" aria-label="Enlarge cover: Device Management Buyer's Guide"><img src="assets/covers/device-management-buyers-guide.jpg" width="520" height="673" loading="lazy" alt="Cover of Device Management Buyer's Guide"></button>
           <div class="body">
             <div class="meta">Buyer's guide · 13 pages · English</div>
             <h3>Device Management Buyer's Guide</h3>
@@ -398,7 +400,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Buyer's guides" data-lang="EN">
-          <button class="cover" data-src="assets/covers/msp-buyers-guide.jpg" aria-label="Enlarge cover: Buyer's Guide for Managed Service Providers"><img src="assets/covers/msp-buyers-guide.jpg" alt="Cover of Buyer's Guide for Managed Service Providers"></button>
+          <button class="cover" data-src="assets/covers/msp-buyers-guide.jpg" aria-label="Enlarge cover: Buyer's Guide for Managed Service Providers"><img src="assets/covers/msp-buyers-guide.jpg" width="520" height="673" loading="lazy" alt="Cover of Buyer's Guide for Managed Service Providers"></button>
           <div class="body">
             <div class="meta">Buyer's guide · 12 pages · English</div>
             <h3>Buyer's Guide for Managed Service Providers</h3>
@@ -407,7 +409,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Buyer's guides|Security" data-lang="EN">
-          <button class="cover" data-src="assets/covers/laptop-tracking-software-checklist.jpg" aria-label="Enlarge cover: Feature Comparison Checklist: Laptop Tracking Software"><img src="assets/covers/laptop-tracking-software-checklist.jpg" alt="Cover of Feature Comparison Checklist: Laptop Tracking Software"></button>
+          <button class="cover" data-src="assets/covers/laptop-tracking-software-checklist.jpg" aria-label="Enlarge cover: Feature Comparison Checklist: Laptop Tracking Software"><img src="assets/covers/laptop-tracking-software-checklist.jpg" width="520" height="673" loading="lazy" alt="Cover of Feature Comparison Checklist: Laptop Tracking Software"></button>
           <div class="body">
             <div class="meta">Checklist · 4 pages · English</div>
             <h3>Feature Comparison Checklist: Laptop Tracking Software</h3>
@@ -416,7 +418,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Security|Buyer's guides" data-lang="EN">
-          <button class="cover" data-src="assets/covers/device-tracking-methods-guide.jpg" aria-label="Enlarge cover: Device Tracking Methods and Where to Find Them"><img src="assets/covers/device-tracking-methods-guide.jpg" alt="Cover of Device Tracking Methods and Where to Find Them"></button>
+          <button class="cover" data-src="assets/covers/device-tracking-methods-guide.jpg" aria-label="Enlarge cover: Device Tracking Methods and Where to Find Them"><img src="assets/covers/device-tracking-methods-guide.jpg" width="520" height="673" loading="lazy" alt="Cover of Device Tracking Methods and Where to Find Them"></button>
           <div class="body">
             <div class="meta">Guide · 17 pages · English</div>
             <h3>Device Tracking Methods and Where to Find Them</h3>
@@ -425,7 +427,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           </div>
         </article>
         <article class="doc" data-topics="Research|Security" data-lang="ES">
-          <button class="cover" data-src="assets/covers/shift-ciberseguridad-remoticidad-latam.jpg" aria-label="Enlarge cover: SHIFT: La ciberseguridad y la remoticidad en América Latina"><img src="assets/covers/shift-ciberseguridad-remoticidad-latam.jpg" alt="Cover of SHIFT: La ciberseguridad y la remoticidad en América Latina"></button>
+          <button class="cover" data-src="assets/covers/shift-ciberseguridad-remoticidad-latam.jpg" aria-label="Enlarge cover: SHIFT: La ciberseguridad y la remoticidad en América Latina"><img src="assets/covers/shift-ciberseguridad-remoticidad-latam.jpg" width="520" height="402" loading="lazy" alt="Cover of SHIFT: La ciberseguridad y la remoticidad en América Latina"></button>
           <div class="body">
             <div class="meta">Research report · 39 pages · Español</div>
             <h3>SHIFT: La ciberseguridad y la remoticidad en América Latina</h3>
@@ -467,10 +469,10 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
       <p class="sub">One-page explainers on credential risk and basic security controls. Click to enlarge.</p>
       <!-- Each infographic is one <button>: data-src is the image the lightbox opens. -->
       <div class="gallery sans">
-        <button data-src="assets/info-stake.jpg" aria-label="Enlarge: What's at stake when credentials leak?"><img src="assets/info-stake.jpg" alt="What's at stake when credentials leak?"><span>What's at stake when credentials leak?</span></button>
-        <button data-src="assets/info-perimeter.jpg" aria-label="Enlarge: Credentials are the new perimeter"><img src="assets/info-perimeter.jpg" alt="Credentials are the new perimeter"><span>Credentials are the new perimeter</span></button>
-        <button data-src="assets/info-thirdparty.jpg" aria-label="Enlarge: Third-party breach? You're still responsible."><img src="assets/info-thirdparty.jpg" alt="Third-party breach? You're still responsible."><span>Third-party breach? You're still responsible.</span></button>
-        <button data-src="assets/info-protected.jpg" aria-label="Enlarge: Is your company protected?"><img src="assets/info-protected.jpg" alt="Is your company protected?"><span>Is your company protected?</span></button>
+        <button data-src="assets/info-stake.jpg" aria-label="Enlarge: What's at stake when credentials leak?"><img src="assets/thumbs/info-stake.jpg" width="600" height="750" loading="lazy" alt="What's at stake when credentials leak?"><span>What's at stake when credentials leak?</span></button>
+        <button data-src="assets/info-perimeter.jpg" aria-label="Enlarge: Credentials are the new perimeter"><img src="assets/thumbs/info-perimeter.jpg" width="600" height="750" loading="lazy" alt="Credentials are the new perimeter"><span>Credentials are the new perimeter</span></button>
+        <button data-src="assets/info-thirdparty.jpg" aria-label="Enlarge: Third-party breach? You're still responsible."><img src="assets/thumbs/info-thirdparty.jpg" width="600" height="750" loading="lazy" alt="Third-party breach? You're still responsible."><span>Third-party breach? You're still responsible.</span></button>
+        <button data-src="assets/info-protected.jpg" aria-label="Enlarge: Is your company protected?"><img src="assets/thumbs/info-protected.jpg" width="600" height="749" loading="lazy" alt="Is your company protected?"><span>Is your company protected?</span></button>
       </div>
       <p class="sans" style="margin-top:18px"><a class="more" href="assets/Juan-Carlos-Hernandez-Marin-Portfolio.pdf" download>Download all four as a PDF →</a></p>
     </section>
@@ -595,12 +597,17 @@ makeChips($('lib-langs'), [['All languages','All'],['English','EN'],['Español',
 apply();
 
 /* lightbox */
-const lb = $('lb'), lbImg = lb.querySelector('img');
-function openLb(src, alt){ lbImg.src = src; lbImg.alt = alt||''; lb.classList.add('open'); lb.querySelector('button').focus(); }
+const lb = $('lb'), lbImg = lb.querySelector('img'), lbClose = lb.querySelector('button');
+let lbReturn = null;
+function openLb(src, alt){ lbReturn = document.activeElement; lbImg.src = src; lbImg.alt = alt||''; lb.classList.add('open'); lbClose.focus(); }
+function closeLb(){ lb.classList.remove('open'); if (lbReturn) lbReturn.focus(); }
 document.querySelectorAll('[data-src]').forEach(b => b.onclick = () => openLb(b.dataset.src, b.querySelector('img')?.alt));
-document.querySelectorAll('img[data-lb]').forEach(i => i.onclick = () => openLb(i.src, i.alt));
-lb.onclick = e => { if (e.target !== lbImg) lb.classList.remove('open'); };
-document.addEventListener('keydown', e => { if (e.key==='Escape') lb.classList.remove('open'); });
+lb.onclick = e => { if (e.target !== lbImg) closeLb(); };
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'Tab') { e.preventDefault(); lbClose.focus(); } // Close is the only control, so Tab stays on it
+});
 
 /* proof screenshots: show one at a time with previous/next */
 const slides = [...document.querySelectorAll('.slide')], slideNav = $('slide-nav');
@@ -615,13 +622,17 @@ slideNav.hidden = false;
 showSlide(0);
 
 /* theme */
-const root = document.documentElement;
+const root = document.documentElement, themeBtn = $('theme'), darkQuery = matchMedia('(prefers-color-scheme: dark)');
+const isDark = () => root.dataset.theme ? root.dataset.theme==='dark' : darkQuery.matches;
+const syncTheme = () => themeBtn.setAttribute('aria-pressed', isDark());
 try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch(e){}
-$('theme').onclick = () => {
-  const dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  root.dataset.theme = dark ? 'light' : 'dark';
+themeBtn.onclick = () => {
+  root.dataset.theme = isDark() ? 'light' : 'dark';
   try { localStorage.setItem('theme', root.dataset.theme); } catch(e){}
+  syncTheme();
 };
+darkQuery.addEventListener('change', syncTheme);
+syncTheme();
 </script>
 </body>
 </html>
