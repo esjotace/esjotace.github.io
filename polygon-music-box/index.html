@@ -1132,7 +1132,12 @@ const Maze=(()=>{
   }
   function layout(resetBall){
     if(!st.m)return;const m=st.m,SW=app.screen.width,SH=app.screen.height,narrow=SW<640;
-    const top=narrow?150:96,bot=narrow?150:132,aw=SW-32,ah=Math.max(120,SH-top-bot),hf=st.raised?.42:0;
+    let top=narrow?150:96,bot=narrow?150:132;
+    /* on phones and tablets the controls wrap onto extra rows, so fit the maze between the real top and bottom controls */
+    const hud=$("mazeHud");
+    if(SW<900&&!hud.hidden){const cr=canvas.getBoundingClientRect(),tr=hud.querySelector(".mz-top").getBoundingClientRect(),br=hud.querySelector(".mz-bottom").getBoundingClientRect();
+      if(tr.height)top=Math.round(tr.bottom-cr.top+10);if(br.height)bot=Math.round(cr.bottom-br.top+10);}
+    const aw=SW-32,ah=Math.max(120,SH-top-bot),hf=st.raised?.42:0;
     const cs=Math.max(10,Math.min(64,Math.floor(Math.min(aw/m.W,ah/(m.H+hf)))));
     const gx=st.ball?(st.ball.x-st.ox)/st.cs:null,gy=st.ball?(st.ball.y-st.oy)/st.cs:null,k=st.ball?cs/st.cs:1;
     st.cs=cs;st.wt=Math.max(3,Math.round(cs*.16));st.h=st.raised?Math.round(cs*.42):0;
