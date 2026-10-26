@@ -1,0 +1,48 @@
+# Weekly broken-link check. If any link on the site fails, it opens an issue
+# called "Broken links found" (or comments on the open one), and GitHub emails you.
+# Run it by hand from the Actions tab with "Run workflow".
+name: Check links
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Mondays 09:00 UTC (5 a.m. Caracas)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # LinkedIn blocks automated checks, so it is skipped.
+      # 403 and 429 mean "blocked" or "slow down", not "broken", so they count as OK.
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --exclude 'linkedin\.com'
+            --accept '100..=103,200..=299,403,429'
+            --max-retries 1
+            --max-concurrency 4
+            --timeout 20
+            index.html
+          fail: false
+
+      - name: Open or update the issue
+        if: steps.lychee.outputs.exit_code != 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Broken links found"
+          num=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body-file lychee/out.md
+          else
+            gh issue create --title "$title" --body-file lychee/out.md
+          fi

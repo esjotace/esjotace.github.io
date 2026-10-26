@@ -120,6 +120,8 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .gallery button{padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);cursor:zoom-in;text-align:left;color:inherit;font:inherit}
 .gallery img{width:100%;display:block;aspect-ratio:4/5;object-fit:cover}
 .gallery span{display:block;padding:12px 14px;font-size:14.5px}
+.gallery span b{display:block;margin-bottom:4px}
+.gallery span small{display:block;font-size:13.5px;line-height:1.45;color:var(--muted)}
 
 .timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
 .timeline li{position:relative;padding:0 0 26px 26px}
@@ -160,7 +162,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
   <div class="wrap">
     <a class="brand" href="#top">Juan Carlos Hernandez Marin</a>
     <nav aria-label="Sections">
-      <a href="#results">Results</a><a href="#recommendations">References</a><a href="#library">Library</a><a href="#recent">Recent work</a><a href="#playbooks">Playbooks</a><a href="#design">Infographics</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+      <a href="#recent">Recent work</a><a href="#library">Library</a><a href="#playbooks">Playbooks</a><a href="#results">Results</a><a href="#design">Visual work</a><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#recommendations">References</a><a href="#contact">Contact</a>
       <button class="toggle" id="theme" aria-label="Dark theme" aria-pressed="false">Theme</button>
     </nav>
   </div>
@@ -175,7 +177,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
       <a class="btn primary" href="mailto:esjotace@gmail.com">Email me</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/" rel="noopener">LinkedIn</a>
       <a class="btn ghost" href="Juan-Hernandez-Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
-      <a class="btn ghost" href="#library">Browse my guides</a>
+      <a class="btn ghost" href="#recent">See my work</a>
     </div>
     <p class="where sans">Based in Caracas, Venezuela. Open to remote work and to relocating to Europe.</p>
   </div>
@@ -190,98 +192,140 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
   </div>
 
   <div class="wrap">
-    <section id="results">
-      <h2>Results</h2>
-      <p class="sub">What my content did once it was published.</p>
-      <!-- Each result is one <article class="card">. The "res" line is the highlighted outcome. -->
-      <div class="grid">
-        <article class="card">
-          <div class="org sans">Prey</div>
-          <h3>Chilean cybersecurity-law content</h3>
-          <p>Articles and guides explaining Chile's cybersecurity framework law (21.663) and data protection law (21.719).</p>
-          <p class="res">Cited in Google AI Overviews and ChatGPT for Chilean cybersecurity-law queries.</p>
+    <section id="recent">
+      <h2>Recent work</h2>
+      <p class="sub">IT and technology articles written so a reader gets the answer fast and companies get traffic and leads. Structured to rank in Google and get cited by AI assistants (SEO, AEO and GEO). In English and Spanish.</p>
+      <div class="chips sans" id="post-langs" role="group" aria-label="Filter articles by language"></div>
+      <p class="count sans" id="post-count" aria-live="polite"></p>
+      <!-- Each article is one <article class="card"> with data-lang="EN" or "ES". -->
+      <div class="grid" id="posts">
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Leaked, Listed, Logged In: The Identity Perimeter and the Dark Web Threat</h3>
+          <p>How stolen credentials, session cookies and tokens are traded on the dark web, and the layered defenses (MFA, credential hygiene, monitoring) that protect the identity perimeter.</p>
+          <a class="more sans" href="https://preyproject.com/blog/identity-perimeter-and-the-dark-web-threat" target="_blank" rel="noopener">Read on Prey's site →</a>
         </article>
-        <article class="card">
-          <div class="org sans">Prey</div>
-          <h3>Making Prey a trusted source in Chile</h3>
-          <p>A content campaign to position Prey as a reliable, expert voice on cybersecurity in the Chilean market.</p>
-          <p class="res">Helped Prey earn membership in the Alianza Chilena de Ciberseguridad (ACC).</p>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Data Breach Response Plan: A Step-by-Step Guide</h3>
+          <p>Severity levels, team roles, the first 24 hours and notification deadlines under GDPR and HIPAA, for teams that need to build or test a breach plan.</p>
+          <a class="more sans" href="https://preyproject.com/blog/data-breach-response-guide" target="_blank" rel="noopener">Read on Prey's site →</a>
         </article>
-        <article class="card">
-          <div class="org sans">Prey</div>
-          <h3>From an AI answer to a sale</h3>
-          <p>ChatGPT cited my articles as sources in a tool comparison.</p>
-          <p class="res">A reader clicked through to Prey and bought: a sale that began in AI search.</p>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>IT Risk Assessment: How to Run One That Holds Up</h3>
+          <p>A five-step method, from scoping and asset inventory to risk scoring, treatment and documentation that auditors and management will accept.</p>
+          <a class="more sans" href="https://preyproject.com/blog/it-security-risk-assessment" target="_blank" rel="noopener">Read on Prey's site →</a>
         </article>
-        <article class="card">
-          <div class="org sans">Game Lounge</div>
-          <h3>onlinecasino.cl and LATAM sites</h3>
-          <p>Wrote, edited and supervised content for several Latin American markets, using SEO data to find opportunities.</p>
-          <p class="res">onlinecasino.cl generated about €40K a month.</p>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>IT Security vs IT Compliance: Key Differences and How to Run Both</h3>
+          <p>Where protecting systems and proving adherence to HIPAA, PCI DSS or SOC 2 differ, where they overlap, and how to run both on one device fleet.</p>
+          <a class="more sans" href="https://preyproject.com/blog/it-security-vs-it-compliance" target="_blank" rel="noopener">Read on Prey's site →</a>
         </article>
-        <article class="card">
-          <div class="org sans">Better Collective</div>
-          <h3>Leading a content team</h3>
-          <p>Ran content for partner iGaming sites in Peru, Mexico, Colombia, Chile and Argentina.</p>
-          <p class="res">Led 5 freelancers: 3 writers, a technical SEO manager and a site manager.</p>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>MDM Compliance: How to Meet HIPAA, GDPR, SOC 2 and ISO 27001</h3>
+          <p>Maps device controls like encryption, remote wipe and asset inventory to the records auditors ask for under six frameworks.</p>
+          <a class="more sans" href="https://preyproject.com/blog/mdm-compliance-top-strategies-to-ensure-regulation-adherence" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>MDM Cost Per Device: What You'll Actually Pay + ROI Math</h3>
+          <p>How MDM pricing works, the costs vendor quotes leave out, and a worksheet for building the ROI case.</p>
+          <a class="more sans" href="https://preyproject.com/blog/calculate-your-roi-using-an-mdm" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Best MDM Solutions for MSPs</h3>
+          <p>What MDM does for managed service providers, how it differs from RMM, and how platforms like Prey, Intune, Jamf Pro and Hexnode compare on multi-tenant dashboards, remote wipe and pricing.</p>
+          <a class="more sans" href="https://preyproject.com/blog/mdm-for-msps" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Software Inventory: How to Build and Automate It</h3>
+          <p>What a software inventory should record, and how to automate it with endpoint discovery, license tracking and change alerts.</p>
+          <a class="more sans" href="https://preyproject.com/blog/how-to-simplify-software-inventory-best-practices-and-automation" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Remote Device Management: A Practical Guide for IT Teams</h3>
+          <p>What remote device management is, how it differs from MDM, UEM, EMM and RMM, and what a working setup does across Windows, macOS, Linux and mobile.</p>
+          <a class="more sans" href="https://preyproject.com/blog/remote-device-management-guide" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Device Management for Remote Teams: How to Secure a Distributed Workforce</h3>
+          <p>The security problems of remote and hybrid work, and how MDM adds visibility, remote lock and wipe, updates and policy enforcement.</p>
+          <a class="more sans" href="https://preyproject.com/blog/the-role-of-mdm-in-a-remote-work-environment" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Device Lifecycle Management for K-12 Schools: 7 Phases</h3>
+          <p>The seven phases of a school device's life, from planning and purchase to recollection and disposal, for school IT teams and administrators.</p>
+          <a class="more sans" href="https://preyproject.com/blog/device-lifecycle-management-for-k-12-institutions" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Ley Marco de Ciberseguridad Chile (21.663): guía 2026 para TI</h3>
+          <p>Who Chile's cybersecurity framework law applies to, the obligations in force since March 2025, incident reporting to the ANCI, penalties and a 30/60/90-day plan.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/ley-21663-marco-de-ciberseguridad-en-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Ley 21.719: obligaciones, multas y plan de cumplimiento</h3>
+          <p>Obligations, the enforcement agency, fines and deadlines of Chile's new data protection law, with a 3/6/9-month compliance plan.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/ley-de-proteccion-de-datos-en-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">DPO, TI y negocio: cómo repartir responsabilidades sin fricción</h3>
+          <p>How data protection duties under Law 21.719 split between the DPO, the data controller, IT and business teams, with a RACI model and an incident example.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/responsabilidades-dpo-responsable-ti-ley-21719" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Qué es un DPO y para qué sirve: guía para empresas (Chile)</h3>
+          <p>What a data protection officer does in practice, how one is designated under Law 21.719, and the records needed to show compliance.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/que-es-un-dpo-y-para-que-sirve" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Derechos ARCO en Chile: qué son y cómo cumplirlos</h3>
+          <p>Chile's data subject rights (access, rectification, cancellation and opposition) and a step-by-step process, with a checklist, for handling requests.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/los-derechos-arco" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Inventario de datos personales: el primer paso del cumplimiento (Ley 21.719)</h3>
+          <p>What a personal data inventory is, how it differs from a record of processing activities, and why it has to include laptops and phones.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/inventario-de-datos" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Cómo conectar tu RAT con la seguridad de la información</h3>
+          <p>Linking a record of processing activities to ISO 27001 controls (asset inventory, data classification and incident response) under Chile's Law 21.719.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/rat-seguridad-informacion-iso-27001-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Cómo proteger los datos personales: guía operativa para tu empresa</h3>
+          <p>Six technical controls for protecting personal data and the evidence auditors and DPOs ask for, with references to Law 21.719 and the GDPR.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/seguridad-datos-guia-completa" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Gestión de celulares corporativos: funcionalidades clave de una solución MDM</h3>
+          <p>The core and advanced features an MDM should have for company and BYOD phones, with industry use cases and steps for evaluating vendors.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/principales-funcionalidades-de-una-solucion-mdm-moderna" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Cómo rastrear una laptop perdida</h3>
+          <p>How to find a lost or stolen laptop with Windows, Mac or third-party tools, and what to do if it can't be recovered.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/como-rastrear-una-laptop-perdida" target="_blank" rel="noopener">Read on Prey's site →</a>
         </article>
       </div>
-      <!-- Expandable case study. Each screenshot is one <figure class="slide">. -->
-      <details class="proof">
-        <summary class="sans">See the proof: Google's AI Overviews cite Prey on Chile's new laws</summary>
-        <div class="proof-body">
-          <p><strong>Case study: making Prey the go-to source on Chile's cybersecurity and data protection laws.</strong> I led Prey's Spanish content on Law 21.663 (cybersecurity framework) and Law 21.719 (personal data protection), written for three kinds of search: Google results (SEO), answer boxes (AEO) and AI assistants (GEO). The goal was for Prey to be the source people found when they asked what these laws mean for them. Today Google's AI Overviews cite Prey for "ley 21663 que es" and "ley 21719 que es", and ChatGPT has cited the same content. Results vary by query and day.</p>
-          <div class="slides">
-            <figure class="slide">
-              <button class="zoom" data-src="assets/ai-overview.jpg" aria-label="Enlarge screenshot: ley 21663 que es"><img src="assets/ai-overview.jpg" width="1400" height="750" loading="lazy" alt="Google AI Overview answering 'ley 21663 que es', citing Prey Project as a source"></button>
-              <figcaption class="sans">Google search: "ley 21663 que es" (cybersecurity framework law)</figcaption>
-            </figure>
-            <figure class="slide">
-              <button class="zoom" data-src="assets/ai-overview-21719.jpg" aria-label="Enlarge screenshot: ley 21719 que es"><img src="assets/ai-overview-21719.jpg" width="1377" height="622" loading="lazy" alt="Google AI Overview answering 'ley 21719 que es', citing Prey Project as a source"></button>
-              <figcaption class="sans">Google search: "ley 21719 que es" (data protection law)</figcaption>
-            </figure>
-          </div>
-          <div class="slide-nav sans" id="slide-nav" hidden>
-            <button data-step="-1" aria-label="Previous screenshot">← Previous</button>
-            <span id="slide-pos" aria-live="polite"></span>
-            <button data-step="1" aria-label="Next screenshot">Next →</button>
-          </div>
-        </div>
-      </details>
-    </section>
-  </div>
-
-  <div class="wrap">
-    <section id="recommendations">
-      <h2>What people say</h2>
-      <p class="sub">Recommendations from my LinkedIn profile.</p>
-      <!-- Each recommendation is one <figure class="quote">. One <p> per paragraph.
-           For a translated quote, keep the <details> block with the Spanish original. -->
-      <div class="quotes">
-        <figure class="quote">
-          <blockquote>
-            <p style="margin:0 0 12px">I worked with Juan as an SME reviewing the cybersecurity content he drafted for our marketing team. He impressed me with how quickly he learned cybersecurity and GRC concepts in depth and turned them into marketing content that was actually useful.</p>
-            <p style="margin:0 0 12px">A highlight was a set of CMMC policy templates he created. Instead of just restating the framework requirements, he went above and beyond, learning the framework well enough to include practical security tips on how organizations could actually comply.</p>
-            <p style="margin:0 0 12px">Juan can independently research and master complex technical topics and turn that knowledge into actionable guidance. I’d recommend him to any team that needs content that’s both technically sound and genuinely valuable.</p>
-          </blockquote>
-          <figcaption class="sans"><img class="avatar" src="assets/people/elliott-harnagel.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Elliott Harnagel</b>Product &amp; Compliance Experience Strategist, Strike Graph</span></figcaption>
-        </figure>
-        <figure class="quote">
-          <blockquote>
-            <p style="margin:0 0 12px">I had the pleasure of working with Juan Carlos, an exceptional professional in cybersecurity and technical content creation. His ability to communicate complex topics clearly and engagingly sets him apart. He also shows great commitment, proactivity and attention to detail in every project. I strongly recommend Juan to any team looking for a cybersecurity specialist with solid communication and content strategy skills.</p>
-          </blockquote>
-          <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Tuve el placer de trabajar con Juan Carlos, un profesional excepcional en el área de ciberseguridad y creación de contenido técnico. Su capacidad para comunicar temas complejos de forma clara y atractiva lo distingue. Además, demuestra gran compromiso, proactividad y atención al detalle en cada proyecto. Recomiendo ampliamente a Juan para cualquier equipo que busque un especialista en ciberseguridad con sólidas habilidades de comunicación y estrategia de contenido.</p></details>
-          <figcaption class="sans"><img class="avatar" src="assets/people/luis-ramos.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Luis Ramos</b>IT Specialist, Argentina's health department</span></figcaption>
-        </figure>
-        <figure class="quote">
-          <blockquote>
-            <p style="margin:0 0 12px">Juan is a cybersecurity professional. When I built a personal project, he advised me on vulnerabilities to cover, good practices for making my project public, and a full assessment of the platform at the end. Responsible, meticulous in his work and with a sharp eye for detail.</p>
-          </blockquote>
-          <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Juan es un profesional en materia de ciberseguridad. A la hora de hacer un proyecto personal, me asesoró en posibles vulnerabilidades por cubrir, buenas prácticas a la hora de hacer público mi proyecto y un assessment completo de la plataforma al término. Responsable, pulcro en su trabajo y con mucho ojo al detalle.</p></details>
-          <figcaption class="sans"><img class="avatar" src="assets/people/fernando-escobar.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Fernando Andrés Escobar González</b>Frontend Developer, LATAM Airlines</span></figcaption>
-        </figure>
-      </div>
-      <p class="sans" style="margin-top:18px"><a class="more" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/details/recommendations/" target="_blank" rel="noopener">Read them on LinkedIn →</a></p>
     </section>
   </div>
 
@@ -443,147 +487,9 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
   </div>
 
   <div class="wrap">
-    <section id="recent">
-      <h2>Recent work</h2>
-      <p class="sub">IT and technology articles written so a reader gets the answer fast and companies get traffic and leads. Structured to rank in Google and get cited by AI assistants (SEO, AEO and GEO). In English and Spanish.</p>
-      <div class="chips sans" id="post-langs" role="group" aria-label="Filter articles by language"></div>
-      <p class="count sans" id="post-count" aria-live="polite"></p>
-      <!-- Each article is one <article class="card"> with data-lang="EN" or "ES". -->
-      <div class="grid" id="posts">
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Leaked, Listed, Logged In: The Identity Perimeter and the Dark Web Threat</h3>
-          <p>How stolen credentials, session cookies and tokens are traded on the dark web, and the layered defenses (MFA, credential hygiene, monitoring) that protect the identity perimeter.</p>
-          <a class="more sans" href="https://preyproject.com/blog/identity-perimeter-and-the-dark-web-threat" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Data Breach Response Plan: A Step-by-Step Guide</h3>
-          <p>Severity levels, team roles, the first 24 hours and notification deadlines under GDPR and HIPAA, for teams that need to build or test a breach plan.</p>
-          <a class="more sans" href="https://preyproject.com/blog/data-breach-response-guide" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>IT Risk Assessment: How to Run One That Holds Up</h3>
-          <p>A five-step method, from scoping and asset inventory to risk scoring, treatment and documentation that auditors and management will accept.</p>
-          <a class="more sans" href="https://preyproject.com/blog/it-security-risk-assessment" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>IT Security vs IT Compliance: Key Differences and How to Run Both</h3>
-          <p>Where protecting systems and proving adherence to HIPAA, PCI DSS or SOC 2 differ, where they overlap, and how to run both on one device fleet.</p>
-          <a class="more sans" href="https://preyproject.com/blog/it-security-vs-it-compliance" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>MDM Compliance: How to Meet HIPAA, GDPR, SOC 2 and ISO 27001</h3>
-          <p>Maps device controls like encryption, remote wipe and asset inventory to the records auditors ask for under six frameworks.</p>
-          <a class="more sans" href="https://preyproject.com/blog/mdm-compliance-top-strategies-to-ensure-regulation-adherence" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>MDM Cost Per Device: What You'll Actually Pay + ROI Math</h3>
-          <p>How MDM pricing works, the costs vendor quotes leave out, and a worksheet for building the ROI case.</p>
-          <a class="more sans" href="https://preyproject.com/blog/calculate-your-roi-using-an-mdm" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Best MDM Solutions for MSPs</h3>
-          <p>What MDM does for managed service providers, how it differs from RMM, and how platforms like Prey, Intune, Jamf Pro and Hexnode compare on multi-tenant dashboards, remote wipe and pricing.</p>
-          <a class="more sans" href="https://preyproject.com/blog/mdm-for-msps" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Software Inventory: How to Build and Automate It</h3>
-          <p>What a software inventory should record, and how to automate it with endpoint discovery, license tracking and change alerts.</p>
-          <a class="more sans" href="https://preyproject.com/blog/how-to-simplify-software-inventory-best-practices-and-automation" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Remote Device Management: A Practical Guide for IT Teams</h3>
-          <p>What remote device management is, how it differs from MDM, UEM, EMM and RMM, and what a working setup does across Windows, macOS, Linux and mobile.</p>
-          <a class="more sans" href="https://preyproject.com/blog/remote-device-management-guide" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Device Management for Remote Teams: How to Secure a Distributed Workforce</h3>
-          <p>The security problems of remote and hybrid work, and how MDM adds visibility, remote lock and wipe, updates and policy enforcement.</p>
-          <a class="more sans" href="https://preyproject.com/blog/the-role-of-mdm-in-a-remote-work-environment" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="EN">
-          <div class="org sans">Prey · English</div>
-          <h3>Device Lifecycle Management for K-12 Schools: 7 Phases</h3>
-          <p>The seven phases of a school device's life, from planning and purchase to recollection and disposal, for school IT teams and administrators.</p>
-          <a class="more sans" href="https://preyproject.com/blog/device-lifecycle-management-for-k-12-institutions" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Ley Marco de Ciberseguridad Chile (21.663): guía 2026 para TI</h3>
-          <p>Who Chile's cybersecurity framework law applies to, the obligations in force since March 2025, incident reporting to the ANCI, penalties and a 30/60/90-day plan.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/ley-21663-marco-de-ciberseguridad-en-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Ley 21.719: obligaciones, multas y plan de cumplimiento</h3>
-          <p>Obligations, the enforcement agency, fines and deadlines of Chile's new data protection law, with a 3/6/9-month compliance plan.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/ley-de-proteccion-de-datos-en-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">DPO, TI y negocio: cómo repartir responsabilidades sin fricción</h3>
-          <p>How data protection duties under Law 21.719 split between the DPO, the data controller, IT and business teams, with a RACI model and an incident example.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/responsabilidades-dpo-responsable-ti-ley-21719" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Qué es un DPO y para qué sirve: guía para empresas (Chile)</h3>
-          <p>What a data protection officer does in practice, how one is designated under Law 21.719, and the records needed to show compliance.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/que-es-un-dpo-y-para-que-sirve" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Derechos ARCO en Chile: qué son y cómo cumplirlos</h3>
-          <p>Chile's data subject rights (access, rectification, cancellation and opposition) and a step-by-step process, with a checklist, for handling requests.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/los-derechos-arco" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Inventario de datos personales: el primer paso del cumplimiento (Ley 21.719)</h3>
-          <p>What a personal data inventory is, how it differs from a record of processing activities, and why it has to include laptops and phones.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/inventario-de-datos" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Cómo conectar tu RAT con la seguridad de la información</h3>
-          <p>Linking a record of processing activities to ISO 27001 controls (asset inventory, data classification and incident response) under Chile's Law 21.719.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/rat-seguridad-informacion-iso-27001-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Cómo proteger los datos personales: guía operativa para tu empresa</h3>
-          <p>Six technical controls for protecting personal data and the evidence auditors and DPOs ask for, with references to Law 21.719 and the GDPR.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/seguridad-datos-guia-completa" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Gestión de celulares corporativos: funcionalidades clave de una solución MDM</h3>
-          <p>The core and advanced features an MDM should have for company and BYOD phones, with industry use cases and steps for evaluating vendors.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/principales-funcionalidades-de-una-solucion-mdm-moderna" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-        <article class="card" data-lang="ES">
-          <div class="org sans">Prey · Español</div>
-          <h3 lang="es">Cómo rastrear una laptop perdida</h3>
-          <p>How to find a lost or stolen laptop with Windows, Mac or third-party tools, and what to do if it can't be recovered.</p>
-          <a class="more sans" href="https://preyproject.com/es/blog/como-rastrear-una-laptop-perdida" target="_blank" rel="noopener">Read on Prey's site →</a>
-        </article>
-      </div>
-    </section>
-  </div>
-
-  <div class="wrap">
     <section id="playbooks">
-      <h2>Compliance playbooks for Strike Graph</h2>
-      <p class="sub">Working spreadsheets that security and compliance teams can copy and fill in. Each one has instructions, step-by-step guidance and progress tracking.</p>
+      <h2>Compliance playbooks</h2>
+      <p class="sub">Working spreadsheets I built for Strike Graph that security and compliance teams can copy and fill in. Each one has instructions, step-by-step guidance and progress tracking.</p>
       <!-- Each playbook is one <article class="card"> with a link to the Google Sheet. -->
       <div class="grid">
         <article class="card">
@@ -605,42 +511,79 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
   </div>
 
   <div class="wrap">
-    <section id="design">
-      <h2>Infographics for Prey</h2>
-      <p class="sub">One-page explainers on credential risk and basic security controls. Click to enlarge.</p>
-      <!-- Each infographic is one <button>: data-src is the image the lightbox opens. -->
-      <div class="gallery sans">
-        <button data-src="assets/info-stake.jpg" aria-label="Enlarge: What's at stake when credentials leak?"><img src="assets/thumbs/info-stake.jpg" width="600" height="750" loading="lazy" alt="What's at stake when credentials leak?"><span>What's at stake when credentials leak?</span></button>
-        <button data-src="assets/info-perimeter.jpg" aria-label="Enlarge: Credentials are the new perimeter"><img src="assets/thumbs/info-perimeter.jpg" width="600" height="750" loading="lazy" alt="Credentials are the new perimeter"><span>Credentials are the new perimeter</span></button>
-        <button data-src="assets/info-thirdparty.jpg" aria-label="Enlarge: Third-party breach? You're still responsible."><img src="assets/thumbs/info-thirdparty.jpg" width="600" height="750" loading="lazy" alt="Third-party breach? You're still responsible."><span>Third-party breach? You're still responsible.</span></button>
-        <button data-src="assets/info-protected.jpg" aria-label="Enlarge: Is your company protected?"><img src="assets/thumbs/info-protected.jpg" width="600" height="749" loading="lazy" alt="Is your company protected?"><span>Is your company protected?</span></button>
+    <section id="results">
+      <h2>Results</h2>
+      <p class="sub">What my content did once it was published.</p>
+      <!-- Each result is one <article class="card">. The "res" line is the highlighted outcome. -->
+      <div class="grid">
+        <article class="card">
+          <div class="org sans">Prey</div>
+          <h3>Chilean cybersecurity-law content</h3>
+          <p>Articles and guides explaining Chile's cybersecurity framework law (21.663) and data protection law (21.719).</p>
+          <p class="res">Cited in Google AI Overviews and ChatGPT for Chilean cybersecurity-law queries.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Prey</div>
+          <h3>Making Prey a trusted source in Chile</h3>
+          <p>A content campaign to position Prey as a reliable, expert voice on cybersecurity in the Chilean market.</p>
+          <p class="res">Helped Prey earn membership in the Alianza Chilena de Ciberseguridad (ACC).</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Prey</div>
+          <h3>From an AI answer to a sale</h3>
+          <p>ChatGPT cited my articles as sources in a tool comparison.</p>
+          <p class="res">A reader clicked through to Prey and bought: a sale that began in AI search.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Game Lounge</div>
+          <h3>onlinecasino.cl and LATAM sites</h3>
+          <p>Wrote, edited and supervised content for several Latin American markets, using SEO data to find opportunities.</p>
+          <p class="res">onlinecasino.cl generated about €40K a month.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Better Collective</div>
+          <h3>Leading a content team</h3>
+          <p>Ran content for partner iGaming sites in Peru, Mexico, Colombia, Chile and Argentina.</p>
+          <p class="res">Led 5 freelancers: 3 writers, a technical SEO manager and a site manager.</p>
+        </article>
       </div>
-      <p class="sans" style="margin-top:18px"><a class="more" href="assets/Juan-Carlos-Hernandez-Marin-Portfolio.pdf" download>Download all four as a PDF →</a></p>
+      <!-- Expandable case study. Each screenshot is one <figure class="slide">. -->
+      <details class="proof">
+        <summary class="sans">See the proof: Google's AI Overviews cite Prey on Chile's new laws</summary>
+        <div class="proof-body">
+          <p><strong>Case study: making Prey the go-to source on Chile's cybersecurity and data protection laws.</strong> I led Prey's Spanish content on Law 21.663 (cybersecurity framework) and Law 21.719 (personal data protection), written for three kinds of search: Google results (SEO), answer boxes (AEO) and AI assistants (GEO). The goal was for Prey to be the source people found when they asked what these laws mean for them. Today Google's AI Overviews cite Prey for "ley 21663 que es" and "ley 21719 que es", and ChatGPT has cited the same content. Results vary by query and day.</p>
+          <div class="slides">
+            <figure class="slide">
+              <button class="zoom" data-src="assets/ai-overview.jpg" aria-label="Enlarge screenshot: ley 21663 que es"><img src="assets/ai-overview.jpg" width="1400" height="750" loading="lazy" alt="Google AI Overview answering 'ley 21663 que es', citing Prey Project as a source"></button>
+              <figcaption class="sans">Google search: "ley 21663 que es" (cybersecurity framework law)</figcaption>
+            </figure>
+            <figure class="slide">
+              <button class="zoom" data-src="assets/ai-overview-21719.jpg" aria-label="Enlarge screenshot: ley 21719 que es"><img src="assets/ai-overview-21719.jpg" width="1377" height="622" loading="lazy" alt="Google AI Overview answering 'ley 21719 que es', citing Prey Project as a source"></button>
+              <figcaption class="sans">Google search: "ley 21719 que es" (data protection law)</figcaption>
+            </figure>
+          </div>
+          <div class="slide-nav sans" id="slide-nav" hidden>
+            <button data-step="-1" aria-label="Previous screenshot">← Previous</button>
+            <span id="slide-pos" aria-live="polite"></span>
+            <button data-step="1" aria-label="Next screenshot">Next →</button>
+          </div>
+        </div>
+      </details>
     </section>
   </div>
 
   <div class="wrap">
-    <section id="experience">
-      <h2>Experience</h2>
-      <p class="sub">From SEO copywriting to cybersecurity and compliance content.</p>
-      <!-- Each job is one <li>: dates, then role and · company, then a short description. -->
-      <ol class="timeline">
-        <li><div class="yrs sans">2025 – 2026</div><h3>Cybersecurity Content Consultant <small>· Strike Graph</small></h3><p>Articles, guides and playbooks on compliance, risk management and certifications, built on search intent, Search Console data and interviews with subject-matter experts.</p></li>
-        <li><div class="yrs sans">2022 – 2026</div><h3>Bilingual Cybersecurity Content Specialist <small>· Prey</small></h3><p>Bilingual content on incident response, device security and compliance, including ebooks, buyer's guides, checklists, infographics and email. Worked with sales on custom compliance guides for regulations like GDPR, HIPAA, FERPA, NIST and Chile's 21.719 and 21.663.</p></li>
-        <li><div class="yrs sans">Mar 2024 – Dec 2024</div><h3>Senior Content Manager (Contract) <small>· Better Collective</small></h3><p>Ran content for partner iGaming sites in five Latin American markets. Led a team of 5 freelancers and used content and competitor gap research to grow revenue.</p></li>
-        <li><div class="yrs sans">2022 – 2024</div><h3>SEO Content Specialist (Contract) <small>· Game Lounge</small></h3><p>Wrote, edited and supervised content for the highest-revenue LATAM sites, including onlinecasino.cl. Wrote newsletters and emails on game events, guides and product features.</p></li>
-        <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter and Editor <small>· Phoenix Digital</small></h3><p>English and Spanish CRM campaigns, landing pages, press releases and localization for lottery and iGaming brands. Featured as an Outstanding Talent.</p></li>
-      </ol>
-      <details class="older sans"><summary>Show earlier work (2015–2021)</summary>
-        <ol class="timeline">
-          <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter <small>· Interfell</small></h3><p>Marketing campaigns, landing pages, press releases, email copy and translations for partner companies, in English and Spanish.</p></li>
-          <li><div class="yrs sans">2020 – 2021</div><h3>Contract Writer <small>· Valnet</small></h3><p>Entertainment articles about video games and gaming culture.</p></li>
-          <li><div class="yrs sans">2018 – 2019</div><h3>SEO Copywriter <small>· Kaufberater.io</small></h3><p>SEO articles and buying guides for a Mexican Amazon affiliate site. Invited to join a team writing more specialized content.</p></li>
-          <li><div class="yrs sans">2018</div><h3>Game Designer <small>· Fiverr</small></h3><p>Custom Dungeons &amp; Dragons campaigns with encounters, branching storylines and interactive environments.</p></li>
-          <li><div class="yrs sans">2018</div><h3>SEO Copywriter <small>· Nutrition Retail Association</small></h3><p>Inbound marketing articles for entrepreneurs and store owners.</p></li>
-          <li><div class="yrs sans">2015 – 2022</div><h3>SEO Content and Copywriting (Freelance) <small>· Upwork</small></h3><p>Writing and editing articles for products and services, in English and Spanish.</p></li>
-        </ol>
-      </details>
+    <section id="design">
+      <h2>Visual work</h2>
+      <p class="sub">Infographics I designed for Prey: one-page explainers on credential risk and basic security controls. Click to enlarge.</p>
+      <!-- Each infographic is one <button>: data-src is the image the lightbox opens. Title in <b>, caption in <small>. -->
+      <div class="gallery sans">
+        <button data-src="assets/info-stake.jpg" aria-label="Enlarge: What's at stake when credentials leak?"><img src="assets/thumbs/info-stake.jpg" width="600" height="750" loading="lazy" alt="What's at stake when credentials leak?"><span><b>What's at stake when credentials leak?</b><small>Legal and financial risk of leaked credentials, with real breach cases and penalties.</small></span></button>
+        <button data-src="assets/info-perimeter.jpg" aria-label="Enlarge: Credentials are the new perimeter"><img src="assets/thumbs/info-perimeter.jpg" width="600" height="750" loading="lazy" alt="Credentials are the new perimeter"><span><b>Credentials are the new perimeter</b><small>Why the identity layer matters more than ever, and where teams lack visibility.</small></span></button>
+        <button data-src="assets/info-thirdparty.jpg" aria-label="Enlarge: Third-party breach? You're still responsible."><img src="assets/thumbs/info-thirdparty.jpg" width="600" height="750" loading="lazy" alt="Third-party breach? You're still responsible."><span><b>Third-party breach? You're still responsible.</b><small>How vendor and ecosystem exposure puts your credentials at risk beyond your own network.</small></span></button>
+        <button data-src="assets/info-protected.jpg" aria-label="Enlarge: Is your company protected?"><img src="assets/thumbs/info-protected.jpg" width="600" height="749" loading="lazy" alt="Is your company protected?"><span><b>Is your company protected?</b><small>Five baseline controls: MFA, updates, credential monitoring, staff training and strong policies.</small></span></button>
+      </div>
+      <p class="sans" style="margin-top:18px"><a class="more" href="assets/Juan-Carlos-Hernandez-Marin-Portfolio.pdf" download>Download all four as a PDF →</a></p>
     </section>
   </div>
 
@@ -670,6 +613,65 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           <p>A browser musical sandbox with polygon instruments, Karplus-Strong string physics and a procedural labyrinth mode.</p>
         </article>
       </div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="experience">
+      <h2>Experience</h2>
+      <p class="sub">From SEO copywriting to cybersecurity and compliance content.</p>
+      <!-- Each job is one <li>: dates, then role and · company, then a short description. -->
+      <ol class="timeline">
+        <li><div class="yrs sans">2025 – 2026</div><h3>Cybersecurity Content Consultant <small>· Strike Graph</small></h3><p>Articles, guides and playbooks on compliance, risk management and certifications, built on search intent, Search Console data and interviews with subject-matter experts.</p></li>
+        <li><div class="yrs sans">2022 – 2026</div><h3>Bilingual Cybersecurity Content Specialist <small>· Prey</small></h3><p>Bilingual content on incident response, device security and compliance, including ebooks, buyer's guides, checklists, infographics and email. Worked with sales on custom compliance guides for regulations like GDPR, HIPAA, FERPA, NIST and Chile's 21.719 and 21.663.</p></li>
+        <li><div class="yrs sans">Mar 2024 – Dec 2024</div><h3>Senior Content Manager (Contract) <small>· Better Collective</small></h3><p>Ran content for partner iGaming sites in five Latin American markets. Led a team of 5 freelancers and used content and competitor gap research to grow revenue.</p></li>
+        <li><div class="yrs sans">2022 – 2024</div><h3>SEO Content Specialist (Contract) <small>· Game Lounge</small></h3><p>Wrote, edited and supervised content for the highest-revenue LATAM sites, including onlinecasino.cl. Wrote newsletters and emails on game events, guides and product features.</p></li>
+        <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter and Editor <small>· Phoenix Digital</small></h3><p>English and Spanish CRM campaigns, landing pages, press releases and localization for lottery and iGaming brands. Featured as an Outstanding Talent.</p></li>
+      </ol>
+      <details class="older sans"><summary>Show earlier work (2015–2021)</summary>
+        <ol class="timeline">
+          <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter <small>· Interfell</small></h3><p>Marketing campaigns, landing pages, press releases, email copy and translations for partner companies, in English and Spanish.</p></li>
+          <li><div class="yrs sans">2020 – 2021</div><h3>Contract Writer <small>· Valnet</small></h3><p>Entertainment articles about video games and gaming culture.</p></li>
+          <li><div class="yrs sans">2018 – 2019</div><h3>SEO Copywriter <small>· Kaufberater.io</small></h3><p>SEO articles and buying guides for a Mexican Amazon affiliate site. Invited to join a team writing more specialized content.</p></li>
+          <li><div class="yrs sans">2018</div><h3>Game Designer <small>· Fiverr</small></h3><p>Custom Dungeons &amp; Dragons campaigns with encounters, branching storylines and interactive environments.</p></li>
+          <li><div class="yrs sans">2018</div><h3>SEO Copywriter <small>· Nutrition Retail Association</small></h3><p>Inbound marketing articles for entrepreneurs and store owners.</p></li>
+          <li><div class="yrs sans">2015 – 2022</div><h3>SEO Content and Copywriting (Freelance) <small>· Upwork</small></h3><p>Writing and editing articles for products and services, in English and Spanish.</p></li>
+        </ol>
+      </details>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="recommendations">
+      <h2>What people say</h2>
+      <p class="sub">Recommendations from my LinkedIn profile.</p>
+      <!-- Each recommendation is one <figure class="quote">. One <p> per paragraph.
+           For a translated quote, keep the <details> block with the Spanish original. -->
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote>
+            <p style="margin:0 0 12px">I worked with Juan as an SME reviewing the cybersecurity content he drafted for our marketing team. He impressed me with how quickly he learned cybersecurity and GRC concepts in depth and turned them into marketing content that was actually useful.</p>
+            <p style="margin:0 0 12px">A highlight was a set of CMMC policy templates he created. Instead of just restating the framework requirements, he went above and beyond, learning the framework well enough to include practical security tips on how organizations could actually comply.</p>
+            <p style="margin:0 0 12px">Juan can independently research and master complex technical topics and turn that knowledge into actionable guidance. I’d recommend him to any team that needs content that’s both technically sound and genuinely valuable.</p>
+          </blockquote>
+          <figcaption class="sans"><img class="avatar" src="assets/people/elliott-harnagel.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Elliott Harnagel</b>Product &amp; Compliance Experience Strategist, Strike Graph</span></figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>
+            <p style="margin:0 0 12px">I had the pleasure of working with Juan Carlos, an exceptional professional in cybersecurity and technical content creation. His ability to communicate complex topics clearly and engagingly sets him apart. He also shows great commitment, proactivity and attention to detail in every project. I strongly recommend Juan to any team looking for a cybersecurity specialist with solid communication and content strategy skills.</p>
+          </blockquote>
+          <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Tuve el placer de trabajar con Juan Carlos, un profesional excepcional en el área de ciberseguridad y creación de contenido técnico. Su capacidad para comunicar temas complejos de forma clara y atractiva lo distingue. Además, demuestra gran compromiso, proactividad y atención al detalle en cada proyecto. Recomiendo ampliamente a Juan para cualquier equipo que busque un especialista en ciberseguridad con sólidas habilidades de comunicación y estrategia de contenido.</p></details>
+          <figcaption class="sans"><img class="avatar" src="assets/people/luis-ramos.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Luis Ramos</b>IT Specialist, Argentina's health department</span></figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>
+            <p style="margin:0 0 12px">Juan is a cybersecurity professional. When I built a personal project, he advised me on vulnerabilities to cover, good practices for making my project public, and a full assessment of the platform at the end. Responsible, meticulous in his work and with a sharp eye for detail.</p>
+          </blockquote>
+          <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Juan es un profesional en materia de ciberseguridad. A la hora de hacer un proyecto personal, me asesoró en posibles vulnerabilidades por cubrir, buenas prácticas a la hora de hacer público mi proyecto y un assessment completo de la plataforma al término. Responsable, pulcro en su trabajo y con mucho ojo al detalle.</p></details>
+          <figcaption class="sans"><img class="avatar" src="assets/people/fernando-escobar.jpg" width="120" height="120" loading="lazy" alt=""><span><b>Fernando Andrés Escobar González</b>Frontend Developer, LATAM Airlines</span></figcaption>
+        </figure>
+      </div>
+      <p class="sans" style="margin-top:18px"><a class="more" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/details/recommendations/" target="_blank" rel="noopener">Read them on LinkedIn →</a></p>
     </section>
   </div>
 
