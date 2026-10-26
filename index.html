@@ -161,6 +161,8 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .timeline h3 small{font-weight:400;color:var(--muted);font-size:16px}
 .timeline p{margin:0;color:var(--muted);font-size:15.5px;max-width:70ch}
 .older summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:15px;margin:0 0 20px 26px}
+.story summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:15px}
+.story[open] summary{margin-bottom:12px}
 
 .two{display:grid;grid-template-columns:1.2fr 1fr;gap:40px}
 @media(max-width:760px){.two{grid-template-columns:1fr}}
@@ -211,7 +213,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
       <a class="btn ghost" href="Juan-Hernandez-Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
       <a class="btn ghost" href="#recent">See my work</a>
     </div>
-    <p class="where sans" data-pond-avoid>Based in Caracas, Venezuela. Open to remote work and to relocating to Europe.</p>
+    <p class="where sans" data-pond-avoid>Based in Caracas, Venezuela. Open to remote work and to relocating.</p>
   </div>
   <div class="pond-hud sans"><span id="pond-hud"></span> <button id="pond-mode" type="button">Switch to sharks</button> <button id="pond-release" type="button" aria-pressed="false">Release them</button></div>
   </div>
@@ -640,7 +642,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           <div class="org sans">Project · In development</div>
           <h3>Et Al</h3>
           <p>A shared household budgeting app built with React, Supabase and Vercel, with several split modes and receipt OCR. Co-authored: my wife built it, and I helped with development and feature ideas.</p>
-          <p class="res">Uses APIs from exchange houses and banks to update USD, bolívar (Bs), USDT and other rates live.</p>
+          <p class="res">Converts between USD and bolívars with the BCV rate, and uses APIs from exchange houses and banks to update USD, bolívar (Bs), USDT and other rates live.</p>
           <p class="aside sans">We're developing Et Al as a commercial product, so there's no public version yet. A private demo is available on request.</p>
         </article>
         <article class="card">
@@ -720,11 +722,11 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
       <p class="sub">From SEO copywriting to cybersecurity and compliance content.</p>
       <!-- Each job is one <li>: dates, then role and · company, then a short description. -->
       <ol class="timeline">
-        <li><div class="yrs sans">2025 – 2026</div><h3>Cybersecurity Content Consultant <small>· Strike Graph</small></h3><p>Articles, guides and playbooks on compliance, risk management and certifications, built on search intent, Search Console data and interviews with subject-matter experts.</p></li>
-        <li><div class="yrs sans">2022 – 2026</div><h3>Bilingual Cybersecurity Content Specialist <small>· Prey</small></h3><p>Bilingual content on incident response, device security and compliance, including ebooks, buyer's guides, checklists, infographics and email. Worked with sales on custom compliance guides for regulations like GDPR, HIPAA, FERPA, NIST and Chile's 21.719 and 21.663.</p></li>
-        <li><div class="yrs sans">Mar 2024 – Dec 2024</div><h3>Senior Content Manager (Contract) <small>· Better Collective</small></h3><p>Ran content for partner iGaming sites in five Latin American markets. Led a team of 5 freelancers and used content and competitor gap research to grow revenue.</p></li>
-        <li><div class="yrs sans">2022 – 2024</div><h3>SEO Content Specialist (Contract) <small>· Game Lounge</small></h3><p>Wrote, edited and supervised content for the highest-revenue LATAM sites, including onlinecasino.cl. Wrote newsletters and emails on game events, guides and product features.</p></li>
-        <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter and Editor <small>· Phoenix Digital</small></h3><p>English and Spanish CRM campaigns, landing pages, press releases and localization for lottery and iGaming brands. Featured as an Outstanding Talent.</p></li>
+        <li><div class="yrs sans">2025 – 2026</div><h3>Cybersecurity Content Consultant <small>· Strike Graph</small></h3><p>Buyer's guides, vendor evaluation frameworks and ROI worksheets on third-party risk management for finance and executive readers, plus CMMC 2.0 compliance content for defense contractors. Worked with the product and compliance teams so every asset stayed accurate.</p></li>
+        <li><div class="yrs sans">2022 – 2026</div><h3>Bilingual Cybersecurity Content Specialist <small>· Prey</small></h3><p>Bilingual content on incident response, device security and compliance, including ebooks, buyer's guides, checklists, infographics and email. Worked with sales on custom compliance guides for regulations like GDPR, HIPAA, FERPA, NIST and Chile's 21.719 and 21.663. Led the campaign that made Prey a trusted cybersecurity source in Chile and helped it join the Alianza Chilena de Ciberseguridad (ACC). My Chilean cybersecurity-law content is cited in Google AI Overviews and ChatGPT.</p></li>
+        <li><div class="yrs sans">Mar 2024 – Dec 2024</div><h3>Senior Content Manager (Contract) <small>· Better Collective</small></h3><p>Ran content plans for partner iGaming sites in Chile, Colombia, Mexico, Peru and Argentina. Led 5 freelancers (3 writers, a technical SEO manager and a site manager) and managed content across ARC, WordPress and custom CMSs.</p></li>
+        <li><div class="yrs sans">2022 – 2024</div><h3>SEO Content Specialist (Contract) <small>· Game Lounge</small></h3><p>Wrote, edited and supervised content for the highest-revenue LATAM sites (Chile, Colombia, Peru), including onlinecasino.cl, a site that earned about €40K a month. Wrote newsletters and emails on game events, guides and product features.</p></li>
+        <li><div class="yrs sans">2020 – 2022</div><h3>iGaming Copywriter <small>· Phoenix Digital</small></h3><p>English and Spanish CRM campaigns, landing pages, press releases and localization for lottery and iGaming brands. Named an Outstanding Talent and interviewed for a multi-platform feature.</p></li>
       </ol>
       <details class="older sans"><summary>Show earlier work (2015–2021)</summary>
         <ol class="timeline">
@@ -780,15 +782,24 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           <h2>About</h2>
           <p>I started writing SEO content and buying guides in 2015, moved into iGaming content for Latin American markets, and since 2022 I've worked in cybersecurity and compliance. I've written about GDPR, HIPAA, FERPA, NIST and Chile's laws 21.719 (data protection) and 21.663 (cybersecurity framework), and I've worked with sales teams on custom compliance guides.</p>
           <p>The part of the job I like most is taking something an expert says accurately but densely and finding the version a busy reader can use.</p>
-          <p>Outside work, I teach people in underserved communities in Venezuela how to spot scams and phishing, and I keep a photographic journal of the country.</p>
+          <p>Outside work, I've taught 200+ people in underserved communities in Barcelona, Caracas, Porlamar and Puerto Ordaz (Venezuela) how to spot scams and phishing and secure their Wi-Fi, since 2022. I also keep a photographic journal of the country.</p>
+          <details class="story">
+            <summary class="sans">Why I'm not a civil engineer</summary>
+            <p>In 2016, Venezuela's overlapping crises pushed millions of people out of the country, and many of my professors left with them. Some of the people who replaced them didn't know the courses they were teaching. I was about 90% of the way through a civil engineering degree, in a field where people's lives depend on what you know. Graduating half-trained didn't feel right, so I froze my degree and turned to the other thing I was good at: writing, in English and Spanish, for clients abroad.</p>
+            <p>There was one small problem. Remote work needs internet, and I didn't have any.</p>
+            <p>So, to recap: to stop learning how to keep buildings from falling down, I started learning how to get into my neighbors' Wi-Fi. That's the kind of career plan you only come up with when the whole country's economy is also improvising. I learned how home networks are set up, how weak most of them are and exactly how someone would get in. (For the record, and for any compliance teams reading: I learned how. I didn't do it.)</p>
+            <p>Part of the reason was that my first clients paid me $5 for 2,000-word articles. That already felt like being robbed, and I wasn't about to start robbing anyone else. So I paid my neighbors for their internet. And since I now knew exactly how exposed their routers were, I showed them how to lock them down. It was my first security awareness class, and the fee was paid in Wi-Fi.</p>
+          </details>
         </div>
         <div class="skills sans">
-          <div><b>Content</b>Ebooks, guides, buyer's guides, checklists, playbooks, email, landing pages</div>
-          <div><b>SEO and AEO</b>Keyword research, search intent, internal linking, content refreshes, writing for AI search</div>
-          <div><b>Tools</b>Ahrefs, Surfer SEO, Mangools, Search Console, GA4, WordPress, Webflow</div>
+          <div><b>Content</b>Ebooks, guides, buyer's guides, checklists, playbooks, email, landing pages, editorial calendars, storytelling, brand voice, freelancer management</div>
+          <div><b>SEO and AEO</b>Keyword research, search intent, on-page optimization, internal linking, content refreshes, competitor and gap research, writing for AI search (AEO/GEO)</div>
+          <div><b>Tools</b>Ahrefs, Surfer SEO, Mangools, Search Console, GA4, WordPress, Webflow, ARC, Notion, Miro</div>
           <div><b>Compliance topics</b>GDPR, HIPAA, FERPA, NIST, CMMC, TPRM, Chile 21.719 and 21.663</div>
           <div><b>Build</b>React, Vite, PIXI.js, Web Audio, Supabase, Python (CS50P)</div>
           <div><b>Languages</b>English and Spanish, native level (EF SET C2, 89)</div>
+          <div><b>Certifications</b>Google Cybersecurity Certificate (2021), Harvard CS50P, EF SET C2 (89), Google Analytics for Beginners</div>
+          <div><b>Education</b>Civil Engineering, about 90% completed (community service project completed)</div>
         </div>
       </div>
     </section>
@@ -923,11 +934,11 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
 
   /* ---------- palettes: dark = glowing tiles; light = pale washes with dark glyphs ---------- */
   const PALETTES = {
-    dark: { whale: [126, 152, 180], spot: [236, 240, 244], tiger: [150, 140, 120], stripe: [58, 54, 50], leopard: [172, 154, 126], saddle: [74, 62, 52], pale: [214, 218, 220],
+    dark: { whale: [126, 152, 180], spot: [236, 240, 244], tiger: [156, 154, 146], stripe: [58, 56, 54], leopard: [172, 154, 126], saddle: [74, 62, 52], hammer: [124, 146, 108], pale: [214, 218, 220],
       white: [232, 226, 216], black: [84, 86, 100], gold: [226, 176, 78], fin: [206, 200, 192], eye: [12, 14, 18],
       water: [214, 224, 228], shadow: [0, 0, 0], shadowA: .5, word: [63, 209, 176], hit: [240, 138, 126], alpha: .78, floor: .42,
       tile: [.66, .96], ink: .42, red: [[108, 24, 24], [160, 36, 30], [208, 62, 34], [236, 102, 42], [246, 144, 64], [252, 184, 112]] },
-    light: { whale: [56, 76, 98], spot: [255, 255, 255], tiger: [112, 100, 82], stripe: [40, 34, 30], leopard: [138, 118, 92], saddle: [52, 42, 34], pale: [150, 154, 156],
+    light: { whale: [56, 76, 98], spot: [255, 255, 255], tiger: [114, 112, 104], stripe: [40, 38, 36], leopard: [138, 118, 92], saddle: [52, 42, 34], hammer: [84, 104, 70], pale: [150, 154, 156],
       white: [120, 114, 106], black: [40, 38, 46], gold: [196, 142, 36], fin: [140, 134, 126], eye: [22, 22, 26],
       water: [52, 62, 70], shadow: [64, 60, 56], shadowA: .2, word: [15, 122, 102], hit: [176, 58, 46], alpha: .88, floor: .56,
       tile: [.76, .54], ink: .45, red: [[134, 26, 24], [178, 40, 26], [216, 64, 30], [234, 102, 42], [242, 140, 68], [246, 176, 118]] }
@@ -958,7 +969,12 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
     // leopard shark: slim, pointed snout, saddle bars and spots, quick
     leopard: { bodyEnd: .8, half: s => s < .18 ? .066 * Math.pow(Math.sin(s / .18 * Math.PI / 2), .95) : s < .32 ? .066 + .006 * smooth(.18, .32, s) : .014 + .058 * (1 - smooth(.32, .8, s)),
       tail: { start: .76, base: .012, spread: .06, notch: .14 }, fins: [[.28, 1, .1, .026], [.56, .85, .03, .012]], barbels: false,
-      eye: [.07, .1, .75, .98], dorsal: [.36, .46, .2], gills: [.17, .25], swim: { burst: false, cruise: 1.25, agility: 1.1, wave: .04 } }
+      eye: [.07, .1, .75, .98], dorsal: [.36, .46, .2], gills: [.17, .25], swim: { burst: false, cruise: 1.25, agility: 1.1, wave: .04 } },
+    // hammerhead: wide flat hammer with an eye at each tip, narrow neck, tall dorsal, plain olive back, sharp turner
+    hammer: { bodyEnd: .78, half: s => s < .06 ? .14 * Math.pow(Math.sin(s / .06 * Math.PI / 2), .3) : s < .085 ? .14 - .098 * smooth(.06, .085, s)
+        : s < .3 ? .042 + .03 * smooth(.085, .3, s) : .016 + .056 * (1 - smooth(.3, .78, s)),
+      tail: { start: .74, base: .015, spread: .075, notch: .13 }, fins: [[.26, 1, .12, .028], [.56, .85, .035, .013]], barbels: false,
+      eye: [.035, .075, .8, 1], dorsal: [.32, .44, .2], gills: [.14, .22], swim: { burst: false, cruise: 1, agility: 1.2, wave: .034 } }
   };
   let sp = SPECIES.koi; // body plan of the creature being drawn right now
   const hit = { flag: 0, across: 1 };
@@ -1029,6 +1045,7 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
       const fade = 1 - smooth(.55, .8, s);
       return s > .2 && across < .8 && (s * 20 + Math.abs(vn) * 9 + n * .35) % 1 < .3 * fade ? 'stripe' : 'tiger';
     }
+    if (k.species === 'hammer') return 'hammer'; // plain back: the head is the giveaway
     if (s > .2 && s < .8 && across < .6 && (s * 11 + n * .2) % 1 < .2) return 'saddle'; // leopard: saddles and spots
     return across > .45 && hash(Math.round(s * 40), Math.round(vn * 60), k.id) < .12 ? 'saddle' : 'leopard';
   }
@@ -1052,11 +1069,11 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
   const stats = { dropped: 0, bit: 0, last: '' };
   const nextPhrase = () => { if (!bag.length) bag = (mode === 'sharks' ? ATTACKS : PHRASES).slice().sort(() => Math.random() - .5); return bag.pop(); };
 
-  // who lives in the pond: koi (plus young ones on wide screens), or a whale shark (when it fits) with tiger and leopard sharks
+  // who lives in the pond: koi (plus young ones on wide screens), or a whale shark (when it fits) with tiger, leopard and hammerhead sharks
   function cast(base){
     const out = [];
     if (opts.solo) { // released into a section: one creature, chosen at random
-      const kind = mode === 'sharks' ? (W >= 700 && Math.random() < .3 ? 'whale' : Math.random() < .5 ? 'tiger' : 'leopard') : 'koi';
+      const kind = mode === 'sharks' ? (W >= 700 && Math.random() < .3 ? 'whale' : ['tiger', 'leopard', 'hammer'][Math.floor(Math.random() * 3)]) : 'koi';
       const b = clamp(Math.min(W, 1100) * .24, 110, 260);
       return [{ species: kind, L: kind === 'whale' ? Math.min(b * 1.5, 420) : b * rand(.7, 1) }];
     }
@@ -1064,6 +1081,7 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
       if (W >= 700) out.push({ species: 'whale', L: Math.min(base * 1.45, W * .55, 520) });
       for (let i = 0, n = W * H > 500000 ? 2 : 1; i < n; i++) out.push({ species: 'tiger', L: base * rand(.8, 1) });
       for (let i = 0, n = W * H > 300000 ? 2 : 1; i < n; i++) out.push({ species: 'leopard', L: base * rand(.6, .75) });
+      out.push({ species: 'hammer', L: base * rand(.75, .95) });
       return out;
     }
     const n = clamp(Math.round(W * H / 210000), 3, 6);
