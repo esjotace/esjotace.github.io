@@ -84,6 +84,18 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .card h3{margin:0;font-size:21px;line-height:1.25}
 .card p{margin:0;color:var(--muted);font-size:16px}
 .card .res{color:var(--ink);font-size:15.5px;border-left:3px solid var(--accent);padding-left:12px}
+.proj-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:auto;padding-top:6px}
+.proj-actions .btn{padding:9px 16px;font-size:14px;cursor:pointer;font-family:inherit}
+.proj-actions .btn[hidden]{display:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.embed{scroll-margin-top:70px;margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.embed[hidden]{display:none}
+.embed-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.embed-bar b{margin-right:auto;font-size:15px}
+.embed-bar .btn{padding:7px 14px;font-size:14px;cursor:pointer;font-family:inherit}
+.embed iframe{display:block;width:100%;height:min(80vh,900px);border:0;background:var(--bg)}
+.embed:fullscreen{display:flex;flex-direction:column;border-radius:0;border:0}
+.embed:fullscreen iframe{flex:1;height:auto}
 .more{font-size:14px;font-weight:600;color:var(--accent);text-decoration:none}
 .more:hover{text-decoration:underline}
 
@@ -608,10 +620,30 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
           <p class="res">Uses APIs from exchange houses and banks to update USD, bolívar (Bs), USDT and other rates live.</p>
         </article>
         <article class="card">
+          <div class="org sans">Project · Live</div>
+          <h3>Security+ SY0-701 Practice Exam</h3>
+          <p>A practice exam in a single HTML file: 231 original questions, including 6 performance-based tasks, each with an explanation, why the other options are wrong, and sources. Independent study tool, not affiliated with CompTIA.</p>
+          <p class="res">Study mode with instant feedback, a timed Exam mode, a 90-question set weighted like the real exam's five domains, and a review of missed questions. Progress is saved in the browser.</p>
+          <!-- Open / Full screen show the exam in the panel below the grid; they appear only when JS runs. -->
+          <div class="proj-actions sans">
+            <button class="btn primary" id="sp-open" aria-controls="sp-embed" aria-expanded="false" hidden>Open</button>
+            <button class="btn ghost" id="sp-full" hidden>Full screen</button>
+            <a class="more" href="security-plus/index.html" target="_blank" rel="noopener">Open in a new tab →</a>
+          </div>
+        </article>
+        <article class="card">
           <div class="org sans">Project</div>
           <h3>Polygon Music Box</h3>
           <p>A browser musical sandbox with polygon instruments, Karplus-Strong string physics and a procedural labyrinth mode.</p>
         </article>
+      </div>
+      <div class="embed" id="sp-embed" hidden>
+        <div class="embed-bar sans">
+          <b>Security+ SY0-701 Practice Exam</b>
+          <button class="btn ghost" id="sp-full2">Full screen</button>
+          <button class="btn ghost" id="sp-close">Close</button>
+        </div>
+        <iframe id="sp-frame" title="Security+ SY0-701 practice exam"></iframe>
       </div>
     </section>
   </div>
@@ -792,6 +824,27 @@ function showSlide(i){
 slideNav.querySelectorAll('button').forEach(b => b.onclick = () => showSlide(cur + Number(b.dataset.step)));
 slideNav.hidden = false;
 showSlide(0);
+
+/* Security+ exam: Open shows it in the panel under Projects, Full screen enlarges the panel,
+   Close hides it. Where element full screen isn't supported (iPhone), Full screen opens the exam's own page. */
+const spEmbed = $('sp-embed'), spFrame = $('sp-frame'), spOpen = $('sp-open'), spFull = $('sp-full'), spFull2 = $('sp-full2');
+function spShow(){
+  if (!spFrame.getAttribute('src')) spFrame.src = 'security-plus/index.html'; // explicit file name so it also works when opened from disk
+  spEmbed.hidden = false; spOpen.setAttribute('aria-expanded', 'true');
+}
+function spToggleFull(){
+  if (document.fullscreenElement) { document.exitFullscreen(); return; }
+  if (!spEmbed.requestFullscreen) { location.href = 'security-plus/index.html'; return; }
+  spShow(); spEmbed.requestFullscreen().catch(() => {});
+}
+spOpen.onclick = () => { spShow(); spEmbed.scrollIntoView(); spFrame.focus(); };
+spFull.onclick = spFull2.onclick = spToggleFull;
+$('sp-close').onclick = () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  spEmbed.hidden = true; spOpen.setAttribute('aria-expanded', 'false'); spOpen.focus();
+};
+document.addEventListener('fullscreenchange', () => { spFull2.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen'; });
+spOpen.hidden = spFull.hidden = false;
 
 /* theme */
 const root = document.documentElement, themeBtn = $('theme'), darkQuery = matchMedia('(prefers-color-scheme: dark)');
