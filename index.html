@@ -63,6 +63,12 @@ nav a:hover{color:var(--ink)}
 .pond .btn.ghost{background:var(--bg)}
 .pond-hud{position:absolute;right:16px;bottom:14px;left:16px;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px 12px;font:12px/1.5 ui-monospace,"Cascadia Mono",Consolas,monospace;color:var(--muted);pointer-events:none}
 .pond-hud b{color:var(--ink);font-weight:600}
+/* "Release them": one creature swims behind each section, across the full window width, under the cards */
+main{overflow-x:clip}
+.released{position:relative;isolation:isolate}
+footer.released{overflow-x:clip}
+.swim{position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);z-index:-1;pointer-events:none;overflow:hidden}
+.swim canvas{position:absolute;inset:0;width:100%;height:100%}
 .pond-hud button{pointer-events:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;font:inherit;cursor:pointer}
 .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 18px}
 h1{font-size:clamp(38px,6.4vw,68px);line-height:1.04;margin:0 0 22px;letter-spacing:-.02em;max-width:15ch}
@@ -207,7 +213,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     </div>
     <p class="where sans" data-pond-avoid>Based in Caracas, Venezuela. Open to remote work and to relocating to Europe.</p>
   </div>
-  <div class="pond-hud sans"><span id="pond-hud"></span> <button id="pond-mode" type="button">Switch to sharks</button></div>
+  <div class="pond-hud sans"><span id="pond-hud"></span> <button id="pond-mode" type="button">Switch to sharks</button> <button id="pond-release" type="button" aria-pressed="false">Release them</button></div>
   </div>
 
   <div class="wrap">
@@ -872,7 +878,6 @@ filterPosts('All');
    Pauses off-screen and in hidden tabs; a still frame with reduced motion. */
 try { // the pond is decorative: if anything in it fails, the rest of the page keeps working
 (() => {
-  const pond = document.getElementById('pond'), cv = pond.querySelector('canvas'), ctx = cv.getContext('2d'), hud = document.getElementById('pond-hud');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const MONO = 'ui-monospace,"Cascadia Mono","SFMono-Regular",Menlo,Consolas,monospace';
   const TAU = Math.PI * 2, NODES = 16, STEP = 1 / 60;
@@ -892,8 +897,8 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
     'Rogue browser extensions', 'Prompt injection', 'Hijacked AI models', 'Poisoned AI agents', 'Default passwords',
     'Open RDP ports', 'Compromised vendors', 'Deepfake impersonation'];
   const BYTES = ['>_', '#', '0x', '$', '*'];
-  let mode = 'koi';
-  try { if (localStorage.getItem('pondMode') === 'sharks') mode = 'sharks'; } catch (e) {}
+  let mode = 'sharks';
+  try { if (localStorage.getItem('pondMode') === 'koi') mode = 'koi'; } catch (e) {}
 
   /* ---------- small helpers ---------- */
   const rand = (a, b) => a + Math.random() * (b - a), clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -1028,6 +1033,18 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
     return across > .45 && hash(Math.round(s * 40), Math.round(vn * 60), k.id) < .12 ? 'saddle' : 'leopard';
   }
 
+  /* ---------- one pond: the hero takes bait; released section ponds hold a single creature ----------
+     area: the element whose box is the water (it holds the canvas). opts: hud (counter element), feed (clicks throw
+     bait), solo (one random creature), events (where clicks land, default area), avoidRoot/avoid (text the
+     creatures steer around and fade under), text/ignore (where a right-click keeps the browser menu). */
+  function makePond(area, opts = {}){
+  const pond = area, cv = pond.querySelector('canvas'), ctx = cv.getContext('2d'), hud = opts.hud || null, events = opts.events || pond;
+  const IGNORE = opts.ignore || 'a,button,input,label,[data-pond-ignore]', TEXT = opts.text || 'h1,p';
+  const off = [], obs = [];
+  const inside = e => { const r = pond.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
+  const on = (target, type, fn, o) => { target.addEventListener(type, fn, o); off.push(() => target.removeEventListener(type, fn, o)); };
+  let gone = false;
+
   /* ---------- world ---------- */
   let W = 0, H = 0, cw = 10, ch = 13, cols = 0, rows = 0, time = 0, lastFeed = -9, bag = [];
   let koi = [], food = [], rings = [], bites = [], boxes = [];
@@ -1038,6 +1055,11 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
   // who lives in the pond: koi (plus young ones on wide screens), or a whale shark (when it fits) with tiger and leopard sharks
   function cast(base){
     const out = [];
+    if (opts.solo) { // released into a section: one creature, chosen at random
+      const kind = mode === 'sharks' ? (W >= 700 && Math.random() < .3 ? 'whale' : Math.random() < .5 ? 'tiger' : 'leopard') : 'koi';
+      const b = clamp(Math.min(W, 1100) * .24, 110, 260);
+      return [{ species: kind, L: kind === 'whale' ? Math.min(b * 1.5, 420) : b * rand(.7, 1) }];
+    }
     if (mode === 'sharks') {
       if (W >= 700) out.push({ species: 'whale', L: Math.min(base * 1.45, W * .55, 520) });
       for (let i = 0, n = W * H > 500000 ? 2 : 1; i < n; i++) out.push({ species: 'tiger', L: base * rand(.8, 1) });
@@ -1100,9 +1122,14 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
     if (!target && time - lastFeed > 2 && pointer.active && pointer.speed > 1100 && pd < L * .9) { k.startle = 1; k.fleeX = pointer.x; k.fleeY = pointer.y; }
     k.startle = Math.max(0, k.startle - dt * .6);
     const fleeing = k.startle > .3 && !target;
-    let chasing = false, curious = false, closing = 0;
+    let chasing = false, curious = false, called = false, closing = 0;
     if (fleeing) { const ox = hx - k.fleeX, oy = hy - k.fleeY, d = Math.hypot(ox, oy) || 1; dx += ox / d * 4 * k.startle; dy += oy / d * 4 * k.startle; }
     else if (target) { const tx = target.x - hx, ty = target.y - hy, d = Math.hypot(tx, ty) || 1; dx += tx / d * 3; dy += ty / d * 3; chasing = true; closing = clamp(1 - d / (L * 1.2), 0, 1); }
+    else if (time < k.callUntil) { // called: swim to the spot, circle there, and come up to the surface
+      const tx = k.callX - hx, ty = k.callY - hy, d = Math.hypot(tx, ty) || 1, near = clamp(d / (L * .5), 0, 1);
+      dx += (tx / d * near - ty / d * (1 - near)) * 3; dy += (ty / d * near + tx / d * (1 - near)) * 3; called = true;
+      if (d < L * .5 && !k.surfaced) { k.surfaced = true; rings.push({ x: hx, y: hy, born: time, strength: .5 }); }
+    }
     else if (pointer.active && pd < 300) { // swim up to the cursor, then circle under it
       const tx = (pointer.x - hx) / (pd || 1), ty = (pointer.y - hy) / (pd || 1), w = k.curiosity * (1 - pd / 300) * 2.2, near = clamp(pd / (L * .6), 0, 1);
       dx += (tx * near - ty * (1 - near)) * w; dy += (ty * near + tx * (1 - near)) * w; curious = true;
@@ -1115,31 +1142,31 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
       }
       if (!chasing && Math.hypot(o.nodes[0] - hx, o.nodes[1] - hy) < L * 1.6) { dx += Math.cos(o.heading) * .18; dy += Math.sin(o.heading) * .18; }
     }
-    repel(hx, hy, L * .4, push); const pw = chasing || curious ? .5 : 1.8; dx += push.x * pw; dy += push.y * pw;
+    repel(hx, hy, L * .4, push); const pw = chasing || curious || called ? .5 : 1.8; dx += push.x * pw; dy += push.y * pw;
     const over = Math.max(-hx, hx - W, -hy, hy - H);
     if (over > -L * .25) { const w = clamp((over + L * .25) / (L * .5), 0, 1) * 3.5, tx = W / 2 - hx, ty = H / 2 - hy, d = Math.hypot(tx, ty) || 1; dx += tx / d * w; dy += ty / d * w; }
 
     // long bodies can't pivot on the spot
     const sw = k.sp.swim;
-    const agility = sw.agility * (1 + k.rush * .6) * Math.min(fleeing ? 3 : chasing ? 1.9 + closing : curious ? 1.2 : .7, k.speed / L * 4);
+    const agility = sw.agility * (1 + k.rush * .6) * Math.min(fleeing ? 3 : chasing ? 1.9 + closing : called ? 1.9 : curious ? 1.2 : .7, k.speed / L * 4);
     const turned = clamp(angDiff(k.heading, Math.atan2(dy, dx)), -agility * dt, agility * dt);
     k.heading += turned; k.turn += (turned / dt - k.turn) * Math.min(1, dt * 3);
 
     // koi: burst and glide (a few tail beats, then coast); sharks: a steady sweep of the tail.
     // Chasing or fleeing, both beat without pause.
     if (time > k.nextBurst && time > k.burstUntil) { k.burstUntil = time + rand(.7, 1.6); k.nextBurst = k.burstUntil + rand(1.2, 4); }
-    const bursting = fleeing || chasing || !sw.burst || time < k.burstUntil;
-    k.beat += ((bursting ? (sw.burst || chasing || fleeing ? 1 : .65) : 0) - k.beat) * Math.min(1, dt * 3);
+    const bursting = fleeing || chasing || called || !sw.burst || time < k.burstUntil;
+    k.beat += ((bursting ? (sw.burst || chasing || fleeing || called ? 1 : .65) : 0) - k.beat) * Math.min(1, dt * 3);
     if (k.beat > .6 && k.depth > .65 && time > k.nextWake) { rings.push({ x: N[(NODES - 3) * 2], y: N[(NODES - 3) * 2 + 1], born: time, strength: .2 + .2 * k.depth }); k.nextWake = time + rand(.8, 1.6) / k.beat; }
     k.rush = Math.max(0, k.rush - dt * .7);
     const cruise = (12 + L * (sw.burst ? .05 : .035)) * sw.cruise;
-    const goal = (1 + k.rush * .8) * (fleeing ? cruise * 3.2 : chasing ? cruise * (1.9 + closing) : bursting ? cruise * (curious ? 1.6 : 1.35) : cruise * .45);
+    const goal = (1 + k.rush * .8) * (fleeing ? cruise * 3.2 : chasing ? cruise * (1.9 + closing) : called ? cruise * 3 : bursting ? cruise * (curious ? 1.6 : 1.35) : cruise * .45);
     k.speed += (goal - k.speed) * Math.min(1, dt * (bursting ? 1.6 + k.rush * 3 : .35));
     k.phase += dt * (.6 + k.beat * (2.2 + k.speed / 11));
     k.finPhase += dt * 2.4;
     k.gulp += ((chasing && closing > .55 ? 1 : 0) - k.gulp) * Math.min(1, dt * 6);
     if (time > k.nextDive) { k.depthTarget = rand(.5, k.depthMax); k.nextDive = time + rand(8, 20); }
-    k.depth += ((chasing ? 1 : k.depthTarget) - k.depth) * Math.min(1, dt * (chasing ? .8 : .15));
+    k.depth += ((chasing || called ? 1 : k.depthTarget) - k.depth) * Math.min(1, dt * (chasing || called ? .8 : .15));
 
     N[0] += Math.cos(k.heading) * k.speed * dt; N[1] += Math.sin(k.heading) * k.speed * dt;
     const seg = L / (NODES - 1); let prev = k.heading + Math.PI;
@@ -1175,7 +1202,7 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
       // words land roughly in reading order, a couple of rows apart; crumbs scatter around them
       const a = rand(0, TAU), r = Math.sqrt(Math.random()) * (pc.word ? 26 : 46), drift = rand(2, 6);
       const p = { text: pc.t, word: pc.word, x: x + Math.cos(a) * r * 1.5, y: y + Math.sin(a) * r * .5 + (pc.word ? (j - (words - 1) / 2) * ch * 2 : 0),
-        born: time, landAt: rand(.12, .3) + j * .1, landed: false, vx: Math.cos(a) * drift, vy: Math.sin(a) * drift, w: textWidth(pc.t) };
+        born: time, landAt: rand(.12, .3) + j * .1, landed: false, seed: Math.floor(Math.random() * 1e6), vx: Math.cos(a) * drift, vy: Math.sin(a) * drift, w: textWidth(pc.t) };
       for (let tries = 0; tries < 6 && food.some(o => Math.abs(o.y - p.y) < ch * 1.2 && Math.abs(o.x - p.x) < (o.w + p.w) / 2 + cw); tries++) p.y += ch * 1.4 * (tries % 2 ? -tries : tries);
       food.push(p);
     });
@@ -1184,10 +1211,11 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
   const foodFont = () => `600 ${Math.max(11, Math.round(ch * .9))}px ${MONO}`;
   function textWidth(t){ ctx.save(); ctx.font = foodFont(); const w = ctx.measureText(t).width; ctx.restore(); return w; }
   function updateHud(){
+    if (!hud) return;
     const sharks = mode === 'sharks';
     hud.innerHTML = stats.dropped
       ? `${sharks ? 'vectors thrown' : 'thrown'} <b>${stats.dropped}</b> · ${sharks ? 'picked off' : 'took the bait'} <b>${stats.bit}</b>` + (stats.last ? ` · last${sharks ? '' : ' bite'}: “${stats.last}”` : '')
-      : sharks ? 'click open water to throw an attack vector' : 'click open water to throw a line';
+      : (sharks ? 'click open water to throw an attack vector' : 'click open water to throw a line') + ' · right-click to call them';
   }
 
   const FOOD_LIFE = 16, FOOD_SINK = 10, BITE_LIFE = .45, RING_SPEED = 50;
@@ -1367,17 +1395,14 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
       if (r < 0 || r >= rows) continue;
       const mid = cellAt(p.x, (r + .5) * ch); if (mid >= 0 && glyph[mid]) a *= .25;
       ctx.globalAlpha = a; ctx.fillStyle = style(pack(rgb));
-      // each letter bobs and tilts a little out of step with its neighbours, like a swell passing under the word;
-      // the wobble is stronger right after landing and settles over about a second
-      const settle = p.landed ? 1 + 2.2 * Math.exp(-(age - p.landAt) * 2.5) : 0, y0 = (r + .5) * ch + 1;
+      // retro float: each letter hops by whole pixels (up, down, left or right) on its own beat, like the fish moving
+      // cell by cell; the hops are bigger right after landing and settle over about a second
+      const lively = p.landed ? 1 + 2 * Math.exp(-(age - p.landAt) * 2.5) : 0, y0 = (r + .5) * ch + 1;
       let x = p.x - p.w / 2;
       for (let j = 0; j < p.text.length; j++) {
-        const lw = ctx.measureText(p.text[j]).width, wave = age * 2.3 + j * .75 + p.x * .01;
-        ctx.save();
-        ctx.translate(x + lw / 2, y0 + Math.sin(wave) * 1.3 * settle);
-        ctx.rotate(Math.sin(wave + 1.2) * .07 * settle);
-        ctx.fillText(p.text[j], 0, 0);
-        ctx.restore();
+        const lw = ctx.measureText(p.text[j]).width, beat = Math.floor(age * 4 + hash(j, p.seed, 3) * 4);
+        const ox = Math.round((hash(beat, j, p.seed) - .5) * 2 * lively), oy = Math.round((hash(beat, j, p.seed + 1) - .5) * 2 * lively);
+        ctx.fillText(p.text[j], Math.round(x + lw / 2) + ox, Math.round(y0) + oy);
         x += lw;
       }
     }
@@ -1397,7 +1422,7 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
 
   /* ---------- layout: grid, content boxes ---------- */
   function measure(){
-    const o = pond.getBoundingClientRect(), raw = [...pond.querySelectorAll('[data-pond-avoid]')].map(e => { const b = e.getBoundingClientRect(); return { l: b.left - o.left, t: b.top - o.top, r: b.right - o.left, b: b.bottom - o.top }; });
+    const o = pond.getBoundingClientRect(), raw = [...(opts.avoidRoot || pond).querySelectorAll(opts.avoid || '[data-pond-avoid]')].map(e => { const b = e.getBoundingClientRect(); return { l: b.left - o.left, t: b.top - o.top, r: b.right - o.left, b: b.bottom - o.top }; });
     boxes = [];
     for (const b of raw.sort((p, q) => p.t - q.t)) { // merge close boxes so koi aren't squeezed between them
       const m = boxes.find(m => b.t - m.b < 120 && b.l - m.r < 120 && m.l - b.r < 120);
@@ -1439,50 +1464,101 @@ try { // the pond is decorative: if anything in it fails, the rest of the page k
   }
   function schedule(){
     cancelAnimationFrame(raf); raf = 0;
-    if (!visible || document.hidden) return;
+    if (gone || !visible || document.hidden) return;
     if (reduce.matches) { still(); return; }
     last = performance.now(); raf = requestAnimationFrame(frame);
   }
-  new IntersectionObserver(e => { visible = e[0].isIntersecting; schedule(); }).observe(pond);
-  document.addEventListener('visibilitychange', schedule);
-  reduce.addEventListener('change', schedule);
-  new ResizeObserver(resize).observe(pond);
-  new MutationObserver(() => { readTheme(); if (reduce.matches) still(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  const io = new IntersectionObserver(e => { visible = e[0].isIntersecting; schedule(); }); io.observe(pond);
+  const ro = new ResizeObserver(resize); ro.observe(pond);
+  const mo = new MutationObserver(() => { readTheme(); if (reduce.matches) still(); }); mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  obs.push(io, ro, mo);
+  on(document, 'visibilitychange', schedule);
+  on(reduce, 'change', schedule);
 
-  addEventListener('pointermove', e => {
+  on(window, 'pointermove', e => {
     const r = pond.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, el = Math.max(1, e.timeStamp - pointer.t) / 1000;
     pointer.speed += (Math.min(Math.hypot(x - pointer.x, y - pointer.y) / el, 5000) - pointer.speed) * .5;
     pointer.t = e.timeStamp; pointer.x = x; pointer.y = y;
     pointer.active = x >= 0 && y >= 0 && x <= r.width && y <= r.height && e.pointerType !== 'touch';
   }, { passive: true });
-  document.documentElement.addEventListener('pointerleave', () => { pointer.active = false; pointer.speed = 0; });
+  on(document.documentElement, 'pointerleave', () => { pointer.active = false; pointer.speed = 0; });
   // true when (x, y) is on a line of text (including the gap between lines), not on the empty part of a wide text block
   function onText(el, x, y){
     const range = document.createRange(); range.selectNodeContents(el);
     const lh = parseFloat(getComputedStyle(el).lineHeight) || 0;
     return [...range.getClientRects()].some(b => { const pad = Math.max(2, (lh - b.height) / 2 + 1); return x >= b.left - 4 && x <= b.right + 4 && y >= b.top - pad && y <= b.bottom + pad; });
   }
-  pond.addEventListener('click', e => {
+  if (opts.feed) on(events, 'click', e => {
     if (reduce.matches || getSelection().toString()) return;
-    if (e.composedPath().some(n => n instanceof Element && n.matches('a,button,input,label,[data-pond-ignore]'))) return;
-    const textEl = e.target.closest && e.target.closest('h1,p'); if (textEl && onText(textEl, e.clientX, e.clientY)) return;
+    if (e.composedPath().some(n => n instanceof Element && n.matches(IGNORE))) return;
+    const textEl = e.target.closest && e.target.closest(TEXT); if (textEl && onText(textEl, e.clientX, e.clientY)) return;
     const r = pond.getBoundingClientRect();
     feed(e.clientX - r.left, e.clientY - r.top);
   });
-
-  // koi + scam phrases, or sharks + attack vectors; switching starts a fresh pond
-  const modeBtn = document.getElementById('pond-mode');
-  const syncModeBtn = () => { modeBtn.textContent = mode === 'sharks' ? 'Switch to koi' : 'Switch to sharks'; };
-  modeBtn.onclick = () => {
-    mode = mode === 'sharks' ? 'koi' : 'sharks';
-    try { localStorage.setItem('pondMode', mode); } catch (e) {}
-    food = []; rings = []; bites = []; bag = []; stats.dropped = stats.bit = 0; stats.last = '';
-    seed(); updateHud(); syncModeBtn();
-    if (reduce.matches) { time = 0; still(); }
-  };
-  syncModeBtn();
+  // right-click (or a long press on Android) on open water calls every creature over to that spot, up to the surface;
+  // selected text, links, buttons and the words themselves keep the normal browser menu
+  function call(x, y){
+    rings.push({ x, y, born: time, strength: .45 });
+    for (const k of koi) { k.callX = x; k.callY = y; k.callUntil = time + 8; k.surfaced = false; k.startle = 0; }
+  }
+  // the browser clears a selection as the right button goes down, so note it then
+  let selectedAtPress = '';
+  on(events, 'mousedown', e => { if (e.button === 2 && inside(e)) selectedAtPress = getSelection().toString(); }, true);
+  on(events, 'contextmenu', e => {
+    if (!inside(e) || reduce.matches || selectedAtPress || getSelection().toString()) return;
+    if (e.composedPath().some(n => n instanceof Element && n.matches(IGNORE))) return;
+    const textEl = e.target.closest && e.target.closest(TEXT); if (textEl && onText(textEl, e.clientX, e.clientY)) return;
+    e.preventDefault();
+    const r = pond.getBoundingClientRect();
+    call(e.clientX - r.left, e.clientY - r.top);
+  });
 
   resize(); updateHud(); schedule();
+  return {
+    reset(){ food = []; rings = []; bites = []; bag = []; stats.dropped = stats.bit = 0; stats.last = ''; seed(); updateHud(); if (reduce.matches) { time = 0; still(); } },
+    destroy(){ gone = true; cancelAnimationFrame(raf); raf = 0; obs.forEach(o => o.disconnect()); off.forEach(f => f()); }
+  };
+  }
+
+  // the hero pond takes bait; "Release them" lets one random creature loose behind each section below
+  const hero = makePond(document.getElementById('pond'), { hud: document.getElementById('pond-hud'), feed: true });
+  const SECTIONS = ['recent', 'library', 'playbooks', 'results', 'design', 'projects', 'experience', 'recommendations', 'contact'];
+  const SECTION_OPTS = {
+    solo: true, avoid: 'h2, .sub, .count, .chips, .pager, .older > summary',
+    text: 'h1,h2,h3,p,li,dt,dd,blockquote,figcaption,summary',
+    ignore: 'a,button,input,label,img,iframe,details,.card,.doc,.quote,.gallery,.embed,.proof,.timeline li,[data-pond-ignore]'
+  };
+  let released = [];
+  const modeBtn = document.getElementById('pond-mode'), releaseBtn = document.getElementById('pond-release');
+  function syncButtons(){
+    modeBtn.textContent = mode === 'sharks' ? 'Switch to koi' : 'Switch to sharks';
+    releaseBtn.textContent = released.length ? 'Bring them home' : 'Release them';
+    releaseBtn.setAttribute('aria-pressed', released.length > 0);
+  }
+  function release(){
+    released = SECTIONS.map(id => document.getElementById(id)).filter(Boolean).map(sec => {
+      const swim = document.createElement('div');
+      swim.className = 'swim'; swim.setAttribute('aria-hidden', 'true'); swim.appendChild(document.createElement('canvas'));
+      sec.classList.add('released'); sec.prepend(swim);
+      return { sec, swim, pond: makePond(swim, { ...SECTION_OPTS, events: document, avoidRoot: sec }) };
+    });
+  }
+  function bringHome(){
+    for (const r of released) { r.pond.destroy(); r.swim.remove(); r.sec.classList.remove('released'); }
+    released = [];
+  }
+  modeBtn.onclick = () => { // koi + scam phrases, or sharks + attack vectors; switching starts fresh everywhere
+    mode = mode === 'sharks' ? 'koi' : 'sharks';
+    try { localStorage.setItem('pondMode', mode); } catch (e) {}
+    hero.reset(); released.forEach(r => r.pond.reset()); syncButtons();
+  };
+  releaseBtn.onclick = () => {
+    if (released.length) bringHome(); else release();
+    try { localStorage.setItem('pondRelease', released.length ? '1' : ''); } catch (e) {}
+    syncButtons();
+  };
+  try { if (localStorage.getItem('pondRelease') === '1') release(); } catch (e) {}
+  syncButtons();
 })();
 } catch (e) {}
 
