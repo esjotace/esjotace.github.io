@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <g id="jc" fill="none" stroke-width="7" stroke-linejoin="miter" stroke-linecap="butt">
+      <path d="M8 13H27M23 13V40L17 46H9V37"/>
+      <path d="M54 13H42L36 19V40L42 46H54"/>
+    </g>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#0a0e14"/>
+  <use href="#jc" stroke="#ff2e97" transform="translate(4 4)" filter="url(#glow)" opacity=".8"/>
+  <use href="#jc" stroke="#ff2e97" transform="translate(4 4)"/>
+  <use href="#jc" stroke="#e0267f" transform="translate(3.5 3.5)"/>
+  <use href="#jc" stroke="#c21f6e" transform="translate(3 3)"/>
+  <use href="#jc" stroke="#a8195f" transform="translate(2.5 2.5)"/>
+  <use href="#jc" stroke="#901553" transform="translate(2 2)"/>
+  <use href="#jc" stroke="#7d114a" transform="translate(1.5 1.5)"/>
+  <use href="#jc" stroke="#6b0e41" transform="translate(1 1)"/>
+  <use href="#jc" stroke="#5c0c39" transform="translate(.5 .5)"/>
+  <use href="#jc" stroke="#2ee6c9"/>
+</svg>

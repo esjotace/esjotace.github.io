@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Juan Carlos Hernandez Marin | Cybersecurity Content and SEO</title>
 <meta name="description" content="Bilingual (EN/ES) cybersecurity content specialist. Guides, ebooks, compliance playbooks, infographics and software projects.">
+<link rel="canonical" href="https://esjotace.github.io/">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<!-- Link previews (LinkedIn, WhatsApp, Slack...). X reads these too; twitter:card only sets the large card. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://esjotace.github.io/">
+<meta property="og:title" content="Juan Carlos Hernandez Marin | Cybersecurity Content and SEO">
+<meta property="og:description" content="Bilingual (EN/ES) cybersecurity content specialist. Guides, ebooks, compliance playbooks, infographics and software projects.">
+<meta property="og:image" content="https://esjotace.github.io/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Juan Carlos Hernandez Marin, Bilingual Cybersecurity Content Specialist">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{
   --bg:#f6f1e7; --bg2:#ece5d6; --ink:#16212b; --muted:#566370; --line:#d8cfbb;
@@ -73,8 +87,18 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .more:hover{text-decoration:underline}
 
 .proof{margin:22px 0 0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.proof img{display:block;width:100%;height:auto;cursor:zoom-in}
-.proof figcaption{padding:14px 18px;font-size:14.5px;color:var(--muted)}
+.proof summary{cursor:pointer;padding:16px 18px;font-size:15px;font-weight:600;color:var(--accent)}
+.proof-body{padding:0 18px 18px}
+.proof-body > p{margin:0 0 18px;font-size:16px;color:var(--muted)}
+.proof-body > p strong{color:var(--ink)}
+.slide{margin:0 0 16px}
+.slide[hidden]{display:none}
+.slide img{display:block;width:100%;height:auto;aspect-ratio:1400/750;object-fit:contain;object-position:top;background:#202124;border-radius:8px;cursor:zoom-in}
+.slide figcaption{margin-top:8px;font-size:14px;color:var(--muted)}
+.slide-nav{display:flex;align-items:center;gap:12px}
+.slide-nav[hidden]{display:none}
+.slide-nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14px}
+.slide-nav span{font-size:14px;color:var(--muted)}
 
 .lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:18px}
 .doc{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
@@ -144,8 +168,9 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <p class="lede">Bilingual content specialist. I write the guides, playbooks and articles that help security teams, schools and businesses understand risk and meet their compliance requirements.</p>
     <div class="cta sans">
       <a class="btn primary" href="mailto:esjotace@gmail.com">Email me</a>
-      <a class="btn ghost" href="#library">Browse my guides</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="Juan-Hernandez-Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+      <a class="btn ghost" href="#library">Browse my guides</a>
     </div>
     <p class="where sans">Based in Caracas, Venezuela. Open to remote work and to relocating to Europe.</p>
   </div>
@@ -154,7 +179,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <div class="stats sans" aria-label="Highlights">
       <div class="stat"><b>Since 2015</b><span>writing for the web, in English and Spanish</span></div>
       <div class="stat"><b>16</b><span>ebooks, guides and checklists for Prey</span></div>
-      <div class="stat"><b>~€40K/mo</b><span>earned by a site I wrote for</span></div>
+      <div class="stat"><b>~€40K/mo</b><span>my record: the top-earning site I've managed for a company</span></div>
       <div class="stat"><b>200+</b><span>people trained in security basics</span></div>
     </div>
   </div>
@@ -163,11 +188,61 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="results">
       <h2>Results</h2>
       <p class="sub">What my content did once it was published.</p>
-      <div class="grid" id="results-grid"></div>
-      <figure class="proof">
-        <img src="assets/ai-overview.jpg" alt="Google AI Overview answering 'ley 21663 que es', citing Prey Project as a source" data-lb>
-        <figcaption><strong>Proof point:</strong> Google's AI Overview for "ley 21663 que es" cites Prey, where I wrote the Chilean cybersecurity-law content. Results vary by query and day.</figcaption>
-      </figure>
+      <!-- Each result is one <article class="card">. The "res" line is the highlighted outcome. -->
+      <div class="grid">
+        <article class="card">
+          <div class="org sans">Prey</div>
+          <h3>Chilean cybersecurity-law content</h3>
+          <p>Articles and guides explaining Chile's cybersecurity framework law (21.663) and data protection law (21.719).</p>
+          <p class="res">Cited in Google AI Overviews and ChatGPT for Chilean cybersecurity-law queries.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Prey</div>
+          <h3>Making Prey a trusted source in Chile</h3>
+          <p>A content campaign to position Prey as a reliable, expert voice on cybersecurity in the Chilean market.</p>
+          <p class="res">Helped Prey earn membership in the Alianza Chilena de Ciberseguridad (ACC).</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Prey</div>
+          <h3>From an AI answer to a sale</h3>
+          <p>ChatGPT cited my articles as sources in a tool comparison.</p>
+          <p class="res">A reader clicked through to Prey and bought: a sale that began in AI search.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Game Lounge</div>
+          <h3>onlinecasino.cl and LATAM sites</h3>
+          <p>Wrote, edited and supervised content for several Latin American markets, using SEO data to find opportunities.</p>
+          <p class="res">onlinecasino.cl generated about €40K a month.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Better Collective</div>
+          <h3>Leading a content team</h3>
+          <p>Ran content for partner iGaming sites in Peru, Mexico, Colombia, Chile and Argentina.</p>
+          <p class="res">Led 5 freelancers: 3 writers, a technical SEO manager and a site manager.</p>
+        </article>
+      </div>
+      <!-- Expandable case study. Each screenshot is one <figure class="slide">. -->
+      <details class="proof">
+        <summary class="sans">See the proof: Google's AI Overviews cite Prey on Chile's new laws</summary>
+        <div class="proof-body">
+          <p><strong>Case study: making Prey the go-to source on Chile's cybersecurity and data protection laws.</strong> I led Prey's Spanish content on Law 21.663 (cybersecurity framework) and Law 21.719 (personal data protection), written for three kinds of search: Google results (SEO), answer boxes (AEO) and AI assistants (GEO). The goal was for Prey to be the source people found when they asked what these laws mean for them. Today Google's AI Overviews cite Prey for "ley 21663 que es" and "ley 21719 que es", and ChatGPT has cited the same content. Results vary by query and day.</p>
+          <div class="slides">
+            <figure class="slide">
+              <img src="assets/ai-overview.jpg" alt="Google AI Overview answering 'ley 21663 que es', citing Prey Project as a source" data-lb>
+              <figcaption class="sans">Google search: "ley 21663 que es" (cybersecurity framework law)</figcaption>
+            </figure>
+            <figure class="slide">
+              <img src="assets/ai-overview-21719.jpg" alt="Google AI Overview answering 'ley 21719 que es', citing Prey Project as a source" data-lb>
+              <figcaption class="sans">Google search: "ley 21719 que es" (data protection law)</figcaption>
+            </figure>
+          </div>
+          <div class="slide-nav sans" id="slide-nav" hidden>
+            <button data-step="-1" aria-label="Previous screenshot">← Previous</button>
+            <span id="slide-pos" aria-live="polite"></span>
+            <button data-step="1" aria-label="Next screenshot">Next →</button>
+          </div>
+        </div>
+      </details>
     </section>
   </div>
 
@@ -175,7 +250,32 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="recommendations">
       <h2>What people say</h2>
       <p class="sub">Recommendations from my LinkedIn profile.</p>
-      <div class="quotes" id="quotes"></div>
+      <!-- Each recommendation is one <figure class="quote">. One <p> per paragraph.
+           For a translated quote, keep the <details> block with the Spanish original. -->
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote>
+            <p style="margin:0 0 12px">I worked with Juan as an SME reviewing the cybersecurity content he drafted for our marketing team. He impressed me with how quickly he learned cybersecurity and GRC concepts in depth and turned them into marketing content that was actually useful.</p>
+            <p style="margin:0 0 12px">A highlight was a set of CMMC policy templates he created. Instead of just restating the framework requirements, he went above and beyond, learning the framework well enough to include practical security tips on how organizations could actually comply.</p>
+            <p style="margin:0 0 12px">Juan can independently research and master complex technical topics and turn that knowledge into actionable guidance. I’d recommend him to any team that needs content that’s both technically sound and genuinely valuable.</p>
+          </blockquote>
+          <figcaption class="sans"><b>Elliott Harnagel</b>Product &amp; Compliance Experience Strategist, Strike Graph</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>
+            <p style="margin:0 0 12px">I had the pleasure of working with Juan Carlos, an exceptional professional in cybersecurity and technical content creation. His ability to communicate complex topics clearly and engagingly sets him apart. He also shows great commitment, proactivity and attention to detail in every project. I strongly recommend Juan to any team looking for a cybersecurity specialist with solid communication and content strategy skills.</p>
+          </blockquote>
+          <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Tuve el placer de trabajar con Juan Carlos, un profesional excepcional en el área de ciberseguridad y creación de contenido técnico. Su capacidad para comunicar temas complejos de forma clara y atractiva lo distingue. Además, demuestra gran compromiso, proactividad y atención al detalle en cada proyecto. Recomiendo ampliamente a Juan para cualquier equipo que busque un especialista en ciberseguridad con sólidas habilidades de comunicación y estrategia de contenido.</p></details>
+          <figcaption class="sans"><b>Luis Ramos</b>IT Specialist, Argentina's health department</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>
+            <p style="margin:0 0 12px">Juan is a cybersecurity professional. When I built a personal project, he advised me on vulnerabilities to cover, good practices for making my project public, and a full assessment of the platform at the end. Responsible, meticulous in his work and with a sharp eye for detail.</p>
+          </blockquote>
+          <details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">Juan es un profesional en materia de ciberseguridad. A la hora de hacer un proyecto personal, me asesoró en posibles vulnerabilidades por cubrir, buenas prácticas a la hora de hacer público mi proyecto y un assessment completo de la plataforma al término. Responsable, pulcro en su trabajo y con mucho ojo al detalle.</p></details>
+          <figcaption class="sans"><b>Fernando Andrés Escobar González</b>Frontend Developer, LATAM Airlines</figcaption>
+        </figure>
+      </div>
       <p class="sans" style="margin-top:18px"><a class="more" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/details/recommendations/" target="_blank" rel="noopener">Read them on LinkedIn →</a></p>
     </section>
   </div>
@@ -187,7 +287,153 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
       <div class="chips sans" id="lib-topics" role="group" aria-label="Filter by topic"></div>
       <div class="chips sans" id="lib-langs" role="group" aria-label="Filter by language"></div>
       <p class="count sans" id="lib-count" aria-live="polite"></p>
-      <div class="lib sans" id="lib"></div>
+      <!-- Each guide is one <article class="doc">. data-topics (separated by |) and data-lang drive the filters. -->
+      <div class="lib sans" id="lib">
+        <article class="doc" data-topics="Security" data-lang="EN">
+          <button class="cover" data-src="assets/covers/control-alt-defend-data-breach-guide.jpg" aria-label="Enlarge cover: Control + Alt + Defend: A Data Breach Protection Guide"><img src="assets/covers/control-alt-defend-data-breach-guide.jpg" alt="Cover of Control + Alt + Defend: A Data Breach Protection Guide"></button>
+          <div class="body">
+            <div class="meta">Ebook · 35 pages · English</div>
+            <h3>Control + Alt + Defend: A Data Breach Protection Guide</h3>
+            <p>Why data breaches cost so much and how businesses can protect their data, backed by IBM and Verizon breach research.</p>
+            <a class="dl" href="https://preyproject.com/resources/data-breach-protection-guide" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Security" data-lang="EN">
+          <button class="cover" data-src="assets/covers/no-fear-guide-to-the-dark-web.jpg" aria-label="Enlarge cover: A No-Fear Guide to the Dark Web Secrets"><img src="assets/covers/no-fear-guide-to-the-dark-web.jpg" alt="Cover of A No-Fear Guide to the Dark Web Secrets"></button>
+          <div class="body">
+            <div class="meta">Ebook · 25 pages · English</div>
+            <h3>A No-Fear Guide to the Dark Web Secrets</h3>
+            <p>A plain-language guide to the dark web and the threats that come out of it, grounded in Verizon DBIR data.</p>
+            <a class="dl" href="https://preyproject.com/resources/no-fear-guide-to-the-dark-web" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Security|Compliance" data-lang="EN">
+          <button class="cover" data-src="assets/covers/lost-corporate-laptop-response-checklist.jpg" aria-label="Enlarge cover: Lost Corporate Laptop Response Checklist"><img src="assets/covers/lost-corporate-laptop-response-checklist.jpg" alt="Cover of Lost Corporate Laptop Response Checklist"></button>
+          <div class="body">
+            <div class="meta">Checklist · 19 pages · English</div>
+            <h3>Lost Corporate Laptop Response Checklist</h3>
+            <p>What to do when a laptop goes missing in a regulated environment, from assessing exposure to breach notification.</p>
+            <a class="dl" href="https://preyproject.com/resources/lost-corporate-laptop-response-checklist" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Security" data-lang="EN">
+          <button class="cover" data-src="assets/covers/end-of-year-security-readiness-checklist.jpg" aria-label="Enlarge cover: End-of-Year Security &amp; Readiness Checklist"><img src="assets/covers/end-of-year-security-readiness-checklist.jpg" alt="Cover of End-of-Year Security &amp; Readiness Checklist"></button>
+          <div class="body">
+            <div class="meta">Checklist · 14 pages · English</div>
+            <h3>End-of-Year Security &amp; Readiness Checklist</h3>
+            <p>A year-end routine for cleaning up users, permissions and device fleets so the new year starts secure.</p>
+            <a class="dl" href="https://preyproject.com/resources/prey-end-of-year-security-audit" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Compliance" data-lang="ES">
+          <button class="cover" data-src="assets/covers/guia-ley-21719-proteccion-de-datos.jpg" aria-label="Enlarge cover: Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)"><img src="assets/covers/guia-ley-21719-proteccion-de-datos.jpg" alt="Cover of Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)"></button>
+          <div class="body">
+            <div class="meta">Guide · 36 pages · Español</div>
+            <h3>Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)</h3>
+            <p>Chile's new personal data protection law, which replaces Law 19.628, creates a data protection agency and aligns Chile with the GDPR.</p>
+            <a class="dl" href="https://preyproject.com/es/resources/guia-de-cumplimiento-ley-de-proteccion-de-datos-chile" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Compliance|Education" data-lang="EN">
+          <button class="cover" data-src="assets/covers/fcc-cybersecurity-pilot-program-checklist.jpg" aria-label="Enlarge cover: FCC Cybersecurity Pilot Program: Application Readiness Checklist"><img src="assets/covers/fcc-cybersecurity-pilot-program-checklist.jpg" alt="Cover of FCC Cybersecurity Pilot Program: Application Readiness Checklist"></button>
+          <div class="body">
+            <div class="meta">Checklist · 9 pages · English</div>
+            <h3>FCC Cybersecurity Pilot Program: Application Readiness Checklist</h3>
+            <p>How schools and libraries could prepare their application for the FCC's $200 million 2024 cybersecurity funding program.</p>
+            <a class="dl" href="https://preyproject.com/resources/fcc-cybersecurity-funding-pilot-program-application-guide" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Compliance|Education" data-lang="EN">
+          <button class="cover" data-src="assets/covers/k12-cybersecurity-strategy.jpg" aria-label="Enlarge cover: Protect the Keys to the Castle: A Cybersecurity Strategy for K-12"><img src="assets/covers/k12-cybersecurity-strategy.jpg" alt="Cover of Protect the Keys to the Castle: A Cybersecurity Strategy for K-12"></button>
+          <div class="body">
+            <div class="meta">Ebook · 44 pages · English</div>
+            <h3>Protect the Keys to the Castle: A Cybersecurity Strategy for K-12</h3>
+            <p>How schools can build a security strategy using NIST, CIS Controls and ISO 27001/27002, starting with a risk assessment.</p>
+            <a class="dl" href="https://preyproject.com/resources/develop-cybersecurity-strategy-for-k-12-institutions" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Education|Compliance" data-lang="EN">
+          <button class="cover" data-src="assets/covers/cybersecurity-edu-blueprint-checklist.jpg" aria-label="Enlarge cover: Cybersecurity EDU Blueprint Checklist"><img src="assets/covers/cybersecurity-edu-blueprint-checklist.jpg" alt="Cover of Cybersecurity EDU Blueprint Checklist"></button>
+          <div class="body">
+            <div class="meta">Checklist · 4 pages · English</div>
+            <h3>Cybersecurity EDU Blueprint Checklist</h3>
+            <p>A fill-in planning template covering six security strategies for schools.</p>
+            <a class="dl" href="https://preyproject.com/resources/cybersecurity-blueprint-fortify-your-schools-digital-defenses" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Education|Security" data-lang="EN">
+          <button class="cover" data-src="assets/covers/k12-cybersecurity-challenges.jpg" aria-label="Enlarge cover: K-12 Cybersecurity Challenges: Battling Cyber Threats"><img src="assets/covers/k12-cybersecurity-challenges.jpg" alt="Cover of K-12 Cybersecurity Challenges: Battling Cyber Threats"></button>
+          <div class="body">
+            <div class="meta">Ebook · 33 pages · English</div>
+            <h3>K-12 Cybersecurity Challenges: Battling Cyber Threats</h3>
+            <p>The security problems K-12 IT teams faced in 2024, including AI and data privacy, with practical recommendations.</p>
+            <a class="dl" href="https://preyproject.com/resources/k-12-cybersecurity-challenges" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Education" data-lang="EN">
+          <button class="cover" data-src="assets/covers/simplify-1-1-student-device-management.jpg" aria-label="Enlarge cover: Simplify 1:1 Student Device Management"><img src="assets/covers/simplify-1-1-student-device-management.jpg" alt="Cover of Simplify 1:1 Student Device Management"></button>
+          <div class="body">
+            <div class="meta">Guide · 10 pages · English</div>
+            <h3>Simplify 1:1 Student Device Management</h3>
+            <p>How automation helps understaffed school IT teams keep track of student laptops and tablets.</p>
+            <a class="dl" href="https://preyproject.com/resources/simplify-1-1-student-device-management-with-prey" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Education" data-lang="EN">
+          <button class="cover" data-src="assets/covers/start-school-year-1-1-device-program.jpg" aria-label="Enlarge cover: How to Stop Your Next 1:1 Program from Becoming Device Chaos"><img src="assets/covers/start-school-year-1-1-device-program.jpg" alt="Cover of How to Stop Your Next 1:1 Program from Becoming Device Chaos"></button>
+          <div class="body">
+            <div class="meta">Guide · 12 pages · English</div>
+            <h3>How to Stop Your Next 1:1 Program from Becoming Device Chaos</h3>
+            <p>Planning a school year's device rollout, starting with a real device audit instead of last year's spreadsheet.</p>
+            <a class="dl" href="https://preyproject.com/resources/back-to-school-1-1-program-stop-your-next-school-year-device-chaos" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Buyer's guides" data-lang="EN">
+          <button class="cover" data-src="assets/covers/device-management-buyers-guide.jpg" aria-label="Enlarge cover: Device Management Buyer's Guide"><img src="assets/covers/device-management-buyers-guide.jpg" alt="Cover of Device Management Buyer's Guide"></button>
+          <div class="body">
+            <div class="meta">Buyer's guide · 13 pages · English</div>
+            <h3>Device Management Buyer's Guide</h3>
+            <p>How to evaluate device management and tracking platforms against your organization's real needs.</p>
+            <a class="dl" href="https://preyproject.com/resources/device-management-buyers-guide" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Buyer's guides" data-lang="EN">
+          <button class="cover" data-src="assets/covers/msp-buyers-guide.jpg" aria-label="Enlarge cover: Buyer's Guide for Managed Service Providers"><img src="assets/covers/msp-buyers-guide.jpg" alt="Cover of Buyer's Guide for Managed Service Providers"></button>
+          <div class="body">
+            <div class="meta">Buyer's guide · 12 pages · English</div>
+            <h3>Buyer's Guide for Managed Service Providers</h3>
+            <p>What MSPs should look for when they manage devices across many client companies.</p>
+            <a class="dl" href="https://preyproject.com/resources/prey-buyers-guide-for-msps" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Buyer's guides|Security" data-lang="EN">
+          <button class="cover" data-src="assets/covers/laptop-tracking-software-checklist.jpg" aria-label="Enlarge cover: Feature Comparison Checklist: Laptop Tracking Software"><img src="assets/covers/laptop-tracking-software-checklist.jpg" alt="Cover of Feature Comparison Checklist: Laptop Tracking Software"></button>
+          <div class="body">
+            <div class="meta">Checklist · 4 pages · English</div>
+            <h3>Feature Comparison Checklist: Laptop Tracking Software</h3>
+            <p>Questions for comparing vendors: location technologies, remote lock and wipe, encryption and alerts.</p>
+            <a class="dl" href="https://preyproject.com/resources/checklist-laptop-tracking-software-for-business" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Security|Buyer's guides" data-lang="EN">
+          <button class="cover" data-src="assets/covers/device-tracking-methods-guide.jpg" aria-label="Enlarge cover: Device Tracking Methods and Where to Find Them"><img src="assets/covers/device-tracking-methods-guide.jpg" alt="Cover of Device Tracking Methods and Where to Find Them"></button>
+          <div class="body">
+            <div class="meta">Guide · 17 pages · English</div>
+            <h3>Device Tracking Methods and Where to Find Them</h3>
+            <p>Which tracking technologies exist, and the settings that keep phones, tablets and laptops recoverable.</p>
+            <a class="dl" href="https://preyproject.com/resources/device-tracking-methods" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+        <article class="doc" data-topics="Research|Security" data-lang="ES">
+          <button class="cover" data-src="assets/covers/shift-ciberseguridad-remoticidad-latam.jpg" aria-label="Enlarge cover: SHIFT: La ciberseguridad y la remoticidad en América Latina"><img src="assets/covers/shift-ciberseguridad-remoticidad-latam.jpg" alt="Cover of SHIFT: La ciberseguridad y la remoticidad en América Latina"></button>
+          <div class="body">
+            <div class="meta">Research report · 39 pages · Español</div>
+            <h3>SHIFT: La ciberseguridad y la remoticidad en América Latina</h3>
+            <p>Research on cybersecurity and remote work in Latin America, compared with the US and the UK.</p>
+            <a class="dl" href="https://preyproject.com/es/resources/shift-latam" target="_blank" rel="noopener">View on Prey's site →</a>
+          </div>
+        </article>
+      </div>
     </section>
   </div>
 
@@ -195,7 +441,23 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="playbooks">
       <h2>Compliance playbooks for Strike Graph</h2>
       <p class="sub">Working spreadsheets that security and compliance teams can copy and fill in. Each one has instructions, step-by-step guidance and progress tracking.</p>
-      <div class="grid" id="playbooks-grid"></div>
+      <!-- Each playbook is one <article class="card"> with a link to the Google Sheet. -->
+      <div class="grid">
+        <article class="card">
+          <div class="org sans">Strike Graph · Google Sheets</div>
+          <h3>CMMC Continuous Monitoring Playbook</h3>
+          <p>A ten-step tracker for setting up continuous security monitoring under CMMC and reporting progress to leadership and assessors. Includes instructions, a filled-in example for a fictional contractor, and a blank working copy.</p>
+          <p class="res">Owners, status dropdowns, due dates and progress counts that update automatically.</p>
+          <a class="more sans" href="https://docs.google.com/spreadsheets/d/12o9qc6qE-muREUXnL-KpYsfISnvGttpIjI2fJZULgaQ/edit?gid=1771206515#gid=1771206515" target="_blank" rel="noopener">Open the playbook →</a>
+        </article>
+        <article class="card">
+          <div class="org sans">Strike Graph · Google Sheets</div>
+          <h3>TPRM Continuous Evidence Validation Playbook</h3>
+          <p>A six-step method for moving vendor compliance from yearly attestations to continuous evidence checks across SOC 2, ISO 27001, PCI DSS, HIPAA, GDPR and DORA.</p>
+          <p class="res">Tabs for evidence requirements, an evidence register, validation triggers, checklists, escalation and an audit trail log.</p>
+          <a class="more sans" href="https://docs.google.com/spreadsheets/d/1tcoBJMOnwsVGyccmLlxVRK6Xg5kz5csx-_7kie0m7sU/edit?gid=1279105666#gid=1279105666" target="_blank" rel="noopener">Open the playbook →</a>
+        </article>
+      </div>
     </section>
   </div>
 
@@ -203,7 +465,13 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="design">
       <h2>Infographics for Prey</h2>
       <p class="sub">One-page explainers on credential risk and basic security controls. Click to enlarge.</p>
-      <div class="gallery sans" id="gallery"></div>
+      <!-- Each infographic is one <button>: data-src is the image the lightbox opens. -->
+      <div class="gallery sans">
+        <button data-src="assets/info-stake.jpg" aria-label="Enlarge: What's at stake when credentials leak?"><img src="assets/info-stake.jpg" alt="What's at stake when credentials leak?"><span>What's at stake when credentials leak?</span></button>
+        <button data-src="assets/info-perimeter.jpg" aria-label="Enlarge: Credentials are the new perimeter"><img src="assets/info-perimeter.jpg" alt="Credentials are the new perimeter"><span>Credentials are the new perimeter</span></button>
+        <button data-src="assets/info-thirdparty.jpg" aria-label="Enlarge: Third-party breach? You're still responsible."><img src="assets/info-thirdparty.jpg" alt="Third-party breach? You're still responsible."><span>Third-party breach? You're still responsible.</span></button>
+        <button data-src="assets/info-protected.jpg" aria-label="Enlarge: Is your company protected?"><img src="assets/info-protected.jpg" alt="Is your company protected?"><span>Is your company protected?</span></button>
+      </div>
       <p class="sans" style="margin-top:18px"><a class="more" href="assets/Juan-Carlos-Hernandez-Marin-Portfolio.pdf" download>Download all four as a PDF →</a></p>
     </section>
   </div>
@@ -212,8 +480,24 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="experience">
       <h2>Experience</h2>
       <p class="sub">From SEO copywriting to cybersecurity and compliance content.</p>
-      <ol class="timeline" id="timeline"></ol>
-      <details class="older sans"><summary>Show earlier work (2015–2021)</summary><ol class="timeline" id="timeline-older"></ol></details>
+      <!-- Each job is one <li>: dates, then role and · company, then a short description. -->
+      <ol class="timeline">
+        <li><div class="yrs sans">2025 – 2026</div><h3>Cybersecurity Content Consultant <small>· Strike Graph</small></h3><p>Articles, guides and playbooks on compliance, risk management and certifications, built on search intent, Search Console data and interviews with subject-matter experts.</p></li>
+        <li><div class="yrs sans">2022 – 2026</div><h3>Bilingual Cybersecurity Content Specialist <small>· Prey</small></h3><p>Bilingual content on incident response, device security and compliance, including ebooks, buyer's guides, checklists, infographics and email. Worked with sales on custom compliance guides for regulations like GDPR, HIPAA, FERPA, NIST and Chile's 21.719 and 21.663.</p></li>
+        <li><div class="yrs sans">Mar 2024 – Dec 2024</div><h3>Senior Content Manager (Contract) <small>· Better Collective</small></h3><p>Ran content for partner iGaming sites in five Latin American markets. Led a team of 5 freelancers and used content and competitor gap research to grow revenue.</p></li>
+        <li><div class="yrs sans">2022 – 2024</div><h3>SEO Content Specialist (Contract) <small>· Game Lounge</small></h3><p>Wrote, edited and supervised content for the highest-revenue LATAM sites, including onlinecasino.cl. Wrote newsletters and emails on game events, guides and product features.</p></li>
+        <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter and Editor <small>· Phoenix Digital</small></h3><p>English and Spanish CRM campaigns, landing pages, press releases and localization for lottery and iGaming brands. Featured as an Outstanding Talent.</p></li>
+      </ol>
+      <details class="older sans"><summary>Show earlier work (2015–2021)</summary>
+        <ol class="timeline">
+          <li><div class="yrs sans">2020 – 2022</div><h3>Copywriter <small>· Interfell</small></h3><p>Marketing campaigns, landing pages, press releases, email copy and translations for partner companies, in English and Spanish.</p></li>
+          <li><div class="yrs sans">2020 – 2021</div><h3>Contract Writer <small>· Valnet</small></h3><p>Entertainment articles about video games and gaming culture.</p></li>
+          <li><div class="yrs sans">2018 – 2019</div><h3>SEO Copywriter <small>· Kaufberater.io</small></h3><p>SEO articles and buying guides for a Mexican Amazon affiliate site. Invited to join a team writing more specialized content.</p></li>
+          <li><div class="yrs sans">2018</div><h3>Game Designer <small>· Fiverr</small></h3><p>Custom Dungeons &amp; Dragons campaigns with encounters, branching storylines and interactive environments.</p></li>
+          <li><div class="yrs sans">2018</div><h3>SEO Copywriter <small>· Nutrition Retail Association</small></h3><p>Inbound marketing articles for entrepreneurs and store owners.</p></li>
+          <li><div class="yrs sans">2015 – 2022</div><h3>SEO Content and Copywriting (Freelance) <small>· Upwork</small></h3><p>Writing and editing articles for products and services, in English and Spanish.</p></li>
+        </ol>
+      </details>
     </section>
   </div>
 
@@ -221,7 +505,28 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <section id="projects">
       <h2>Things I build</h2>
       <p class="sub">I build software for fun and to learn. It helps me follow what engineers are telling me when I write about their work.</p>
-      <div class="grid" id="projects-grid"></div>
+      <!-- Each project is one <article class="card">. To add a link, put
+           <a class="more sans" href="URL" target="_blank" rel="noopener">Play it →</a>
+           as the last line inside the card. -->
+      <div class="grid">
+        <article class="card">
+          <div class="org sans">Project</div>
+          <h3>Trip·3·o</h3>
+          <p>An arcade color-mixing puzzle game of about 18,600 lines of React, built with Vite, PIXI.js (WebGL) and the Web Audio API, and deployed as a PWA. Its companion character uses procedural dialogue that simulates an AI.</p>
+          <p class="res">Moved the renderer from CSS to WebGL, with a WebGL2 → WebGL1 → Canvas 2D fallback, and optimized it for mid-range phones (no per-frame allocations, cell diff rendering, LRU texture cache): from 24 to 53–58 FPS.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Project</div>
+          <h3>Et Al</h3>
+          <p>A shared household budgeting app built with React, Supabase and Vercel, with several split modes and receipt OCR. Co-authored: my wife built it, and I helped with development and feature ideas.</p>
+          <p class="res">Uses APIs from exchange houses and banks to update USD, bolívar (Bs), USDT and other rates live.</p>
+        </article>
+        <article class="card">
+          <div class="org sans">Project</div>
+          <h3>Polygon Music Box</h3>
+          <p>A browser musical sandbox with polygon instruments, Karplus-Strong string physics and a procedural labyrinth mode.</p>
+        </article>
+      </div>
     </section>
   </div>
 
@@ -254,6 +559,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
     <div class="cta sans">
       <a class="btn primary" href="mailto:esjotace@gmail.com">esjotace@gmail.com</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/juan-carlos-hernandez-marin-0b77b0150/" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="Juan-Hernandez-Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
     </div>
     <p class="legal sans">© 2026 Juan Carlos Hernandez Marin. All rights reserved. Prey guides and infographics © Prey Inc.; Strike Graph playbooks © Strike Graph. Shown here as work samples.</p>
   </div>
@@ -262,106 +568,13 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged image"><button aria-label="Close">×</button><img alt=""></div>
 
 <script>
-/* =========================================================
-   EDIT YOUR CONTENT HERE. Leave url as "" to hide a link.
-   ========================================================= */
-
-const RESULTS = [
-  {org:"Prey", title:"Chilean cybersecurity-law content", text:"Articles and guides explaining Chile's cybersecurity framework law (21.663) and data protection law (21.719).", result:"Cited in Google AI Overviews and ChatGPT for Chilean cybersecurity-law queries.", url:""},
-  {org:"Prey", title:"Making Prey a trusted source in Chile", text:"A content campaign to position Prey as a reliable, expert voice on cybersecurity in the Chilean market.", result:"Helped Prey earn membership in the Alianza Chilena de Ciberseguridad (ACC).", url:""},
-  {org:"Prey", title:"From an AI answer to a sale", text:"ChatGPT cited my articles as sources in a tool comparison.", result:"A reader clicked through to Prey and bought: a sale that began in AI search.", url:""},
-  {org:"Game Lounge", title:"onlinecasino.cl and LATAM sites", text:"Wrote, edited and supervised content for several Latin American markets, using SEO data to find opportunities.", result:"onlinecasino.cl generated about €40K a month.", url:""},
-  {org:"Better Collective", title:"Leading a content team", text:"Ran content for partner iGaming sites in Peru, Mexico, Colombia, Chile and Argentina.", result:"Led 5 freelancers: 3 writers, a technical SEO manager and a site manager.", url:""}
-];
-
-/* topics: Security, Compliance, Education, Buyer's guides, Research
-   url: link to Prey's page. Without a url, the card links to the PDF in assets/docs/. */
-const DOCS = [
-  {file:"control-alt-defend-data-breach-guide", url:"https://preyproject.com/resources/data-breach-protection-guide", title:"Control + Alt + Defend: A Data Breach Protection Guide", type:"Ebook", pages:35, mb:6, lang:"EN", topics:["Security"], text:"Why data breaches cost so much and how businesses can protect their data, backed by IBM and Verizon breach research."},
-  {file:"no-fear-guide-to-the-dark-web", url:"https://preyproject.com/resources/no-fear-guide-to-the-dark-web", title:"A No-Fear Guide to the Dark Web Secrets", type:"Ebook", pages:25, mb:5, lang:"EN", topics:["Security"], text:"A plain-language guide to the dark web and the threats that come out of it, grounded in Verizon DBIR data."},
-  {file:"lost-corporate-laptop-response-checklist", url:"https://preyproject.com/resources/lost-corporate-laptop-response-checklist", title:"Lost Corporate Laptop Response Checklist", type:"Checklist", pages:19, mb:6, lang:"EN", topics:["Security","Compliance"], text:"What to do when a laptop goes missing in a regulated environment, from assessing exposure to breach notification."},
-  {file:"end-of-year-security-readiness-checklist", url:"https://preyproject.com/resources/prey-end-of-year-security-audit", title:"End-of-Year Security & Readiness Checklist", type:"Checklist", pages:14, mb:8, lang:"EN", topics:["Security"], text:"A year-end routine for cleaning up users, permissions and device fleets so the new year starts secure."},
-  {file:"guia-ley-21719-proteccion-de-datos", url:"https://preyproject.com/es/resources/guia-de-cumplimiento-ley-de-proteccion-de-datos-chile", title:"Guía de cumplimiento de la Ley de Protección de Datos (Ley 21.719)", type:"Guide", pages:36, mb:16, lang:"ES", topics:["Compliance"], text:"Chile's new personal data protection law, which replaces Law 19.628, creates a data protection agency and aligns Chile with the GDPR."},
-  {file:"fcc-cybersecurity-pilot-program-checklist", url:"https://preyproject.com/resources/fcc-cybersecurity-funding-pilot-program-application-guide", title:"FCC Cybersecurity Pilot Program: Application Readiness Checklist", type:"Checklist", pages:9, mb:1, lang:"EN", topics:["Compliance","Education"], text:"How schools and libraries could prepare their application for the FCC's $200 million 2024 cybersecurity funding program."},
-  {file:"k12-cybersecurity-strategy", url:"https://preyproject.com/resources/develop-cybersecurity-strategy-for-k-12-institutions", title:"Protect the Keys to the Castle: A Cybersecurity Strategy for K-12", type:"Ebook", pages:44, mb:4, lang:"EN", topics:["Compliance","Education"], text:"How schools can build a security strategy using NIST, CIS Controls and ISO 27001/27002, starting with a risk assessment."},
-  {file:"cybersecurity-edu-blueprint-checklist", url:"https://preyproject.com/resources/cybersecurity-blueprint-fortify-your-schools-digital-defenses", title:"Cybersecurity EDU Blueprint Checklist", type:"Checklist", pages:4, mb:1, lang:"EN", topics:["Education","Compliance"], text:"A fill-in planning template covering six security strategies for schools."},
-  {file:"k12-cybersecurity-challenges", url:"https://preyproject.com/resources/k-12-cybersecurity-challenges", title:"K-12 Cybersecurity Challenges: Battling Cyber Threats", type:"Ebook", pages:33, mb:3, lang:"EN", topics:["Education","Security"], text:"The security problems K-12 IT teams faced in 2024, including AI and data privacy, with practical recommendations."},
-  {file:"simplify-1-1-student-device-management", url:"https://preyproject.com/resources/simplify-1-1-student-device-management-with-prey", title:"Simplify 1:1 Student Device Management", type:"Guide", pages:10, mb:8, lang:"EN", topics:["Education"], text:"How automation helps understaffed school IT teams keep track of student laptops and tablets."},
-  {file:"start-school-year-1-1-device-program", url:"https://preyproject.com/resources/back-to-school-1-1-program-stop-your-next-school-year-device-chaos", title:"How to Stop Your Next 1:1 Program from Becoming Device Chaos", type:"Guide", pages:12, mb:7, lang:"EN", topics:["Education"], text:"Planning a school year's device rollout, starting with a real device audit instead of last year's spreadsheet."},
-  {file:"device-management-buyers-guide", url:"https://preyproject.com/resources/device-management-buyers-guide", title:"Device Management Buyer's Guide", type:"Buyer's guide", pages:13, mb:2, lang:"EN", topics:["Buyer's guides"], text:"How to evaluate device management and tracking platforms against your organization's real needs."},
-  {file:"msp-buyers-guide", url:"https://preyproject.com/resources/prey-buyers-guide-for-msps", title:"Buyer's Guide for Managed Service Providers", type:"Buyer's guide", pages:12, mb:1, lang:"EN", topics:["Buyer's guides"], text:"What MSPs should look for when they manage devices across many client companies."},
-  {file:"laptop-tracking-software-checklist", url:"https://preyproject.com/resources/checklist-laptop-tracking-software-for-business", title:"Feature Comparison Checklist: Laptop Tracking Software", type:"Checklist", pages:4, mb:2, lang:"EN", topics:["Buyer's guides","Security"], text:"Questions for comparing vendors: location technologies, remote lock and wipe, encryption and alerts."},
-  {file:"device-tracking-methods-guide", url:"https://preyproject.com/resources/device-tracking-methods", title:"Device Tracking Methods and Where to Find Them", type:"Guide", pages:17, mb:1, lang:"EN", topics:["Security","Buyer's guides"], text:"Which tracking technologies exist, and the settings that keep phones, tablets and laptops recoverable."},
-  {file:"shift-ciberseguridad-remoticidad-latam", url:"https://preyproject.com/es/resources/shift-latam", title:"SHIFT: La ciberseguridad y la remoticidad en América Latina", type:"Research report", pages:39, mb:2, lang:"ES", topics:["Research","Security"], text:"Research on cybersecurity and remote work in Latin America, compared with the US and the UK."}
-];
-
-const PLAYBOOKS = [
-  {title:"CMMC Continuous Monitoring Playbook", text:"A ten-step tracker for setting up continuous security monitoring under CMMC and reporting progress to leadership and assessors. Includes instructions, a filled-in example for a fictional contractor, and a blank working copy.", result:"Owners, status dropdowns, due dates and progress counts that update automatically.", url:"https://docs.google.com/spreadsheets/d/12o9qc6qE-muREUXnL-KpYsfISnvGttpIjI2fJZULgaQ/edit?gid=1771206515#gid=1771206515"},
-  {title:"TPRM Continuous Evidence Validation Playbook", text:"A six-step method for moving vendor compliance from yearly attestations to continuous evidence checks across SOC 2, ISO 27001, PCI DSS, HIPAA, GDPR and DORA.", result:"Tabs for evidence requirements, an evidence register, validation triggers, checklists, escalation and an audit trail log.", url:"https://docs.google.com/spreadsheets/d/1tcoBJMOnwsVGyccmLlxVRK6Xg5kz5csx-_7kie0m7sU/edit?gid=1279105666#gid=1279105666"}
-];
-
-const INFOGRAPHICS = [
-  {src:"assets/info-stake.jpg", title:"What's at stake when credentials leak?"},
-  {src:"assets/info-perimeter.jpg", title:"Credentials are the new perimeter"},
-  {src:"assets/info-thirdparty.jpg", title:"Third-party breach? You're still responsible."},
-  {src:"assets/info-protected.jpg", title:"Is your company protected?"}
-];
-
-const JOBS = [
-  {yrs:"2025 – 2026", role:"Cybersecurity Content Consultant", org:"Strike Graph", text:"Articles, guides and playbooks on compliance, risk management and certifications, built on search intent, Search Console data and interviews with subject-matter experts."},
-  {yrs:"2022 – 2026", role:"Cybersecurity Content Specialist", org:"Prey", text:"Bilingual content on incident response, device security and compliance, including ebooks, buyer's guides, checklists, infographics and email. Worked with sales on custom compliance guides for regulations like GDPR, HIPAA, FERPA, NIST and Chile's 21.719 and 21.663."},
-  {yrs:"2024", role:"Senior Content Manager (Contract)", org:"Better Collective", text:"Ran content for partner iGaming sites in five Latin American markets. Led a team of 5 freelancers and used content and competitor gap research to grow revenue."},
-  {yrs:"2022 – 2024", role:"SEO Content Specialist (Contract)", org:"Game Lounge", text:"Wrote, edited and supervised content for the highest-revenue LATAM sites, including onlinecasino.cl. Wrote newsletters and emails on game events, guides and product features."},
-  {yrs:"2020 – 2022", role:"Copywriter and Editor", org:"Phoenix Digital", text:"English and Spanish CRM campaigns, landing pages, press releases and localization for lottery and iGaming brands. Featured as an Outstanding Talent."}
-];
-const OLDER = [
-  {yrs:"2020 – 2022", role:"Copywriter", org:"Interfell", text:"Marketing campaigns, landing pages, press releases, email copy and translations for partner companies, in English and Spanish."},
-  {yrs:"2020 – 2021", role:"Contract Writer", org:"Valnet", text:"Entertainment articles about video games and gaming culture."},
-  {yrs:"2018 – 2019", role:"SEO Copywriter", org:"Kaufberater.io", text:"SEO articles and buying guides for a Mexican Amazon affiliate site. Invited to join a team writing more specialized content."},
-  {yrs:"2018", role:"Game Designer", org:"Fiverr", text:"Custom Dungeons & Dragons campaigns with encounters, branching storylines and interactive environments."},
-  {yrs:"2018", role:"SEO Copywriter", org:"Nutrition Retail Association", text:"Inbound marketing articles for entrepreneurs and store owners."},
-  {yrs:"2015 – 2022", role:"SEO Content and Copywriting (Freelance)", org:"Upwork", text:"Writing and editing articles for products and services, in English and Spanish."}
-];
-
-/* Recommendations. "original" is shown under a "Read the original" toggle.
-   Separate paragraphs inside a quote with \n\n. */
-const QUOTES = [
-  {name:"Elliott Harnagel", role:"Product & Compliance Experience Strategist, Strike Graph", quote:"I worked with Juan as an SME reviewing the cybersecurity content he drafted for our marketing team. He impressed me with how quickly he learned cybersecurity and GRC concepts in depth and turned them into marketing content that was actually useful.\n\nA highlight was a set of CMMC policy templates he created. Instead of just restating the framework requirements, he went above and beyond, learning the framework well enough to include practical security tips on how organizations could actually comply.\n\nJuan can independently research and master complex technical topics and turn that knowledge into actionable guidance. I’d recommend him to any team that needs content that’s both technically sound and genuinely valuable.", original:""},
-  {name:"Luis Ramos", role:"IT Specialist, Argentina's health department", quote:"I had the pleasure of working with Juan Carlos, an exceptional professional in cybersecurity and technical content creation. His ability to communicate complex topics clearly and engagingly sets him apart. He also shows great commitment, proactivity and attention to detail in every project. I strongly recommend Juan to any team looking for a cybersecurity specialist with solid communication and content strategy skills.", original:"Tuve el placer de trabajar con Juan Carlos, un profesional excepcional en el área de ciberseguridad y creación de contenido técnico. Su capacidad para comunicar temas complejos de forma clara y atractiva lo distingue. Además, demuestra gran compromiso, proactividad y atención al detalle en cada proyecto. Recomiendo ampliamente a Juan para cualquier equipo que busque un especialista en ciberseguridad con sólidas habilidades de comunicación y estrategia de contenido."},
-  {name:"Fernando Andrés Escobar González", role:"Frontend Developer, LATAM Airlines", quote:"Juan is a cybersecurity professional. When I built a personal project, he advised me on vulnerabilities to cover, good practices for making my project public, and a full assessment of the platform at the end. Responsible, meticulous in his work and with a sharp eye for detail.", original:"Juan es un profesional en materia de ciberseguridad. A la hora de hacer un proyecto personal, me asesoró en posibles vulnerabilidades por cubrir, buenas prácticas a la hora de hacer público mi proyecto y un assessment completo de la plataforma al término. Responsable, pulcro en su trabajo y con mucho ojo al detalle."}
-];
-
-const PROJECTS = [
-  {title:"Trip·3·o", text:"A React arcade puzzle game of about 18,600 lines, built with Vite, PIXI.js (WebGL) and the Web Audio API. It runs as a PWA with an in-game AI companion and procedural audio.", result:"Moved the renderer from CSS to WebGL, with WebGL2 → WebGL1 → Canvas 2D fallbacks and context-loss recovery.", url:"", label:"Play it"},
-  {title:"Et Al", text:"A shared household budgeting app built with React, Supabase and Vercel. Handles US dollars and bolívars with the BCV rate, four split modes and receipt OCR.", result:"Installable PWA in daily use.", url:"", label:"Open it"},
-  {title:"Polygon Music Box", text:"A browser musical sandbox with polygon instruments, Karplus-Strong string physics and a procedural labyrinth mode.", result:"", url:"", label:"Play it"}
-];
-
-/* ================= rendering (no need to edit) ================= */
+/* All page text lives in the HTML above. This script only runs the
+   library filters, the lightbox, the proof screenshots and the theme toggle. */
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $ = id => document.getElementById(id);
-function card(o, org, linkLabel){
-  return `<article class="card">${org?`<div class="org sans">${esc(org)}</div>`:''}<h3>${esc(o.title)}</h3><p>${esc(o.text)}</p>` +
-    (o.result?`<p class="res">${esc(o.result)}</p>`:'') +
-    (o.url?`<a class="more sans" href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.label||linkLabel)} →</a>`:'') + `</article>`;
-}
-$('results-grid').innerHTML = RESULTS.map(r => card(r, r.org, 'See it')).join('');
-$('playbooks-grid').innerHTML = PLAYBOOKS.map(p => card(p, 'Strike Graph · Google Sheets', 'Open the playbook')).join('');
-$('projects-grid').innerHTML = PROJECTS.map(p => card(p, 'Project', 'Open it')).join('');
-$('quotes').innerHTML = QUOTES.map(q => `<figure class="quote"><blockquote>${q.quote.split('\n\n').map(p=>`<p style="margin:0 0 12px">${esc(p)}</p>`).join('')}</blockquote>` +
-  (q.original ? `<details class="sans"><summary>Translated from Spanish. Read the original</summary><p lang="es">${esc(q.original)}</p></details>` : '') +
-  `<figcaption class="sans"><b>${esc(q.name)}</b>${esc(q.role)}</figcaption></figure>`).join('');
-const li = j => `<li><div class="yrs sans">${esc(j.yrs)}</div><h3>${esc(j.role)} <small>· ${esc(j.org)}</small></h3><p>${esc(j.text)}</p></li>`;
-$('timeline').innerHTML = JOBS.map(li).join('');
-$('timeline-older').innerHTML = OLDER.map(li).join('');
 
-/* library + filters */
-const lib = $('lib');
-lib.innerHTML = DOCS.map(d => `<article class="doc" data-topics="${esc(d.topics.join('|'))}" data-lang="${d.lang}">
-  <button class="cover" data-src="assets/covers/${d.file}.jpg" aria-label="Enlarge cover: ${esc(d.title)}"><img src="assets/covers/${d.file}.jpg" alt="Cover of ${esc(d.title)}"></button>
-  <div class="body"><div class="meta">${esc(d.type)} · ${d.pages} pages · ${d.lang==='ES'?'Español':'English'}</div>
-  <h3>${esc(d.title)}</h3><p>${esc(d.text)}</p>
-  ${d.url ? `<a class="dl" href="${esc(d.url)}" target="_blank" rel="noopener">View on Prey's site →</a>` : `<a class="dl" href="assets/docs/${d.file}.pdf" target="_blank" rel="noopener">Open PDF (${d.mb} MB) →</a>`}</div></article>`).join('');
+/* library filters (topics come from each guide's data-topics) */
+const lib = $('lib'), docs = [...lib.querySelectorAll('.doc')];
 let topic = 'All', lang = 'All';
 function makeChips(el, items, onPick){
   el.innerHTML = items.map((it,i)=>`<button class="chip" data-v="${esc(it[1])}" aria-pressed="${i===0}">${esc(it[0])}</button>`).join('');
@@ -371,24 +584,35 @@ function makeChips(el, items, onPick){
 }
 function apply(){
   let n = 0;
-  lib.querySelectorAll('.doc').forEach(d => {
+  docs.forEach(d => {
     const ok = (topic==='All' || d.dataset.topics.split('|').includes(topic)) && (lang==='All' || d.dataset.lang===lang);
     d.hidden = !ok; if (ok) n++;
   });
-  $('lib-count').textContent = `Showing ${n} of ${DOCS.length}`;
+  $('lib-count').textContent = `Showing ${n} of ${docs.length}`;
 }
-makeChips($('lib-topics'), [['All topics','All'], ...[...new Set(DOCS.flatMap(d=>d.topics))].map(t=>[t,t])], v => topic = v);
+makeChips($('lib-topics'), [['All topics','All'], ...[...new Set(docs.flatMap(d=>d.dataset.topics.split('|')))].map(t=>[t,t])], v => topic = v);
 makeChips($('lib-langs'), [['All languages','All'],['English','EN'],['Español','ES']], v => lang = v);
 apply();
 
-/* gallery + lightbox */
-$('gallery').innerHTML = INFOGRAPHICS.map(g => `<button data-src="${g.src}" aria-label="Enlarge: ${esc(g.title)}"><img src="${g.src}" alt="${esc(g.title)}"><span>${esc(g.title)}</span></button>`).join('');
+/* lightbox */
 const lb = $('lb'), lbImg = lb.querySelector('img');
 function openLb(src, alt){ lbImg.src = src; lbImg.alt = alt||''; lb.classList.add('open'); lb.querySelector('button').focus(); }
 document.querySelectorAll('[data-src]').forEach(b => b.onclick = () => openLb(b.dataset.src, b.querySelector('img')?.alt));
 document.querySelectorAll('img[data-lb]').forEach(i => i.onclick = () => openLb(i.src, i.alt));
 lb.onclick = e => { if (e.target !== lbImg) lb.classList.remove('open'); };
 document.addEventListener('keydown', e => { if (e.key==='Escape') lb.classList.remove('open'); });
+
+/* proof screenshots: show one at a time with previous/next */
+const slides = [...document.querySelectorAll('.slide')], slideNav = $('slide-nav');
+let cur = 0;
+function showSlide(i){
+  cur = (i + slides.length) % slides.length;
+  slides.forEach((s,k) => s.hidden = k !== cur);
+  $('slide-pos').textContent = `${cur+1} of ${slides.length}`;
+}
+slideNav.querySelectorAll('button').forEach(b => b.onclick = () => showSlide(cur + Number(b.dataset.step)));
+slideNav.hidden = false;
+showSlide(0);
 
 /* theme */
 const root = document.documentElement;
