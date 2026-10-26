@@ -79,6 +79,7 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.card[hidden]{display:none}
 .card .org{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
 .card h3{margin:0;font-size:21px;line-height:1.25}
 .card p{margin:0;color:var(--muted);font-size:16px}
@@ -96,10 +97,12 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.015em;margin:0 0 10px;line-he
 .slide .zoom{display:block;width:100%;padding:0;border:0;background:none;border-radius:8px;cursor:zoom-in}
 .slide img{display:block;width:100%;height:auto;aspect-ratio:1400/750;object-fit:contain;object-position:top;background:#202124;border-radius:8px;cursor:zoom-in}
 .slide figcaption{margin-top:8px;font-size:14px;color:var(--muted)}
-.slide-nav{display:flex;align-items:center;gap:12px}
-.slide-nav[hidden]{display:none}
-.slide-nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14px}
-.slide-nav span{font-size:14px;color:var(--muted)}
+.slide-nav,.pager{display:flex;align-items:center;gap:12px}
+.pager{margin-top:22px}
+.slide-nav[hidden],.pager[hidden]{display:none}
+.slide-nav button,.pager button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14px}
+.pager button:disabled{opacity:.4;cursor:default}
+.slide-nav span,.pager span{font-size:14px;color:var(--muted)}
 
 .lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:18px}
 .doc{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
@@ -157,7 +160,7 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
   <div class="wrap">
     <a class="brand" href="#top">Juan Carlos Hernandez Marin</a>
     <nav aria-label="Sections">
-      <a href="#results">Results</a><a href="#recommendations">References</a><a href="#library">Library</a><a href="#playbooks">Playbooks</a><a href="#design">Infographics</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+      <a href="#results">Results</a><a href="#recommendations">References</a><a href="#library">Library</a><a href="#recent">Recent work</a><a href="#playbooks">Playbooks</a><a href="#design">Infographics</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
       <button class="toggle" id="theme" aria-label="Dark theme" aria-pressed="false">Theme</button>
     </nav>
   </div>
@@ -440,6 +443,144 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
   </div>
 
   <div class="wrap">
+    <section id="recent">
+      <h2>Recent work</h2>
+      <p class="sub">IT and technology articles written so a reader gets the answer fast and companies get traffic and leads. Structured to rank in Google and get cited by AI assistants (SEO, AEO and GEO). In English and Spanish.</p>
+      <div class="chips sans" id="post-langs" role="group" aria-label="Filter articles by language"></div>
+      <p class="count sans" id="post-count" aria-live="polite"></p>
+      <!-- Each article is one <article class="card"> with data-lang="EN" or "ES". -->
+      <div class="grid" id="posts">
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Leaked, Listed, Logged In: The Identity Perimeter and the Dark Web Threat</h3>
+          <p>How stolen credentials, session cookies and tokens are traded on the dark web, and the layered defenses (MFA, credential hygiene, monitoring) that protect the identity perimeter.</p>
+          <a class="more sans" href="https://preyproject.com/blog/identity-perimeter-and-the-dark-web-threat" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Data Breach Response Plan: A Step-by-Step Guide</h3>
+          <p>Severity levels, team roles, the first 24 hours and notification deadlines under GDPR and HIPAA, for teams that need to build or test a breach plan.</p>
+          <a class="more sans" href="https://preyproject.com/blog/data-breach-response-guide" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>IT Risk Assessment: How to Run One That Holds Up</h3>
+          <p>A five-step method, from scoping and asset inventory to risk scoring, treatment and documentation that auditors and management will accept.</p>
+          <a class="more sans" href="https://preyproject.com/blog/it-security-risk-assessment" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>IT Security vs IT Compliance: Key Differences and How to Run Both</h3>
+          <p>Where protecting systems and proving adherence to HIPAA, PCI DSS or SOC 2 differ, where they overlap, and how to run both on one device fleet.</p>
+          <a class="more sans" href="https://preyproject.com/blog/it-security-vs-it-compliance" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>MDM Compliance: How to Meet HIPAA, GDPR, SOC 2 and ISO 27001</h3>
+          <p>Maps device controls like encryption, remote wipe and asset inventory to the records auditors ask for under six frameworks.</p>
+          <a class="more sans" href="https://preyproject.com/blog/mdm-compliance-top-strategies-to-ensure-regulation-adherence" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>MDM Cost Per Device: What You'll Actually Pay + ROI Math</h3>
+          <p>How MDM pricing works, the costs vendor quotes leave out, and a worksheet for building the ROI case.</p>
+          <a class="more sans" href="https://preyproject.com/blog/calculate-your-roi-using-an-mdm" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Best MDM Solutions for MSPs</h3>
+          <p>What MDM does for managed service providers, how it differs from RMM, and how platforms like Prey, Intune, Jamf Pro and Hexnode compare on multi-tenant dashboards, remote wipe and pricing.</p>
+          <a class="more sans" href="https://preyproject.com/blog/mdm-for-msps" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Software Inventory: How to Build and Automate It</h3>
+          <p>What a software inventory should record, and how to automate it with endpoint discovery, license tracking and change alerts.</p>
+          <a class="more sans" href="https://preyproject.com/blog/how-to-simplify-software-inventory-best-practices-and-automation" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Remote Device Management: A Practical Guide for IT Teams</h3>
+          <p>What remote device management is, how it differs from MDM, UEM, EMM and RMM, and what a working setup does across Windows, macOS, Linux and mobile.</p>
+          <a class="more sans" href="https://preyproject.com/blog/remote-device-management-guide" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Device Management for Remote Teams: How to Secure a Distributed Workforce</h3>
+          <p>The security problems of remote and hybrid work, and how MDM adds visibility, remote lock and wipe, updates and policy enforcement.</p>
+          <a class="more sans" href="https://preyproject.com/blog/the-role-of-mdm-in-a-remote-work-environment" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="EN">
+          <div class="org sans">Prey · English</div>
+          <h3>Device Lifecycle Management for K-12 Schools: 7 Phases</h3>
+          <p>The seven phases of a school device's life, from planning and purchase to recollection and disposal, for school IT teams and administrators.</p>
+          <a class="more sans" href="https://preyproject.com/blog/device-lifecycle-management-for-k-12-institutions" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Ley Marco de Ciberseguridad Chile (21.663): guía 2026 para TI</h3>
+          <p>Who Chile's cybersecurity framework law applies to, the obligations in force since March 2025, incident reporting to the ANCI, penalties and a 30/60/90-day plan.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/ley-21663-marco-de-ciberseguridad-en-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Ley 21.719: obligaciones, multas y plan de cumplimiento</h3>
+          <p>Obligations, the enforcement agency, fines and deadlines of Chile's new data protection law, with a 3/6/9-month compliance plan.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/ley-de-proteccion-de-datos-en-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">DPO, TI y negocio: cómo repartir responsabilidades sin fricción</h3>
+          <p>How data protection duties under Law 21.719 split between the DPO, the data controller, IT and business teams, with a RACI model and an incident example.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/responsabilidades-dpo-responsable-ti-ley-21719" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Qué es un DPO y para qué sirve: guía para empresas (Chile)</h3>
+          <p>What a data protection officer does in practice, how one is designated under Law 21.719, and the records needed to show compliance.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/que-es-un-dpo-y-para-que-sirve" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Derechos ARCO en Chile: qué son y cómo cumplirlos</h3>
+          <p>Chile's data subject rights (access, rectification, cancellation and opposition) and a step-by-step process, with a checklist, for handling requests.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/los-derechos-arco" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Inventario de datos personales: el primer paso del cumplimiento (Ley 21.719)</h3>
+          <p>What a personal data inventory is, how it differs from a record of processing activities, and why it has to include laptops and phones.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/inventario-de-datos" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Cómo conectar tu RAT con la seguridad de la información</h3>
+          <p>Linking a record of processing activities to ISO 27001 controls (asset inventory, data classification and incident response) under Chile's Law 21.719.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/rat-seguridad-informacion-iso-27001-chile" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Cómo proteger los datos personales: guía operativa para tu empresa</h3>
+          <p>Six technical controls for protecting personal data and the evidence auditors and DPOs ask for, with references to Law 21.719 and the GDPR.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/seguridad-datos-guia-completa" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Gestión de celulares corporativos: funcionalidades clave de una solución MDM</h3>
+          <p>The core and advanced features an MDM should have for company and BYOD phones, with industry use cases and steps for evaluating vendors.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/principales-funcionalidades-de-una-solucion-mdm-moderna" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+        <article class="card" data-lang="ES">
+          <div class="org sans">Prey · Español</div>
+          <h3 lang="es">Cómo rastrear una laptop perdida</h3>
+          <p>How to find a lost or stolen laptop with Windows, Mac or third-party tools, and what to do if it can't be recovered.</p>
+          <a class="more sans" href="https://preyproject.com/es/blog/como-rastrear-una-laptop-perdida" target="_blank" rel="noopener">Read on Prey's site →</a>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap">
     <section id="playbooks">
       <h2>Compliance playbooks for Strike Graph</h2>
       <p class="sub">Working spreadsheets that security and compliance teams can copy and fill in. Each one has instructions, step-by-step guidance and progress tracking.</p>
@@ -570,31 +711,60 @@ footer{padding:64px 0 56px;margin-top:76px;border-top:1px solid var(--line)}
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged image"><button aria-label="Close">×</button><img alt=""></div>
 
 <script>
-/* All page text lives in the HTML above. This script only runs the
-   library filters, the lightbox, the proof screenshots and the theme toggle. */
+/* All page text lives in the HTML above. This script only runs the filters
+   and paging, the lightbox, the proof screenshots and the theme toggle. */
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $ = id => document.getElementById(id);
 
-/* library filters (topics come from each guide's data-topics) */
-const lib = $('lib'), docs = [...lib.querySelectorAll('.doc')];
-let topic = 'All', lang = 'All';
 function makeChips(el, items, onPick){
   el.innerHTML = items.map((it,i)=>`<button class="chip" data-v="${esc(it[1])}" aria-pressed="${i===0}">${esc(it[0])}</button>`).join('');
   el.querySelectorAll('.chip').forEach(b => b.onclick = () => {
-    el.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c===b)); onPick(b.dataset.v); apply();
+    el.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c===b)); onPick(b.dataset.v);
   });
 }
-function apply(){
-  let n = 0;
-  docs.forEach(d => {
-    const ok = (topic==='All' || d.dataset.topics.split('|').includes(topic)) && (lang==='All' || d.dataset.lang===lang);
-    d.hidden = !ok; if (ok) n++;
+
+/* paging: 4 per page on phones, 8 on wider screens. Returns a function that
+   takes a filter test, shows the matching items from page 1 and updates the count. */
+const wide = matchMedia('(min-width: 760px)');
+function makePager(list, items, countEl){
+  const nav = document.createElement('div');
+  nav.className = 'pager sans';
+  nav.innerHTML = '<button data-step="-1">← Previous</button><span></span><button data-step="1">Next →</button>';
+  list.after(nav);
+  const [prev, next] = nav.querySelectorAll('button'), label = nav.querySelector('span');
+  let page = 0, matches = items;
+  function render(){
+    const n = wide.matches ? 8 : 4, pages = Math.max(1, Math.ceil(matches.length / n));
+    page = Math.min(page, pages - 1);
+    const shown = matches.slice(page*n, page*n + n);
+    items.forEach(it => it.hidden = !shown.includes(it));
+    countEl.textContent = matches.length ? `Showing ${page*n + 1}–${page*n + shown.length} of ${matches.length}` : 'Nothing matches these filters';
+    label.textContent = `Page ${page+1} of ${pages}`;
+    nav.hidden = pages < 2;
+    prev.disabled = page === 0; next.disabled = page === pages - 1;
+  }
+  [prev, next].forEach(b => b.onclick = () => {
+    page += Number(b.dataset.step); render();
+    if (b.disabled) (b === prev ? next : prev).focus();
+    if (list.getBoundingClientRect().top < 0) list.closest('section').scrollIntoView();
   });
-  $('lib-count').textContent = `Showing ${n} of ${docs.length}`;
+  wide.addEventListener('change', render);
+  return test => { matches = items.filter(test); page = 0; render(); };
 }
-makeChips($('lib-topics'), [['All topics','All'], ...[...new Set(docs.flatMap(d=>d.dataset.topics.split('|')))].map(t=>[t,t])], v => topic = v);
-makeChips($('lib-langs'), [['All languages','All'],['English','EN'],['Español','ES']], v => lang = v);
+
+/* library: topic and language filters (topics come from each guide's data-topics) */
+const docs = [...$('lib').querySelectorAll('.doc')], showDocs = makePager($('lib'), docs, $('lib-count'));
+let topic = 'All', lang = 'All';
+const apply = () => showDocs(d => (topic==='All' || d.dataset.topics.split('|').includes(topic)) && (lang==='All' || d.dataset.lang===lang));
+makeChips($('lib-topics'), [['All topics','All'], ...[...new Set(docs.flatMap(d=>d.dataset.topics.split('|')))].map(t=>[t,t])], v => { topic = v; apply(); });
+makeChips($('lib-langs'), [['All languages','All'],['English','EN'],['Español','ES']], v => { lang = v; apply(); });
 apply();
+
+/* recent work: language filter */
+const posts = [...$('posts').querySelectorAll('.card')], showPosts = makePager($('posts'), posts, $('post-count'));
+const filterPosts = v => showPosts(p => v === 'All' || p.dataset.lang === v);
+makeChips($('post-langs'), [['All languages','All'],['English','EN'],['Español','ES']], filterPosts);
+filterPosts('All');
 
 /* lightbox */
 const lb = $('lb'), lbImg = lb.querySelector('img'), lbClose = lb.querySelector('button');
