@@ -1087,7 +1087,7 @@ const Steer=(()=>{
   function onOrient(e){if(e.gamma==null||e.beta==null)return;s.got=true;if(!s.tiltOn)return;
     const ang=(screen.orientation&&screen.orientation.angle)||window.orientation||0;let x=e.gamma,y=e.beta;
     if(ang===90){x=e.beta;y=-e.gamma;}else if(ang===-90||ang===270){x=-e.beta;y=e.gamma;}else if(ang===180){x=-e.gamma;y=-e.beta;}
-    if(!s.cal)s.cal={x,y};const gx=clamp((x-s.cal.x)/22,-1,1),gy=clamp((y-s.cal.y)/22,-1,1);s.gyro.x=s.gyro.x*.7+gx*.3;s.gyro.y=s.gyro.y*.7+gy*.3;}
+    if(!s.cal)s.cal={x:0,y:0};/* level = phone lying flat (beta 0, gamma 0), not the pose when Tilt was turned on */const gx=clamp((x-s.cal.x)/22,-1,1),gy=clamp((y-s.cal.y)/22,-1,1);s.gyro.x=s.gyro.x*.7+gx*.3;s.gyro.y=s.gyro.y*.7+gy*.3;}
   window.addEventListener("orientationchange",()=>{s.cal=null;});
   function enableTilt(cb){
     if(typeof DeviceOrientationEvent==="undefined"){cb(false,"This browser can't read motion sensors.");return;}
@@ -1228,7 +1228,7 @@ const HOWTO={
     ["Keys","Space drops a ball, Del or right-click removes the newest one, R records a loop, 1 to 4 pick a shape."]]},
   maze:{title:"How to play the Labyrinth",sub:"Roll the ball to the gold exit. Every wall plays a note when you hit it.",items:[
     ["Steer","by dragging anywhere on the screen like a joystick, or with the arrow keys or WASD."],
-    ["Tilt","On a phone, turn on Tilt and lean the phone to roll. The way you hold it when you turn Tilt on counts as level."],
+    ["Tilt","On a phone, turn on Tilt and lean the phone to roll. Holding it flat, screen up, counts as level."],
     ["Listen","Notes rise and walls glow brighter the closer you get to the exit."],
     ["Vibrate","Turn on Vibrate to feel a short pulse on each wall hit. It works on Android only, because iPhones don't let web pages vibrate."],
     ["Change it up","Easy, Mid and Hard change the maze size. New maze, New key and Restart start over. Raised shows the walls with height."]]}};
@@ -1272,7 +1272,7 @@ $("helpPlay").onclick=()=>showHowto("play");
 $("mzTilt").onclick=()=>{
   if(Steer.tiltOn){Steer.disableTilt();syncTilt();mzStatus("Tilt is off. Drag or use the arrow keys to steer.");return;}
   $("mzTilt").textContent="Starting tilt…";
-  Steer.enableTilt((ok,msg)=>{syncTilt();mzStatus(ok?"Tilt is on. The way you're holding the phone right now counts as level.":msg);});};
+  Steer.enableTilt((ok,msg)=>{syncTilt();mzStatus(ok?"Tilt is on. Hold the phone flat, screen up, to keep the ball still.":msg);});};
 $("mzVib").onclick=()=>{
   if(!Haptic.ok){mzStatus("This browser can't vibrate. iPhones don't allow vibration from web pages.");return;}
   if(Haptic.on){Haptic.on=false;syncVib();mzStatus("Vibration is off.");return;}
