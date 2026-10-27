@@ -223,6 +223,20 @@ body { margin: 0; -webkit-font-smoothing: antialiased; }
 .back { display: block; max-width: 860px; margin-inline: auto; padding: 16px 16px 0; font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; }
 .back:hover { color: var(--fg); }
 .framed .back { display: none; }
+
+/* side arrows: pinned beside the card on wide screens, where they replace Back / Next; phones swipe instead */
+.side { display: none; }
+.rv .tag.redo { color: var(--muted); }
+.hint { margin: 0; font-size: 13px; color: var(--muted); }
+@media (hover: hover) { .hint { display: none; } }
+@media (min-width: 1040px) {
+  .side { display: grid; place-items: center; position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 96px; font-size: 30px; line-height: 1;
+    background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); cursor: pointer; }
+  .side:hover { border-color: var(--accent); color: var(--accent); }
+  .side.prev { left: calc(50% - 430px - 68px); }
+  .side.next { right: calc(50% - 430px - 68px); }
+  .step { display: none; }
+}
 </style>
 </head>
 <body>
@@ -501,11 +515,14 @@ function answered(x, a) {
 }
 const nAnswered = () => S.ids.filter(id => answered(Q[id], S.ans[id])).length;
 const isLocked = id => S.mode === "study" && (isPbq(Q[id]) ? !!S.chk[id] : S.ans[id] !== undefined);
+/* a retaken question keeps its first answer for the score; the retry only shows as a tag in the review */
+const retaken = id => !!S.first && id in S.first;
+const firstAns = id => retaken(id) ? S.first[id] : S.ans[id];
 
 function newAttempt(ids, mode) {
   const ord = {};
   ids.forEach(id => { const x = Q[id]; if (isPbq(x) && x.type === "order") { let p; do { p = shuffle(x.items.map((_, i) => i)); } while (p.every((v, i) => v === i)); ord[id] = p; } });
-  S = { ids, mode, ans: {}, chk: {}, ord, flags: {}, pos: 0, elapsed: 0, limit: mode === "exam" ? ids.length * 60 : 0, done: false, confirm: false, filter: "missed", src: "all" };
+  S = { ids, mode, ans: {}, chk: {}, first: {}, ord, flags: {}, pos: 0, elapsed: 0, limit: mode === "exam" ? ids.length * 60 : 0, done: false, confirm: false, filter: "missed", src: "all" };
   save(); render(); window.scrollTo(0, 0);
 }
 
@@ -565,7 +582,7 @@ function startView() {
     <div class="card stack">
       <div class="label">Mode</div>
       <div class="choices">
-        <label class="choice"><input type="radio" name="mode" value="study" checked><b>Study</b><span>Answers lock and explanations show right away. Performance-based questions have a Check button.</span></label>
+        <label class="choice"><input type="radio" name="mode" value="study" checked><b>Study</b><span>Answers lock and explanations show right away, and you can retake any question. Your first try is what counts in the score. Performance-based questions have a Check button.</span></label>
         <label class="choice"><input type="radio" name="mode" value="exam"><b>Exam</b><span>Countdown timer (one minute per question, so 90 minutes for a Full 90 set). No feedback until you finish.</span></label>
       </div>
       <div class="label">Question set</div>
@@ -664,12 +681,15 @@ function examView() {
       ${reveal}
       <div class="row between">
         <div class="row">
-          <button class="btn" data-act="prev" ${S.pos === 0 ? "disabled" : ""}>Back</button>
+          <button class="btn step" data-act="prev" ${S.pos === 0 ? "disabled" : ""}>Back</button>
           <button class="btn ${S.flags[id] ? "flag-on" : ""}" data-act="flag" aria-pressed="${!!S.flags[id]}">${S.flags[id] ? "Flagged" : "Flag"}</button>
+          ${locked && study ? `<button class="btn" data-act="redo">Retake question</button>` : ""}
         </div>
-        ${last ? `<button class="btn primary" data-act="finish">Finish and score</button>` : `<button class="btn primary" data-act="next">Next</button>`}
+        ${last ? `<button class="btn primary" data-act="finish">Finish and score</button>` : `<button class="btn primary step" data-act="next">Next</button>`}
       </div>
     </div>
+    <button class="side prev" data-act="step" data-d="-1" aria-label="Previous question">‹</button>
+    <button class="side next" data-act="step" data-d="1" aria-label="Next question">›</button>
     <div class="card stack">
       <div class="row between"><div class="label">Jump to a question</div><button class="btn" data-act="finish">Finish and score</button></div>
       <div class="grid">${cells}</div>
@@ -678,6 +698,7 @@ function examView() {
         ${study ? `<span><i class="sw" style="background:var(--ok-soft);border-color:var(--ok)"></i>Correct</span><span><i class="sw" style="background:var(--bad-soft);border-color:var(--bad)"></i>Wrong</span>` : ""}
         <span><i class="sw" style="background:var(--flag)"></i>Flagged</span>
       </div>
+      <p class="hint">Swipe left or right on the question to move between questions.</p>
       ${S.confirm ? `<div class="confirm stack" role="alert">
         <div><b>${unanswered} question${unanswered === 1 ? " is" : "s are"} unanswered.</b> Skipped questions count as wrong. Finish anyway?</div>
         <div class="row"><button class="btn primary" data-act="finish-yes">Finish and score</button><button class="btn" data-act="finish-no">Keep going</button></div>
@@ -689,13 +710,13 @@ function examView() {
 function resultsView() {
   const ids = S.ids; let total = 0; const byD = {};
   ids.forEach(id => {
-    const x = Q[id], sc = score(x, S.ans[id]); total += sc;
+    const x = Q[id], sc = score(x, firstAns(id)); total += sc;
     const b = byD[x.d] = byD[x.d] || { c: 0, n: 0 }; b.n++; b.c += sc;
   });
   const n1 = v => Number.isInteger(v) ? String(v) : v.toFixed(1);
   const pct = Math.round(total / ids.length * 100);
-  const missed = ids.filter(id => score(Q[id], S.ans[id]) < 1);
-  const skipped = ids.filter(id => !answered(Q[id], S.ans[id])).length;
+  const missed = ids.filter(id => score(Q[id], firstAns(id)) < 1);
+  const skipped = ids.filter(id => !answered(Q[id], firstAns(id))).length;
   const flagged = ids.filter(id => S.flags[id]);
   const base = S.filter === "missed" ? missed : S.filter === "flagged" ? flagged : ids;
   const list = base.filter(id => inSrc(Q[id], S.src));
@@ -705,11 +726,12 @@ function resultsView() {
     return `<div class="tbar"><span>${d}.0 ${DOMAINS[d].n}</span><div class="bar"><i class="${bar(p)}" style="width:${p}%"></i></div><span class="mono" style="text-align:right">${n1(b.c)}/${b.n}</span></div>`;
   }).join("");
   const items = list.map(id => {
-    const x = Q[id], a = S.ans[id], sc = score(x, a), ans = answered(x, a);
-    const tag = !ans ? `<span class="tag skip">Skipped</span>` : sc === 1 ? `<span class="tag ok">Correct</span>` : isPbq(x) ? `<span class="tag bad">${Math.round(sc * nRows(x))} of ${nRows(x)} right</span>` : `<span class="tag bad">Missed</span>`;
+    const x = Q[id], a = firstAns(id), sc = score(x, a), ans = answered(x, a);
+    const redo = !retaken(id) ? "" : !answered(x, S.ans[id]) ? `<span class="tag redo">Retaken</span>` : `<span class="tag redo">Retaken · ${score(x, S.ans[id]) === 1 ? "right on retry" : "still missed"}</span>`;
+    const tag = `<span class="row">` + redo + (!ans ? `<span class="tag skip">Skipped</span>` : sc === 1 ? `<span class="tag ok">Correct</span>` : isPbq(x) ? `<span class="tag bad">${Math.round(sc * nRows(x))} of ${nRows(x)} right</span>` : `<span class="tag bad">Missed</span>`) + `</span>`;
     let mid;
     if (isPbq(x)) mid = pbqBody(x, a || (x.type === "match" ? x.rows.map(() => null) : undefined), "static");
-    else mid = `<p class="ans"><b>Your answer:</b> ${a === undefined ? "none" : LET[a] + ") " + esc(x.o[a])}</p>
+    else mid = `<p class="ans"><b>${retaken(id) ? "Your first answer" : "Your answer"}:</b> ${a == null ? "none" : LET[a] + ") " + esc(x.o[a])}</p>
       <p class="ans"><b>Correct:</b> ${LET[x.a]}) ${esc(x.o[x.a])}</p>`;
     return `<div class="card rv">
       <div class="row between"><span class="row"><span class="label">Q${S.ids.indexOf(id) + 1} · ${x.d}.0 · ${x.obj}</span>${srcBadge(x)}</span>${tag}</div>
@@ -763,6 +785,17 @@ function go(p) { S.pos = Math.max(0, Math.min(S.ids.length - 1, p)); S.confirm =
 function complete() { S.done = true; S.confirm = false; save(); render(); window.scrollTo(0, 0); }
 function finish() { if (S.ids.length - nAnswered() > 0) { S.confirm = true; render(); return; } complete(); }
 function toggleFlag() { const id = S.ids[S.pos]; if (S.flags[id]) delete S.flags[id]; else S.flags[id] = 1; save(); render(); }
+// arrows, swipes and arrow keys wrap around: past the last question is the first
+function step(d) { const n = S.ids.length; go((S.pos + d + n) % n); }
+// study mode: put the card back in play. The first answer is kept for the score; ordering questions get a fresh shuffle
+function redo() {
+  const id = S.ids[S.pos], x = Q[id];
+  S.first = S.first || {};
+  if (!(id in S.first)) S.first[id] = S.ans[id] === undefined ? null : S.ans[id];
+  delete S.ans[id]; delete S.chk[id];
+  if (isPbq(x) && x.type === "order") { let p; do { p = shuffle(x.items.map((_, i) => i)); } while (p.every((v, i) => v === i)); S.ord[id] = p; }
+  save(); render();
+}
 
 app.addEventListener("click", e => {
   if (e.target.tagName === "DIALOG") { e.target.close(); return; }
@@ -789,12 +822,14 @@ app.addEventListener("click", e => {
   }
   else if (act === "open") { const d = document.getElementById(b.dataset.d); if (d && d.showModal) d.showModal(); }
   else if (act === "close") { const d = b.closest("dialog"); if (d) d.close(); }
-  else if (act === "resume") { S = saved; render(); }
+  else if (act === "resume") { S = saved; S.first = S.first || {}; render(); }
   else if (act === "pick") pick(+b.dataset.i);
   else if (act === "next") go(S.pos + 1);
   else if (act === "prev") go(S.pos - 1);
   else if (act === "go") go(+b.dataset.p);
   else if (act === "flag") toggleFlag();
+  else if (act === "step") step(+b.dataset.d);
+  else if (act === "redo") redo();
   else if (act === "check") { const id = S.ids[S.pos]; if (!S.ans[id] && Q[id].type === "order") S.ans[id] = S.ord[id].slice(); S.chk[id] = 1; save(); render(); }
   else if (act === "mv") {
     const id = S.ids[S.pos], x = Q[id]; if (isLocked(id)) return;
@@ -809,7 +844,7 @@ app.addEventListener("click", e => {
   else if (act === "finish-no") { S.confirm = false; render(); }
   else if (act === "filter") { S.filter = b.dataset.f; render(); }
   else if (act === "src") { S.src = b.dataset.f; render(); }
-  else if (act === "retake") { const ids = S.ids.filter(id => score(Q[id], S.ans[id]) < 1); newAttempt(ids, S.mode); }
+  else if (act === "retake") { const ids = S.ids.filter(id => score(Q[id], firstAns(id)) < 1); newAttempt(ids, S.mode); }
   else if (act === "again") { wipe(); saved = null; S = null; render(); window.scrollTo(0, 0); }
 });
 
@@ -829,10 +864,23 @@ document.addEventListener("keydown", e => {
   const k = e.key.toLowerCase();
   if (["a", "b", "c", "d"].includes(k)) pick("abcd".indexOf(k));
   else if (["1", "2", "3", "4"].includes(k)) pick(+k - 1);
-  else if (e.key === "ArrowRight") go(S.pos + 1);
-  else if (e.key === "ArrowLeft") go(S.pos - 1);
+  else if (e.key === "ArrowRight") step(1);
+  else if (e.key === "ArrowLeft") step(-1);
   else if (k === "f") toggleFlag();
 });
+
+/* phones: a quick sideways swipe moves between questions (left = next), wrapping at the ends.
+   Not from dropdowns, the reorder buttons or code blocks that scroll sideways. */
+let touch = null;
+app.addEventListener("touchstart", e => {
+  touch = !S || S.done || e.touches.length > 1 || e.target.closest("select, .mv, .code, .fig") ? null : { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+}, { passive: true });
+app.addEventListener("touchend", e => {
+  if (!touch) return;
+  const dx = e.changedTouches[0].clientX - touch.x, dy = e.changedTouches[0].clientY - touch.y, quick = Date.now() - touch.t < 700;
+  touch = null;
+  if (quick && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+}, { passive: true });
 
 setInterval(() => {
   if (!S || S.done) return;
